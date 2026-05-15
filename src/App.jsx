@@ -237,7 +237,7 @@ export default function Vitae() {
     const h=[...(msgs||[]),{role:'user',content:m}];
     setMsgs(h);setInput('');setBusy(true);
     try{
-      const r=await callAI({model:'claude-sonnet-4-20250514',max_tokens:1000,system:makeChatPrompt(name),messages:h});
+      const r=await callAI({model:'claude-sonnet-4-6',max_tokens:1000,system:makeChatPrompt(name),messages:h});
       const d=await r.json();
       setMsgs(p=>[...p,{role:'assistant',content:d.content?.[0]?.text||'Error — try again.'}]);
     }catch{setMsgs(p=>[...p,{role:'assistant',content:'⚠ Connection error. Please try again.'}]);}
@@ -253,7 +253,7 @@ export default function Vitae() {
       const b64=await toBase64(file);
       const isPDF=file.type==='application/pdf';
       const blk=isPDF?{type:'document',source:{type:'base64',media_type:'application/pdf',data:b64}}:{type:'image',source:{type:'base64',media_type:file.type,data:b64}};
-      const r=await callAI({model:'claude-sonnet-4-20250514',max_tokens:1000,system:ANALYZE_PROMPT,messages:[{role:'user',content:[blk,{type:'text',text:'Analyze this medical document and return the JSON object.'}]}]});
+      const r=await callAI({model:'claude-sonnet-4-6',max_tokens:1000,system:ANALYZE_PROMPT,messages:[{role:'user',content:[blk,{type:'text',text:'Analyze this medical document and return the JSON object.'}]}]});
       const d=await r.json();
       if(d.error){throw new Error(d.error.message||'API error');}
       const txt=d.content?.[0]?.text||'';
