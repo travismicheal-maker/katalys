@@ -45,14 +45,6 @@ const TYPE_STYLE = {
 const RECICONS = {
   lab:<FlaskConical size={15}/>, imaging:<ScanLine size={15}/>,
   note:<ClipboardList size={15}/>, medication:<Pill size={15}/>,
-};
-const SAMPLE_RECORDS = [
-  {id:1,type:'lab',name:'Lipid Panel',date:'Nov 15, 2025',provider:'Orlando Health Labs',flagged:true,color:'#FFF7ED',iconColor:'#C05621',values:['Total Chol: 218 mg/dL ⚠','LDL-C: 142 mg/dL ⚠ High','HDL-C: 52 mg/dL ✓','Triglycerides: 120 mg/dL ✓']},
-  {id:2,type:'lab',name:'Comprehensive Metabolic Panel',date:'Nov 15, 2025',provider:'Orlando Health Labs',flagged:false,color:'#F0FDF4',iconColor:'#2D6A4F',values:['Glucose: 98 mg/dL ✓','Creatinine: 0.9 mg/dL ✓','eGFR: 87 mL/min ✓','ALT: 28 U/L ✓']},
-  {id:3,type:'lab',name:'Complete Blood Count',date:'Nov 15, 2025',provider:'Orlando Health Labs',flagged:false,color:'#F0FDF4',iconColor:'#2D6A4F',values:['WBC: 6.2 K/μL ✓','Hemoglobin: 14.2 g/dL ✓','Platelets: 242 K/μL ✓']},
-  {id:4,type:'imaging',name:'Chest X-Ray PA & Lateral',date:'Sep 3, 2025',provider:'AdventHealth Radiology',flagged:false,color:'#EFF6FF',iconColor:'#1D4ED8',values:['No acute cardiopulmonary process','Heart size: Normal','Lungs: Clear bilaterally']},
-  {id:5,type:'note',name:'Annual Physical Exam',date:'Nov 15, 2025',provider:'Dr. Sarah Chen, MD',flagged:false,color:'#F5F3FF',iconColor:'#5B21B6',values:['BP: 128/82 mmHg (Stage 1)','BMI: 24.8 kg/m² Normal','SpO2: 98% on room air']},
-  {id:6,type:'medication',name:'Active Medication List',date:'Nov 15, 2025',provider:'Dr. Sarah Chen, MD',flagged:false,color:'#FEF3C7',iconColor:'#92400E',values:['Lisinopril 5mg — Daily','Atorvastatin 20mg — Nightly','Vitamin D3 2000 IU — Daily']},
 ];
 const QUICK_QS = ['What does LDL of 142 mean?','Is my BP concerning?','Best lifestyle changes?','Are my meds appropriate?','Summarize my labs'];
 
@@ -274,7 +266,7 @@ export default function Vitae() {
     finally{setAnalyzing(false);if(fileRef.current)fileRef.current.value='';}
   };
 
-  const allRecs=[...uploads,...SAMPLE_RECORDS];
+  const allRecs=[...uploads];
   const filtered=allRecs.filter(r=>filter==='All'?true:filter==='Labs'?r.type==='lab':filter==='Imaging'?r.type==='imaging':filter==='Notes'?r.type==='note':filter==='Meds'?r.type==='medication':true);
   const flagCount=allRecs.filter(r=>r.flagged).length;
   const initials=name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
