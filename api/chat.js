@@ -1,21 +1,27 @@
 // api/chat.js
-// This file runs on YOUR server (Vercel), not in the user's browser.
-// The API key is stored as a secret environment variable — users never see it.
+// Proxy route — keeps your Anthropic API key hidden from users.
+// Increased body size limit to handle large multi-page PDFs.
+
+// Tell Vercel to allow up to 20MB request bodies (default is 4.5MB)
+export const config = {
+  api: {
+    bodyParser: {
+      sizeLimit: '20mb',
+    },
+  },
+};
 
 export default async function handler(req, res) {
-  // Only allow POST requests
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  // Get the API key from Vercel's secret environment variables
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) {
     return res.status(500).json({ error: 'API key not configured on server' });
   }
 
   try {
-    // Forward the request to Anthropic, adding the secret key
     const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
