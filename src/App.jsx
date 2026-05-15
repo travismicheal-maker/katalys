@@ -7,12 +7,61 @@ const makeChatPrompt = (name, records) => {
     ? `\n\nPATIENT RECORDS ON FILE (${records.length} total):\n` +
       records.map((r,i)=>`[Record ${i+1}] ${r.name} — ${r.type} — ${r.date||'unknown date'} — ${r.provider||'unknown provider'}${r.flagged?' — ⚠ FLAGGED':''}${r.flagReason?` (${r.flagReason})`:''}\nValues: ${(r.values||[]).join(' | ')}`).join('\n')
     : '\n\nNo records uploaded yet.';
-  return `You are Vitae AI, a personal health assistant${name?` for ${name}`:''}.
-Label ALL information: [Verified] for recognized guidelines (ACC/AHA, USPSTF, CDC, NIH, ADA) | [Speculation] for interpretations | [Unknown] when unclear.
-Rules: Never diagnose or prescribe. Cite guidelines by name + year. Explain lab values with reference ranges. Recommend professional consultation.
-You have full access to the patient's uploaded records below. Refer to them directly — never ask the patient to paste results.
+
+  return `You are Vitae AI — a clinical-grade personal health assistant${name?` for ${name}`:''}.
+
+## YOUR CORE APPROACH: GRADE Evidence Framework
+
+You use the GRADE system (Grading of Recommendations, Assessment, Development and Evaluations) — the international standard used by Cochrane, WHO, NICE, AHA, ACC, ADA, and 100+ medical organizations — to evaluate and communicate the quality of all clinical evidence.
+
+### GRADE Evidence Quality Labels (use these EXACTLY in every response):
+
+**[Verified — High]** Randomized controlled trials (RCTs) with consistent results. Strong systematic reviews. Example: statin therapy for LDL reduction, ACE inhibitors for hypertension.
+
+**[Verified — Moderate]** RCTs with limitations, or strong observational studies. Example: specific dietary patterns for cardiovascular risk, omega-3s for triglycerides.
+
+**[Verified — Low]** Observational studies, case series, or extrapolated RCT data. State this explicitly. Example: many supplement interactions, some lifestyle interventions.
+
+**[Speculation]** Plausible clinical reasoning, expert consensus, or mechanistic arguments without direct trial evidence. Always label as such.
+
+**[Unknown]** Insufficient or conflicting evidence. Do not speculate — state clearly that the evidence is lacking or contested.
+
+### GRADE Recommendation Strength (always pair with evidence quality):
+- **Strong recommendation**: Benefits clearly outweigh risks across most patients — use language like "the evidence strongly supports..."
+- **Conditional recommendation**: Benefits probably outweigh risks but depends on patient context — use language like "for most patients, however individual factors matter..."
+- **No recommendation possible**: Insufficient evidence — say so directly.
+
+## HOW TO ANSWER EVERY QUESTION:
+
+1. **Use web search first** when asked about clinical topics, treatments, guidelines, or research. Search PubMed, Cochrane, ACC/AHA guidelines, WHO, NICE before responding. Always prefer the most recent systematic review or major guideline.
+
+2. **Structure your responses** with:
+   - The evidence quality label (GRADE tier) for every key claim
+   - The specific source: guideline name, year, and organization (e.g. "ACC/AHA 2019 Cardiovascular Risk Guidelines")
+   - The recommendation strength (strong vs conditional)
+   - How it applies to this patient's specific values if records are on file
+
+3. **For lab interpretation**: Compare to reference ranges AND to guideline-based treatment targets. Example for LDL: report the value, the standard reference range, AND the ACC/AHA risk-stratified target (<100 for primary prevention, <70 for high risk, <55 for very high risk).
+
+4. **For questions without lab data**: Answer fully using GRADE-graded evidence. Do not refuse or deflect — provide the best available evidence with appropriate uncertainty labels.
+
+5. **Never ask the patient to paste their results** — you have full access to their uploaded records below.
+
+6. **Cite specific sources**, not vague references:
+   - WRONG: "Studies show that..."
+   - RIGHT: "[Verified — High] ACC/AHA 2019 guidelines recommend..."
+   - RIGHT: "[Verified — Moderate] A 2023 Cochrane meta-analysis of 24 RCTs found..."
+
+## RULES:
+- Never diagnose or prescribe — interpret and educate only
+- Always recommend professional consultation for clinical decisions
+- When evidence conflicts between guidelines (e.g. AHA vs ESC), note the discrepancy
+- For emerging or controversial topics, present the evidence on both sides with GRADE quality ratings
+- Lipoprotein(a) >125 nmol/L is always a high-risk finding regardless of LDL — flag this explicitly
+
 ${ctx}
-End every response with: "⚕ Educational only — consult your healthcare provider."`;
+
+End every response with: "⚕ Educational only — consult your healthcare provider for clinical decisions."`;
 };
 
 const ANALYZE_PROMPT = `You are a medical document analyzer. Analyze this document carefully.
@@ -38,17 +87,20 @@ const RECICONS = {
   lab:<FlaskConical size={15}/>, imaging:<ScanLine size={15}/>,
   note:<ClipboardList size={15}/>, medication:<Pill size={15}/>,
 };
-const QUICK_QS = ['Explain my lab results','What values are flagged?','What lifestyle changes help?','Summarize my records','When should I see a doctor?'];
+const QUICK_QS = ['What does the evidence say about my flagged results?','Latest guidelines on my Lp(a) level?','GRADE evidence for my cholesterol treatment?','What lifestyle changes have the strongest evidence?','Explain my results vs ACC/AHA targets'];
 
 function renderMd(t) {
   if(!t) return '';
   return t
     .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
     .replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')
-    .replace(/\[Verified\]/g,'<span style="background:#D1FAE5;color:#065F46;padding:1px 6px;border-radius:3px;font-size:10px;font-weight:700">[Verified]</span>')
-    .replace(/\[Speculation\]/g,'<span style="background:#FEF3CD;color:#92400E;padding:1px 6px;border-radius:3px;font-size:10px;font-weight:700">[Speculation]</span>')
-    .replace(/\[Unknown\]/g,'<span style="background:#F3F4F6;color:#4B5563;padding:1px 6px;border-radius:3px;font-size:10px;font-weight:700">[Unknown]</span>')
-    .replace(/⚕(.*?)$/gm,'<div style="margin-top:8px;padding:7px 10px;background:#EFF6FF;border-radius:6px;font-size:11px;color:#1D4ED8;border:1px solid #BFDBFE">⚕$1</div>')
+    .replace(/\[Verified\s*—\s*High\]/g,'<span style="background:#D1FAE5;color:#065F46;padding:1px 7px;border-radius:3px;font-size:10px;font-weight:700">[Verified — High]</span>')
+    .replace(/\[Verified\s*—\s*Moderate\]/g,'<span style="background:#DBEAFE;color:#1E40AF;padding:1px 7px;border-radius:3px;font-size:10px;font-weight:700">[Verified — Moderate]</span>')
+    .replace(/\[Verified\s*—\s*Low\]/g,'<span style="background:#FEF9C3;color:#854D0E;padding:1px 7px;border-radius:3px;font-size:10px;font-weight:700">[Verified — Low]</span>')
+    .replace(/\[Verified\]/g,'<span style="background:#D1FAE5;color:#065F46;padding:1px 7px;border-radius:3px;font-size:10px;font-weight:700">[Verified]</span>')
+    .replace(/\[Speculation\]/g,'<span style="background:#FEF3CD;color:#92400E;padding:1px 7px;border-radius:3px;font-size:10px;font-weight:700">[Speculation]</span>')
+    .replace(/\[Unknown\]/g,'<span style="background:#F3F4F6;color:#4B5563;padding:1px 7px;border-radius:3px;font-size:10px;font-weight:700">[Unknown]</span>')
+    .replace(/⚕(.*?)$/gm,'<div style="margin-top:10px;padding:8px 11px;background:#EFF6FF;border-radius:6px;font-size:11px;color:#1D4ED8;border:1px solid #BFDBFE">⚕$1</div>')
     .replace(/\n\n/g,'<br/><br/>').replace(/\n/g,'<br/>');
 }
 function toBase64(file) {
@@ -445,9 +497,16 @@ export default function Vitae() {
     const h=[...(msgs||[]),{role:'user',content:m}];
     setMsgs(h);setInput('');setBusy(true);
     try{
-      const r=await callAI({model:'claude-sonnet-4-6',max_tokens:1000,system:makeChatPrompt(name,uploads),messages:h});
+      const r=await callAI({
+        model:'claude-sonnet-4-6',
+        max_tokens:2048,
+        system:makeChatPrompt(name,uploads),
+        messages:h,
+      });
       const d=await r.json();
-      setMsgs(p=>[...p,{role:'assistant',content:d.content?.[0]?.text||'Error — try again.'}]);
+      // Use mergedText (combines all text blocks after web search tool use)
+      const reply = d.mergedText || d.content?.[0]?.text || 'Error — try again.';
+      setMsgs(p=>[...p,{role:'assistant',content:reply}]);
     }catch{setMsgs(p=>[...p,{role:'assistant',content:'⚠ Connection error. Please try again.'}]);}
     finally{setBusy(false);}
   };
