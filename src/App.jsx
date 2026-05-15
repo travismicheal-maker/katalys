@@ -45,8 +45,8 @@ const TYPE_STYLE = {
 const RECICONS = {
   lab:<FlaskConical size={15}/>, imaging:<ScanLine size={15}/>,
   note:<ClipboardList size={15}/>, medication:<Pill size={15}/>,
-];
-const QUICK_QS = ['What does LDL of 142 mean?','Is my BP concerning?','Best lifestyle changes?','Are my meds appropriate?','Summarize my labs'];
+};
+const QUICK_QS = ['Explain my lab results','What values are flagged?','What lifestyle changes help?','Summarize my records','When should I see a doctor?'];
 
 function renderMd(t) {
   if (!t) return '';
@@ -304,7 +304,7 @@ export default function Vitae() {
           </div>
           {flagCount>0&&<div className="wcard"><AlertTriangle size={14} style={{flexShrink:0,marginTop:1}}/><div><strong>Action needed:</strong> {flagCount} result{flagCount!==1?'s':''} flagged for review.</div><button className="btn btnS btnsm" style={{flexShrink:0,marginLeft:'auto'}} onClick={()=>setPage('records')}>View →</button></div>}
           <div className="stats">
-            {[{lbl:'Records',num:String(allRecs.length),dsc:'On file',w:false},{lbl:'Uploaded',num:String(uploads.length),dsc:'By you',w:false},{lbl:'Flagged',num:String(flagCount),dsc:flagCount>0?'Review needed':'All clear',w:flagCount>0},{lbl:'Medications',num:'3',dsc:'Active',w:false}].map(s=>(
+            {[{lbl:'Records',num:String(allRecs.length),dsc:'On file',w:false},{lbl:'Uploaded',num:String(uploads.length),dsc:'By you',w:false},{lbl:'Flagged',num:String(flagCount),dsc:flagCount>0?'Review needed':'All clear',w:flagCount>0},{lbl:'Medications',num:String(uploads.filter(r=>r.type==='medication').length),dsc:'On file',w:false}].map(s=>(
               <div key={s.lbl} className="sc"><div className="slbl">{s.lbl}</div><div className="snum" style={s.w?{color:'#D97706'}:{}}>{s.num}</div><div className="sdsc" style={s.w?{color:'#B45309'}:{}}>{s.dsc}</div></div>
             ))}
           </div>
