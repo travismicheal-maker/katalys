@@ -373,6 +373,10 @@ function Setup({ onDone }) {
         </div>
         <button className="s-btn" onClick={()=>name.trim()&&onDone(name.trim())} disabled={!name.trim()}>Get Started →</button>
         <p style={{fontSize:11,color:'var(--mu)',marginTop:14,textAlign:'center',lineHeight:1.6}}>Your data stays in your browser session only. Nothing is stored on any server.</p>
+        <div style={{marginTop:20,paddingTop:16,borderTop:'1px solid var(--bd)',textAlign:'center'}}>
+          <p style={{fontSize:11,color:'var(--mu)',letterSpacing:'.3px'}}>Powered by</p>
+          <a href="https://www.bioprecisionaging.com" target="_blank" rel="noopener noreferrer" style={{fontSize:13,fontWeight:600,color:'var(--g9)',marginTop:3,fontFamily:"'Playfair Display',serif",textDecoration:'none',display:'block'}}>Bio Precision Aging</a>
+        </div>
       </div>
     </div>
   );
@@ -514,6 +518,7 @@ function ChatContent({msgs, busy, input, setInput, send, QUICK_QS, endRef, isMob
             <button className="sb" onClick={()=>send()} disabled={busy||!input.trim()}><Send size={16}/></button>
           </div>
           <div className="disc">⚕ Educational only — not a substitute for professional medical advice.</div>
+          <div style={{textAlign:'center',marginTop:6,fontSize:10,color:'var(--mu)',letterSpacing:'.2px'}}>Powered by <a href="https://www.bioprecisionaging.com" target="_blank" rel="noopener noreferrer" style={{fontWeight:600,color:'var(--g9)',textDecoration:'none'}}>Bio Precision Aging</a></div>
         </div>
       </div>
     </>
