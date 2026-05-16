@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { useState, useRef, useEffect } from "react";
-import { Home, FolderOpen, MessageSquare, User, FlaskConical, ScanLine, ClipboardList, Pill, Send, AlertTriangle, CheckCircle2, XCircle, Heart, Upload, Bell, Lock, ExternalLink, ChevronRight, FileText, X, Loader, Mic, MicOff, Brain, Zap } from "lucide-react";
+import { Home, FolderOpen, MessageSquare, User, FlaskConical, ScanLine, ClipboardList, Pill, Send, AlertTriangle, CheckCircle2, XCircle, Heart, Upload, Bell, Lock, ExternalLink, ChevronRight, FileText, X, Loader, Mic, MicOff, Brain, Zap, ClipboardPaste, ChevronDown } from "lucide-react";
 
 const makeChatPrompt = (name, records) => {
   const ctx = records && records.length > 0
@@ -227,6 +227,24 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx)}
 .del{position:absolute;top:11px;right:11px;width:24px;height:24px;border-radius:50%;background:#FEE2E2;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#DC2626}
 .upz{border:2px dashed var(--bd);border-radius:var(--rd);padding:32px;text-align:center;cursor:pointer;margin-bottom:16px;transition:all .15s}
 .upz:hover,.upz.drag{border-color:var(--g5);background:var(--g0)}.upz.busy{cursor:not-allowed;border-color:var(--g5);background:var(--g0)}
+
+/* Paste modal */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:200;display:flex;align-items:center;justify-content:center;padding:16px}
+.modal{background:var(--surf);border-radius:var(--rd);width:100%;max-width:560px;max-height:90vh;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,.25)}
+.modal-hd{padding:18px 20px 14px;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.modal-title{font-family:'Playfair Display',serif;font-size:17px;font-weight:600;color:var(--tx)}
+.modal-close{width:28px;height:28px;border-radius:50%;background:var(--bg);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--mu);font-size:16px;flex-shrink:0}
+.modal-body{padding:16px 20px;flex:1;overflow-y:auto}
+.modal-foot{padding:12px 20px;border-top:1px solid var(--bd);display:flex;gap:8px;justify-content:flex-end;flex-shrink:0}
+.paste-area{width:100%;min-height:200px;padding:12px 14px;border:1.5px solid var(--bd);border-radius:var(--rds);font-size:13.5px;font-family:'DM Sans',sans-serif;color:var(--tx);background:var(--bg);resize:vertical;outline:none;line-height:1.6;transition:border-color .15s}
+.paste-area:focus{border-color:var(--g5);background:var(--surf)}
+.type-row{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px}
+.type-chip{padding:5px 13px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;border:1.5px solid var(--bd);background:var(--surf);color:var(--mu);font-family:'DM Sans',sans-serif;transition:all .15s}
+.type-chip.on{background:var(--g9);border-color:var(--g9);color:#fff}
+/* Floating paste button */
+.paste-fab{position:fixed;bottom:90px;right:16px;z-index:100;width:44px;height:44px;border-radius:50%;background:var(--g9);color:#fff;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(0,0,0,.2);transition:all .15s}
+.paste-fab:hover{background:var(--g7);transform:scale(1.05)}
+@media(min-width:768px){.paste-fab{bottom:24px;right:24px}}
 .spin{display:inline-block;animation:sp 1s linear infinite}@keyframes sp{to{transform:rotate(360deg)}}
 .toast{position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#1B4332;color:#fff;padding:10px 20px;border-radius:20px;font-size:13px;font-weight:500;white-space:nowrap;z-index:1000;box-shadow:0 4px 16px rgba(0,0,0,.2)}
 .toast.err{background:#DC2626}
@@ -350,6 +368,93 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx)}
 .s-btn:hover{background:var(--g7)}.s-btn:disabled{opacity:.45;cursor:not-allowed}
 `;
 
+// ── Paste / Free Text Modal ───────────────────────────────────────────────────
+const PASTE_TYPES = ['lab','imaging','note','medication','symptom','other'];
+
+function PasteModal({ onClose, onAnalyze, analyzing }) {
+  const [text,     setText]    = useState('');
+  const [recType,  setRecType] = useState('lab');
+  const [title,    setTitle]   = useState('');
+  const areaRef = useRef(null);
+
+  useEffect(() => { areaRef.current?.focus(); }, []);
+
+  const handlePaste = async () => {
+    if (!text.trim()) return;
+    await onAnalyze(text.trim(), recType, title.trim() || null);
+  };
+
+  const handleSendToChat = () => {
+    if (!text.trim()) return;
+    onClose({ sendToChat: text.trim() });
+  };
+
+  return (
+    <div className="modal-overlay" onClick={e => e.target===e.currentTarget && onClose({})}>
+      <div className="modal">
+        <div className="modal-hd">
+          <div className="modal-title">Paste or type health information</div>
+          <button className="modal-close" onClick={() => onClose({})}><X size={14}/></button>
+        </div>
+        <div className="modal-body">
+          <div style={{fontSize:12.5,color:'var(--mu)',marginBottom:12,lineHeight:1.55}}>
+            Paste lab results, doctor notes, symptom descriptions, medication lists, or any health text. Claude AI will analyze and categorize it automatically.
+          </div>
+
+          {/* Optional title */}
+          <input
+            value={title}
+            onChange={e=>setTitle(e.target.value)}
+            placeholder="Title (optional — e.g. CBC Results, Symptoms, Visit Notes)"
+            style={{width:'100%',padding:'9px 12px',border:'1.5px solid var(--bd)',borderRadius:'var(--rds)',fontSize:13,fontFamily:"'DM Sans',sans-serif",color:'var(--tx)',background:'var(--bg)',outline:'none',marginBottom:10}}
+          />
+
+          {/* Type selector */}
+          <div style={{fontSize:11,fontWeight:700,textTransform:'uppercase',letterSpacing:'.6px',color:'var(--mu)',marginBottom:7}}>Record type</div>
+          <div className="type-row">
+            {PASTE_TYPES.map(t=>(
+              <button key={t} className={`type-chip ${recType===t?'on':''}`} onClick={()=>setRecType(t)}>
+                {t.charAt(0).toUpperCase()+t.slice(1)}
+              </button>
+            ))}
+          </div>
+
+          {/* Text area */}
+          <textarea
+            ref={areaRef}
+            className="paste-area"
+            value={text}
+            onChange={e=>setText(e.target.value)}
+            placeholder={`Paste your ${recType} information here…\n\nExamples:\n• Lab results with values and reference ranges\n• Doctor visit notes or discharge summaries\n• Symptoms you're experiencing\n• Medication names and dosages\n• Any health-related text`}
+          />
+
+          <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginTop:8}}>
+            <span style={{fontSize:11.5,color:'var(--mu)'}}>{text.length} characters</span>
+            <button
+              style={{fontSize:12,color:'var(--g7)',background:'none',border:'none',cursor:'pointer',textDecoration:'underline'}}
+              onClick={async()=>{try{const t=await navigator.clipboard.readText();setText(t);}catch{toast2&&toast2('Paste manually with Ctrl+V / Cmd+V',true);}}}
+            >
+              Paste from clipboard
+            </button>
+          </div>
+        </div>
+
+        <div className="modal-foot">
+          <button className="btn btnO btnsm" onClick={handleSendToChat} disabled={!text.trim()}>
+            <MessageSquare size={13}/>Send to AI chat
+          </button>
+          <button className="btn btnP btnsm" onClick={handlePaste} disabled={!text.trim() || analyzing}>
+            {analyzing
+              ? <><span style={{display:'inline-block',animation:'sp 1s linear infinite'}}><Loader size={13}/></span>Analyzing…</>
+              : <><ClipboardPaste size={13}/>Analyze &amp; save to Records</>
+            }
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function Setup({ onDone }) {
   const [name, setName] = useState('');
   return (
@@ -424,7 +529,7 @@ function HomeContent({name, allRecs, flagCount, uploads, setPage, isMobile}) {
   );
 }
 
-function RecordsContent({uploads, setUploads, analyzing, setAnalyzing, filter, setFilter, allRecs, filtered, setPage, setInput, fileRef, toast2, drag, setDrag}) {
+function RecordsContent({uploads, setUploads, analyzing, setAnalyzing, filter, setFilter, allRecs, filtered, setPage, setInput, fileRef, toast2, drag, setDrag, setShowPaste}) {
   return (
     <>
       <div className={`upz ${drag?'drag':''} ${analyzing?'busy':''}`}
@@ -434,7 +539,7 @@ function RecordsContent({uploads, setUploads, analyzing, setAnalyzing, filter, s
         onDrop={e=>{e.preventDefault();setDrag(false);const f=e.dataTransfer.files?.[0];if(f)fileRef.current._analyze(f);}}>
         {analyzing
           ?<><span className="spin" style={{display:'block',margin:'0 auto 9px',width:28,height:28,color:'var(--g5)'}}><Loader size={28}/></span><div style={{fontSize:14,fontWeight:600,color:'var(--g9)'}}>Analyzing with Claude AI…</div><div style={{fontSize:12,color:'var(--mu)',marginTop:5}}>Extracting key values from your document</div></>
-          :<><Upload size={28} color="var(--mu)" style={{margin:'0 auto 8px',display:'block'}}/><div style={{fontSize:14,fontWeight:500}}>Tap to upload or drag & drop</div><div style={{fontSize:12,color:'var(--mu)',marginTop:4}}>PDF · JPG · PNG — Labs · Imaging · Notes</div><div style={{fontSize:12,color:'var(--g7)',marginTop:7,fontWeight:500}}>Claude AI analyzes and categorizes automatically</div></>}
+          :<><Upload size={28} color="var(--mu)" style={{margin:'0 auto 8px',display:'block'}}/><div style={{fontSize:14,fontWeight:500}}>Tap to upload or drag & drop</div><div style={{fontSize:12,color:'var(--mu)',marginTop:4}}>PDF · JPG · PNG — Labs · Imaging · Notes</div><div style={{fontSize:12,color:'var(--g7)',marginTop:7,fontWeight:500}}>Claude AI analyzes and categorizes automatically</div><div style={{marginTop:10,paddingTop:10,borderTop:'1px dashed var(--bd)'}}><button onClick={e=>{e.stopPropagation();setShowPaste(true);}} style={{fontSize:12,color:'var(--g9)',background:'none',border:'none',cursor:'pointer',textDecoration:'underline',fontFamily:"'DM Sans',sans-serif",display:'flex',alignItems:'center',gap:5,margin:'0 auto'}}><ClipboardPaste size={13}/>Or paste / type text instead</button></div></>}
       </div>
       <div className="frow">
         {['All','Labs','Imaging','Notes','Meds'].map(f=>(
@@ -573,7 +678,9 @@ export default function Vitae() {
   // Voice state
   const [recording,  setRecording]  = useState(false);
   const [voiceHint,  setVoiceHint]  = useState('');
-  const [lastModel,  setLastModel]  = useState('sonnet'); // 'sonnet' | 'opus'
+  const [lastModel,  setLastModel]  = useState('sonnet');
+  // Paste modal state
+  const [showPaste,  setShowPaste]  = useState(false);
   const recognitionRef = useRef(null);
   const mediaRecRef    = useRef(null);
   const endRef  = useRef(null);
@@ -720,6 +827,61 @@ export default function Vitae() {
   // Attach analyze to fileRef so drag-drop in RecordsContent can call it
   useEffect(()=>{if(fileRef.current)fileRef.current._analyze=analyze;},[analyzing,uploads]);
 
+  // ── Analyze pasted text ────────────────────────────────────────────────────
+  const analyzeText = async (text, hintType, hintTitle) => {
+    setAnalyzing(true);
+    try {
+      const textPrompt = `Analyze this pasted health information (type hint: ${hintType}).
+The user pasted this text:\n\n${text}\n\nReturn the JSON object as instructed.`;
+
+      const r = await callAI({
+        model:'claude-sonnet-4-6', max_tokens:1000,
+        system: ANALYZE_PROMPT,
+        _skipRouting: true,
+        messages:[{role:'user', content: textPrompt}],
+      });
+      const d = await r.json();
+      if(d.error) throw new Error(d.error.message || 'Analysis error');
+      const txt = d.content?.[0]?.text || d.mergedText || '';
+      let p = null;
+      const cm = txt.match(/```(?:json)?\s*([\s\S]*?)```/);
+      if(cm){try{p=JSON.parse(cm[1].trim());}catch{}}
+      if(!p){const om=txt.match(/\{[\s\S]*\}/);if(om){try{p=JSON.parse(om[0]);}catch{}}}
+      if(!p){try{p=JSON.parse(txt.trim());}catch{}}
+      if(!p) throw new Error('Could not parse response — try again');
+
+      const sty = TYPE_STYLE[p.type] || TYPE_STYLE[hintType] || TYPE_STYLE.note;
+      setUploads(prev=>[{
+        id: Date.now(), isNew:true,
+        type:     p.type || hintType || 'note',
+        name:     hintTitle || p.title || `Pasted ${hintType}`,
+        date:     p.date || new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}),
+        provider: p.provider || 'Pasted text',
+        flagged:  !!p.flagged,
+        flagReason: p.flagReason || null,
+        values:   p.values || [text.slice(0,80)+'…'],
+        color:    sty.color,
+        iconColor:sty.iconColor,
+      },...prev]);
+      setPage('records');
+      setFilter('All');
+      toast2(`✓ ${hintTitle || p.title || 'Pasted text'} added to records`);
+      setShowPaste(false);
+    } catch(e) {
+      toast2(e.message || 'Analysis failed — please try again', true);
+    } finally {
+      setAnalyzing(false);
+    }
+  };
+
+  const handlePasteClose = ({ sendToChat } = {}) => {
+    setShowPaste(false);
+    if (sendToChat) {
+      setPage('ai');
+      setInput(sendToChat.slice(0, 800)); // pre-fill chat with pasted text
+    }
+  };
+
   const send=async(text)=>{
     const m=(text||input).trim();if(!m||busy)return;
     const h=[...(msgs||[]),{role:'user',content:m}];
@@ -749,7 +911,7 @@ export default function Vitae() {
   const initials=name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
   const NAV=[{id:'home',lbl:'Home',I:Home},{id:'records',lbl:'Records',I:FolderOpen},{id:'ai',lbl:'AI',I:MessageSquare},{id:'profile',lbl:'Profile',I:User}];
 
-  const sharedProps = {uploads,setUploads,analyzing,setAnalyzing,filter,setFilter,allRecs,filtered,setPage,setInput,fileRef,toast2,drag,setDrag,msgs,busy,input,send,endRef,name,initials,setName,flagCount,recording,toggleVoice,voiceHint,lastModel};
+  const sharedProps = {uploads,setUploads,analyzing,setAnalyzing,filter,setFilter,allRecs,filtered,setPage,setInput,fileRef,toast2,drag,setDrag,msgs,busy,input,send,endRef,name,initials,setName,flagCount,recording,toggleVoice,voiceHint,lastModel,setShowPaste};
 
   return (
     <>
@@ -757,7 +919,24 @@ export default function Vitae() {
       <input ref={fileRef} type="file" accept=".pdf,image/*" style={{display:'none'}} onChange={e=>{const f=e.target.files?.[0];if(f)analyze(f);}}/>
       {toast&&<div className={`toast ${toast.err?'err':''}`}>{toast.msg}</div>}
 
-      {/* ══ MOBILE ══ */}
+      {/* Paste Modal */}
+      {showPaste && (
+        <PasteModal
+          onClose={handlePasteClose}
+          onAnalyze={analyzeText}
+          analyzing={analyzing}
+        />
+      )}
+
+      {/* Floating paste button — visible on all pages */}
+      <button
+        className="paste-fab"
+        onClick={() => setShowPaste(true)}
+        title="Paste or type health information"
+        aria-label="Open paste text panel"
+      >
+        <ClipboardPaste size={18}/>
+      </button>
       <div className="mob-wrap">
         <div className="phone">
           <div className="mob-hd">
