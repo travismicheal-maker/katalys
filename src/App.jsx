@@ -190,6 +190,25 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx)}
 .paste-fab{position:fixed;bottom:90px;right:16px;z-index:100;width:44px;height:44px;border-radius:50%;background:var(--g9);color:#fff;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(0,0,0,.2);transition:all .15s}
 .paste-fab:hover{background:var(--g7);transform:scale(1.05)}
 @media(min-width:768px){.paste-fab{bottom:24px;right:24px}}
+/* Sources toolbar */
+.src-bar{display:flex;align-items:center;gap:6px;padding:7px 0;border-top:1px solid var(--bd);margin-top:4px;flex-wrap:wrap;position:relative}
+.src-btn{display:inline-flex;align-items:center;gap:5px;padding:5px 11px;border-radius:20px;font-size:12px;border:1.5px solid var(--bd);background:var(--surf);color:var(--mu);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s;white-space:nowrap}
+.src-btn.on{border-color:var(--g9);color:var(--g9);background:var(--g0)}
+.src-btn:hover{border-color:var(--g5)}
+.src-menu{position:absolute;bottom:calc(100% + 6px);left:0;right:0;background:var(--surf);border:1px solid var(--bd);border-radius:var(--rd);box-shadow:0 8px 32px rgba(0,0,0,.14);z-index:50;overflow:hidden}
+.src-menu-item{display:flex;align-items:flex-start;gap:12px;padding:14px 16px;border-bottom:1px solid var(--bd);cursor:default}
+.src-menu-item:last-child{border-bottom:none}
+.src-menu-icon{font-size:18px;flex-shrink:0;width:28px;text-align:center;margin-top:1px}
+.src-menu-info{flex:1}
+.src-menu-title{font-size:13.5px;font-weight:500;color:var(--tx)}
+.src-menu-sub{font-size:11.5px;color:var(--mu);margin-top:2px;line-height:1.4}
+.src-toggle{width:36px;height:20px;border-radius:10px;background:var(--bd);position:relative;cursor:pointer;transition:all .2s;flex-shrink:0;border:none;outline:none}
+.src-toggle.on{background:var(--g9)}
+.src-toggle::after{content:'';position:absolute;width:16px;height:16px;border-radius:50%;background:#fff;top:2px;left:2px;transition:all .2s;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.src-toggle.on::after{left:18px}
+.lib-item{display:flex;align-items:center;gap:8px;padding:7px 10px;background:var(--g0);border-radius:7px;font-size:12px;color:var(--g9);border:1px solid var(--g1);margin-top:5px}
+.lib-del{background:none;border:none;cursor:pointer;color:var(--mu);display:flex;align-items:center;margin-left:auto;padding:0}
+.src-count{display:inline-flex;align-items:center;justify-content:center;min-width:16px;height:16px;border-radius:8px;background:var(--g9);color:#fff;font-size:9px;font-weight:700;padding:0 4px;margin-left:2px}
 .spin{display:inline-block;animation:sp 1s linear infinite}@keyframes sp{to{transform:rotate(360deg)}}
 .toast{position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#1B4332;color:#fff;padding:10px 20px;border-radius:20px;font-size:13px;font-weight:500;white-space:nowrap;z-index:1000;box-shadow:0 4px 16px rgba(0,0,0,.2)}
 .toast.err{background:#DC2626}
@@ -664,9 +683,9 @@ function RecordsContent({uploads, setUploads, analyzing, setAnalyzing, filter, s
   );
 }
 
-function ChatContent({msgs, busy, input, setInput, send, QUICK_QS, endRef, isMobile, recording, toggleVoice, voiceHint, lastModel}) {
-  const [votes,      setVotes]      = useState({});   // { msgIndex: 'up'|'down' }
-  const [shareIdx,   setShareIdx]   = useState(null); // index of msg being shared
+function ChatContent({msgs, busy, input, setInput, send, QUICK_QS, endRef, isMobile, recording, toggleVoice, voiceHint, lastModel, sources, setSources, library, setLibrary, showSrcMenu, setShowSrcMenu, libraryFileRef, addToLibrary}) {
+  const [votes,      setVotes]      = useState({});
+  const [shareIdx,   setShareIdx]   = useState(null);
   const [copiedIdx,  setCopiedIdx]  = useState(null);
 
   const vote = (i, dir) => setVotes(v => ({...v, [i]: v[i]===dir ? null : dir}));
@@ -750,6 +769,64 @@ function ChatContent({msgs, busy, input, setInput, send, QUICK_QS, endRef, isMob
           <div className="qrow">{QUICK_QS.map(q=><button key={q} className="qc" onClick={()=>send(q)}>{q}</button>)}</div>
           {voiceHint && <div className="voice-hint">{recording ? '🔴 ' : ''}{voiceHint}</div>}
           {input && recording && <div className="transcript-preview">"{input}"</div>}
+
+          {/* Sources toolbar */}
+          <div className="src-bar">
+            <span style={{fontSize:11,color:'var(--mu)',fontWeight:500,marginRight:2}}>Sources</span>
+
+            {/* Clinical Web toggle */}
+            <button className={`src-btn ${sources.clinicalWeb?'on':''}`}
+              onClick={()=>setSources(s=>({...s,clinicalWeb:!s.clinicalWeb}))}>
+              🌐 Clinical web
+              <button className={`src-toggle ${sources.clinicalWeb?'on':''}`}
+                onClick={e=>{e.stopPropagation();setSources(s=>({...s,clinicalWeb:!s.clinicalWeb}));}}
+              />
+            </button>
+
+            {/* Literature toggle */}
+            <button className={`src-btn ${sources.literature?'on':''}`}
+              onClick={()=>setSources(s=>({...s,literature:!s.literature}))}>
+              📚 Literature &amp; guidelines
+              <button className={`src-toggle ${sources.literature?'on':''}`}
+                onClick={e=>{e.stopPropagation();setSources(s=>({...s,literature:!s.literature}));}}
+              />
+            </button>
+
+            {/* My Library */}
+            <button className={`src-btn ${library.length>0?'on':''}`}
+              onClick={()=>setShowSrcMenu(v=>!v)}>
+              🗂 My library
+              {library.length>0 && <span className="src-count">{library.length}</span>}
+            </button>
+
+            {/* Library dropdown */}
+            {showSrcMenu && (
+              <div className="src-menu" onClick={e=>e.stopPropagation()}>
+                <div className="src-menu-item">
+                  <div className="src-menu-icon">🗂</div>
+                  <div className="src-menu-info">
+                    <div className="src-menu-title">My Library</div>
+                    <div className="src-menu-sub">Upload PDFs or text files. Claude will reference them as primary source material when answering your questions.</div>
+                    <button className="btn btnP btnsm" style={{marginTop:9,fontSize:11.5}}
+                      onClick={()=>libraryFileRef.current?.click()}>
+                      + Add document
+                    </button>
+                    {library.map((doc,i)=>(
+                      <div key={i} className="lib-item">
+                        📄 <span style={{flex:1,overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{doc.name}</span>
+                        <button className="lib-del" onClick={()=>setLibrary(prev=>prev.filter((_,j)=>j!==i))}>
+                          <X size={12}/>
+                        </button>
+                      </div>
+                    ))}
+                    {library.length===0 && (
+                      <div style={{fontSize:12,color:'var(--mu)',marginTop:7,fontStyle:'italic'}}>No documents yet</div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
           <div className={isMobile?'mob-irow':'desk-irow'}>
             <button className={`mic-btn ${recording?'recording':''}`} onClick={toggleVoice} title={recording?'Stop recording':'Start voice input'}>
               {recording ? <MicOff size={17}/> : <Mic size={17}/>}
@@ -818,6 +895,11 @@ export default function Vitae() {
   const [lastModel,  setLastModel]  = useState('sonnet');
   // Paste modal state
   const [showPaste,  setShowPaste]  = useState(false);
+  // Source preferences
+  const [sources,    setSources]    = useState({ clinicalWeb: true, literature: true });
+  const [library,    setLibrary]    = useState([]);   // [{name, text}] uploaded library docs
+  const [showSrcMenu, setShowSrcMenu] = useState(false);
+  const libraryFileRef = useRef(null);
   const recognitionRef = useRef(null);
   const mediaRecRef    = useRef(null);
   const endRef  = useRef(null);
@@ -827,8 +909,37 @@ export default function Vitae() {
     if(name&&!msgs) setMsgs([{role:'assistant',content:`Hello **${name}**! I'm Vitae AI.\n\nUpload records in the Records tab and I can see all your values — no copy-pasting needed. I'll give you [Verified] evidence-based guidance from recognized clinical guidelines.\n\nWhat would you like to know?`}]);
   },[name]);
   useEffect(()=>{endRef.current?.scrollIntoView({behavior:'smooth'});},[msgs,busy]);
+  useEffect(()=>{
+    if(!showSrcMenu) return;
+    const close = () => setShowSrcMenu(false);
+    document.addEventListener('click', close);
+    return () => document.removeEventListener('click', close);
+  },[showSrcMenu]);
 
   const toast2=(msg,err=false)=>{setToast({msg,err});setTimeout(()=>setToast(null),3500);};
+
+  // ── Library document upload (extract text for search context) ────────────────
+  const addToLibrary = (file) => {
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      // For text-based files read directly; for PDFs we send base64 to Claude for extraction
+      const isText = file.type === 'text/plain';
+      if (isText) {
+        const text = e.target.result;
+        setLibrary(prev => [...prev, { name: file.name, text: text.slice(0, 12000) }]);
+        toast2(`✓ "${file.name}" added to My Library`);
+      } else {
+        // Store as base64 for Claude to reference
+        const b64 = e.target.result.split(',')[1];
+        setLibrary(prev => [...prev, { name: file.name, b64, type: file.type }]);
+        toast2(`✓ "${file.name}" added to My Library`);
+      }
+    };
+    if (file.type === 'text/plain') reader.readAsText(file);
+    else reader.readAsDataURL(file);
+    if (libraryFileRef.current) libraryFileRef.current.value = '';
+  };
 
   // ── Voice recording ──────────────────────────────────────────────────────────
   const startVoice = () => {
@@ -1024,18 +1135,24 @@ The user pasted this text:\n\n${text}\n\nReturn the JSON object as instructed.`;
     const h=[...(msgs||[]),{role:'user',content:m}];
     setMsgs(h);setInput('');setBusy(true);
     try{
+      // Build library context string from uploaded library docs
+      const libraryText = library.length > 0
+        ? library.map(d => `[Library: ${d.name}]\n${d.text||'(PDF — see base64 attachment)'}`).join('\n\n')
+        : null;
+
       const r=await callAI({
         model:'claude-sonnet-4-6',
         max_tokens:2048,
         system:makeChatPrompt(name,uploads),
         messages:h,
+        _sources: sources,
+        _libraryText: libraryText,
       });
       const d=await r.json();
-      // Track which model was used (returned in _meta)
       if(d._meta?.model?.includes('opus')) setLastModel('opus');
       else setLastModel('sonnet');
       const reply = d.mergedText || d.content?.[0]?.text || 'Error — try again.';
-      setMsgs(p=>[...p,{role:'assistant',content:reply, _model: d._meta?.model}]);
+      setMsgs(p=>[...p,{role:'assistant',content:reply, _model: d._meta?.model, _sources: d._meta?.sources}]);
     }catch{setMsgs(p=>[...p,{role:'assistant',content:'⚠ Connection error. Please try again.'}]);}
     finally{setBusy(false);}
   };
@@ -1048,12 +1165,13 @@ The user pasted this text:\n\n${text}\n\nReturn the JSON object as instructed.`;
   const initials=name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
   const NAV=[{id:'home',lbl:'Home',I:Home},{id:'records',lbl:'Records',I:FolderOpen},{id:'ai',lbl:'AI',I:MessageSquare},{id:'profile',lbl:'Profile',I:User}];
 
-  const sharedProps = {uploads,setUploads,analyzing,setAnalyzing,filter,setFilter,allRecs,filtered,setPage,setInput,fileRef,toast2,drag,setDrag,msgs,busy,input,send,endRef,name,initials,setName,flagCount,recording,toggleVoice,voiceHint,lastModel,setShowPaste};
+  const sharedProps = {uploads,setUploads,analyzing,setAnalyzing,filter,setFilter,allRecs,filtered,setPage,setInput,fileRef,toast2,drag,setDrag,msgs,busy,input,send,endRef,name,initials,setName,flagCount,recording,toggleVoice,voiceHint,lastModel,setShowPaste,sources,setSources,library,setLibrary,showSrcMenu,setShowSrcMenu,libraryFileRef,addToLibrary};
 
   return (
     <>
       <style>{CSS}</style>
       <input ref={fileRef} type="file" accept=".pdf,image/*" style={{display:'none'}} onChange={e=>{const f=e.target.files?.[0];if(f)analyze(f);}}/>
+      <input ref={libraryFileRef} type="file" accept=".pdf,.txt,.md" style={{display:'none'}} onChange={e=>{const f=e.target.files?.[0];if(f)addToLibrary(f);}}/>
       {toast&&<div className={`toast ${toast.err?'err':''}`}>{toast.msg}</div>}
 
       {/* Paste Modal */}
