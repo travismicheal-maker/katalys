@@ -1,6 +1,7 @@
 // @ts-nocheck
 import { useState, useRef, useEffect } from "react";
 import { Home, FolderOpen, MessageSquare, User, FlaskConical, ScanLine, ClipboardList, Pill, Send, AlertTriangle, CheckCircle2, XCircle, Heart, Upload, Bell, Lock, ExternalLink, ChevronRight, FileText, X, Loader, Mic, MicOff, Brain, Zap, ClipboardPaste, ChevronDown, Dna, RotateCcw } from "lucide-react";
+import { PEPTIDE_CONTEXT, OPTIMIZATION_GOALS as PEPTIDE_GOALS_DATA, PEPTIDE_KNOWLEDGE_BASE } from './peptides.js';
 
 const makeChatPrompt = (name, records) => {
   const ctx = records && records.length > 0
@@ -609,7 +610,10 @@ Experience with peptides: ${q.experience || 'Not provided'}
 Additional context: ${q.notes || 'None'}
 ` : 'No questionnaire completed yet — ask the patient to complete the assessment for personalized recommendations.'}
 
-${libraryText ? `\nCLINICIAN LIBRARY DOCUMENTS:\n${libraryText.slice(0,6000)}` : ''}
+PEPTIDE FORMULARY — BIO PRECISION AGING:
+${PEPTIDE_CONTEXT.slice(0, 12000)}
+
+${libraryText ? `\nCLINICIAN LIBRARY DOCUMENTS:\n${libraryText.slice(0,4000)}` : ''}
 
 FORMATTING:
 - Bold key peptide names, doses, and clinical terms
@@ -622,24 +626,7 @@ End with: "⚕ For clinical decision-support only. Peptide therapy should be sup
 };
 
 // ── Peptide Consultant Component ──────────────────────────────────────────────
-const PEPTIDE_GOALS = [
-  { id:'recovery',        label:'Recovery & Healing',        icon:'🔄' },
-  { id:'sleep',           label:'Sleep Quality',             icon:'😴' },
-  { id:'muscle_mass',     label:'Muscle Mass & Strength',    icon:'💪' },
-  { id:'weight_loss',     label:'Weight Reduction',          icon:'⚖️' },
-  { id:'visceral_fat',    label:'Visceral Fat Reduction',    icon:'🎯' },
-  { id:'longevity',       label:'Longevity & Anti-Aging',    icon:'⏳' },
-  { id:'mitochondrial',   label:'Cellular / Mitochondrial',  icon:'⚡' },
-  { id:'fertility',       label:'Fertility & Hormonal',      icon:'🧬' },
-  { id:'fatigue',         label:'Physical Fatigue',          icon:'🔋' },
-  { id:'mental_clarity',  label:'Mental Clarity & Cognition',icon:'🧠' },
-  { id:'inflammation',    label:'Inflammation Reduction',    icon:'🛡️' },
-  { id:'metabolic_health',label:'Metabolic Health',          icon:'📊' },
-  { id:'sexual_function', label:'Sexual Health',             icon:'💚' },
-  { id:'gut_health',      label:'Gut & GI Health',           icon:'🌿' },
-  { id:'neuroprotection', label:'Neuroprotection',           icon:'🔬' },
-  { id:'anti_aging',      label:'Skin & Connective Tissue',  icon:'✨' },
-];
+const PEPTIDE_GOALS = PEPTIDE_GOALS_DATA;
 
 const PEPTIDE_CSS = `
 .p-wrap{display:flex;flex-direction:column;height:100%;min-height:500px}
