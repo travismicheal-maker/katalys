@@ -1181,7 +1181,7 @@ The user pasted this text:\n\n${text}\n\nReturn the JSON object as instructed.`;
   const filtered=allRecs.filter(r=>filter==='All'?true:filter==='Labs'?r.type==='lab':filter==='Imaging'?r.type==='imaging':filter==='Notes'?r.type==='note':filter==='Meds'?r.type==='medication':true);
   const flagCount=allRecs.filter(r=>r.flagged).length;
   const initials=name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
-  const NAV=[{id:'home',lbl:'Home',I:Home},{id:'records',lbl:'Records',I:FolderOpen},{id:'ai',lbl:'AI',I:MessageSquare},{id:'profile',lbl:'Profile',I:User}];
+  const NAV=[{id:'home',lbl:'Home',I:Home},{id:'records',lbl:'Records',I:FolderOpen},{id:'ai',lbl:'AI Consultant',I:MessageSquare},{id:'profile',lbl:'Profile',I:User}];
 
   const sharedProps = {uploads,setUploads,analyzing,setAnalyzing,filter,setFilter,allRecs,filtered,setPage,setInput,fileRef,toast2,drag,setDrag,msgs,busy,input,send,endRef,name,initials,setName,flagCount,recording,toggleVoice,voiceHint,lastModel,setShowPaste,sources,setSources,library,setLibrary,showSrcMenu,setShowSrcMenu,libraryFileRef,addToLibrary};
 
@@ -1215,7 +1215,7 @@ The user pasted this text:\n\n${text}\n\nReturn the JSON object as instructed.`;
           <div className="mob-hd">
             {page==='home'
               ?<div className="logo"><Heart size={15} fill="#52B788" color="#52B788"/>Vitae<span style={{fontSize:11,fontWeight:400,color:'var(--mu)',borderLeft:'1px solid var(--bd)',paddingLeft:8,marginLeft:2}}><a href="https://www.bioprecisionaging.com" target="_blank" rel="noopener noreferrer" style={{color:'var(--mu)',textDecoration:'none'}}>Bio Precision Aging</a></span></div>
-              :<div><div className="ptitle">{{records:'My Records',ai:'AI Assistant',profile:'Profile'}[page]}</div>
+              :<div><div className="ptitle">{{records:'My Records',ai:'AI Consultant',profile:'Profile'}[page]}</div>
               <div className="psub">{{records:'Labs, imaging & notes',ai:uploads.length>0?`Seeing ${uploads.length} record${uploads.length!==1?'s':''}` :'Upload records for full context',profile:name}[page]}</div></div>}
             <div style={{display:'flex',gap:7,alignItems:'center'}}>
               {page==='records'&&<button className="btn btnP btnsm" onClick={()=>!analyzing&&fileRef.current?.click()} disabled={analyzing}>
@@ -1278,7 +1278,7 @@ The user pasted this text:\n\n${text}\n\nReturn the JSON object as instructed.`;
           <div className="desk-topbar">
             <div>
               <div className="desk-page-title">
-                {page==='home'?`Good morning, ${name.split(' ')[0]}`:{records:'My Records',ai:'AI Assistant',profile:'Profile'}[page]}
+                {page==='home'?`Good morning, ${name.split(' ')[0]}`:{records:'My Records',ai:'AI Consultant',profile:'Profile'}[page]}
               </div>
               <div className="desk-page-sub">
                 {{home:'Your health records at a glance',records:'Labs, imaging & notes',ai:uploads.length>0?`Seeing ${uploads.length} uploaded record${uploads.length!==1?'s':''}` :'Upload records so AI can reference them',profile:'Your session'}[page]}
