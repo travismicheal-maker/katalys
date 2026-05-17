@@ -920,57 +920,156 @@ I'll now generate your personalized peptide recommendations. Ask me anything abo
 function Setup({ onDone }) {
   const [name, setName] = useState('');
   return (
-    <div style={{padding:'32px 24px',maxWidth:440,margin:'0 auto'}}>
-      <div style={{display:'flex',alignItems:'center',gap:10,marginBottom:8}}>
-        <Heart size={28} style={{color:'var(--g6)'}} fill="currentColor"/>
-        <span style={{fontSize:26,fontWeight:700,color:'var(--g9)',fontFamily:"'Playfair Display',serif"}}>Vitae</span>
-      </div>
-      <p style={{fontSize:15,color:'var(--mu)',marginBottom:24,lineHeight:1.6}}>
-        Your personal health AI. Enter your name to get started — no account or API key needed.
-      </p>
+    <div style={{
+      minHeight: '100vh',
+      background: '#f9fafb',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: '24px',
+    }}>
+      <div style={{
+        background: '#ffffff',
+        borderRadius: 16,
+        padding: '36px 28px',
+        maxWidth: 440,
+        width: '100%',
+        boxShadow: '0 4px 24px rgba(0,0,0,0.08)',
+      }}>
 
-      <div style={{background:'#F0FDF4',border:'1px solid #D1FAE5',borderRadius:'var(--rd)',padding:'14px',marginBottom:24}}>
-        <div style={{fontWeight:600,fontSize:13,color:'#1B4332',marginBottom:6}}>✓ What you can do</div>
-        <div style={{fontSize:13,color:'#2D6A4F',lineHeight:1.7}}>
-          • Upload lab results, imaging, or any medical document<br/>
-          • Get AI analysis with flagged values highlighted<br/>
-          • Ask health questions with cited clinical guidelines<br/>
-          • Works on mobile and desktop<br/>
-          • A complete Peptide Guide with AI Consulting<br/>
-          • Ask questions about the most popular peptides
+        {/* Logo */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10 }}>
+          <Heart size={28} style={{ color: '#52B788' }} fill="#52B788" />
+          <span style={{
+            fontSize: 26,
+            fontWeight: 700,
+            color: '#1B4332',
+            fontFamily: "'Playfair Display', Georgia, serif",
+          }}>Vitae</span>
         </div>
-      </div>
 
-      <div className="field">
-        <label>YOUR NAME</label>
-        <input
-          value={name}
-          onChange={e => setName(e.target.value)}
-          placeholder="e.g. Alex Johnson"
-          onKeyDown={e => e.key === 'Enter' && name.trim() && onDone(name.trim())}
-        />
-      </div>
+        {/* Subtitle */}
+        <p style={{
+          fontSize: 15,
+          color: '#6B7280',
+          marginBottom: 24,
+          lineHeight: 1.6,
+        }}>
+          Your personal health AI. Enter your name to get started — no account or API key needed.
+        </p>
 
-      <button
-        className="s-btn"
-        onClick={() => name.trim() && onDone(name.trim())}
-        disabled={!name.trim()}
-      >
-        Get Started →
-      </button>
+        {/* What you can do box */}
+        <div style={{
+          background: '#F0FDF4',
+          border: '1px solid #D1FAE5',
+          borderRadius: 12,
+          padding: '16px',
+          marginBottom: 24,
+        }}>
+          <div style={{
+            fontWeight: 600,
+            fontSize: 13,
+            color: '#1B4332',
+            marginBottom: 8,
+          }}>✓ What you can do</div>
+          <div style={{ fontSize: 13, color: '#2D6A4F', lineHeight: 1.8 }}>
+            • Upload lab results, imaging, or any medical document<br/>
+            • Get AI analysis with flagged values highlighted<br/>
+            • Ask health questions with cited clinical guidelines<br/>
+            • Works on mobile and desktop<br/>
+            • A complete Peptide Guide with AI Consulting<br/>
+            • Ask questions about the most popular peptides
+          </div>
+        </div>
 
-      <p style={{fontSize:11,color:'var(--mu)',marginTop:14,textAlign:'center',lineHeight:1.6}}>
-        Your data stays in your browser session only. Nothing is stored on any server.
-      </p>
+        {/* Name field */}
+        <div style={{ marginBottom: 16 }}>
+          <label style={{
+            display: 'block',
+            fontSize: 11,
+            fontWeight: 700,
+            letterSpacing: '0.08em',
+            color: '#374151',
+            marginBottom: 6,
+            textTransform: 'uppercase',
+          }}>Your Name</label>
+          <input
+            value={name}
+            onChange={e => setName(e.target.value)}
+            placeholder="e.g. Alex Johnson"
+            onKeyDown={e => e.key === 'Enter' && name.trim() && onDone(name.trim())}
+            style={{
+              width: '100%',
+              padding: '12px 14px',
+              fontSize: 15,
+              border: '1.5px solid #D1FAE5',
+              borderRadius: 10,
+              outline: 'none',
+              boxSizing: 'border-box',
+              color: '#111827',
+              background: '#fff',
+              fontFamily: 'inherit',
+            }}
+            onFocus={e => e.target.style.borderColor = '#52B788'}
+            onBlur={e => e.target.style.borderColor = '#D1FAE5'}
+          />
+        </div>
 
-      <div style={{marginTop:20,paddingTop:16,borderTop:'1px solid var(--bd)',textAlign:'center'}}>
-        <p style={{fontSize:11,color:'var(--mu)',letterSpacing:'.3px'}}>Powered by</p>
-        <p style={{fontSize:13,fontWeight:600,color:'var(--g9)',marginTop:3,fontFamily:"'Playfair Display',serif"}}>Bio Precision Aging</p>
+        {/* Get Started button */}
+        <button
+          onClick={() => name.trim() && onDone(name.trim())}
+          disabled={!name.trim()}
+          style={{
+            width: '100%',
+            padding: '14px',
+            fontSize: 15,
+            fontWeight: 600,
+            color: '#fff',
+            background: name.trim() ? '#2D6A4F' : '#9CA3AF',
+            border: 'none',
+            borderRadius: 10,
+            cursor: name.trim() ? 'pointer' : 'not-allowed',
+            transition: 'background 0.2s',
+            fontFamily: 'inherit',
+          }}
+          onMouseEnter={e => { if (name.trim()) e.target.style.background = '#1B4332'; }}
+          onMouseLeave={e => { if (name.trim()) e.target.style.background = '#2D6A4F'; }}
+        >
+          Get Started →
+        </button>
+
+        {/* Footer note */}
+        <p style={{
+          fontSize: 11,
+          color: '#9CA3AF',
+          marginTop: 16,
+          textAlign: 'center',
+          lineHeight: 1.6,
+        }}>
+          Your data stays in your browser session only. Nothing is stored on any server.
+        </p>
+
+        {/* Powered by */}
+        <div style={{
+          marginTop: 20,
+          paddingTop: 16,
+          borderTop: '1px solid #F3F4F6',
+          textAlign: 'center',
+        }}>
+          <p style={{ fontSize: 11, color: '#9CA3AF', margin: '0 0 3px' }}>Powered by</p>
+          <p style={{
+            fontSize: 13,
+            fontWeight: 600,
+            color: '#1B4332',
+            margin: 0,
+            fontFamily: "'Playfair Display', Georgia, serif",
+          }}>Bio Precision Aging</p>
+        </div>
+
       </div>
     </div>
   );
 }
-
 
 // ── Shared page content components ────────────────────────────────────────────
 function HomeContent({name, allRecs, flagCount, uploads, setPage, isMobile}) {
