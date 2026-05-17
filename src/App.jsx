@@ -79,7 +79,6 @@ const QUICK_QS = ['What does the evidence say about my flagged results?','Latest
 function renderMd(t) {
   if(!t) return '';
 
-  // Extract references
   const refLines = [];
   const refRegex = /^[\-\*\d]+[\.\)]\s+(.+?)(https?:\/\/[^\s\)&]+)/gm;
   let m;
@@ -87,8 +86,6 @@ function renderMd(t) {
     refLines.push({ label: m[1].trim().replace(/\*\*/g,''), url: m[2].trim() });
   }
 
-  // ── Pre-process markdown tables → HTML tables (before escaping) ───────────
-  // Detect blocks of lines that look like: | col | col | \n |---|---| \n | val | val |
   const tableRegex = /(\|.+\|\n)([ \t]*\|[\s\-|:]+\|\n)((?:\|.+\|\n?)*)/gm;
   t = t.replace(tableRegex, (match, headerRow, sepRow, bodyRows) => {
     const parseRow = (row) => row.trim().replace(/^\||\|$/g,'').split('|').map(c=>c.trim());
@@ -101,7 +98,6 @@ function renderMd(t) {
 
   let html = t
     .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
-    // Restore table HTML (un-escape the pre-processed tables)
     .replace(/&lt;table class="md-table"&gt;/g,'<table class="md-table">')
     .replace(/&lt;\/table&gt;/g,'</table>')
     .replace(/&lt;thead&gt;/g,'<thead>').replace(/&lt;\/thead&gt;/g,'</thead>')
@@ -147,6 +143,7 @@ function renderMd(t) {
   }
   return html;
 }
+
 function toBase64(file) {
   return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result.split(',')[1]);r.onerror=()=>rej(new Error('Read failed'));r.readAsDataURL(file);});
 }
@@ -237,19 +234,22 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx)}
 .spin{display:inline-block;animation:sp 1s linear infinite}@keyframes sp{to{transform:rotate(360deg)}}
 .toast{position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#1B4332;color:#fff;padding:10px 20px;border-radius:20px;font-size:13px;font-weight:500;white-space:nowrap;z-index:1000;box-shadow:0 4px 16px rgba(0,0,0,.2)}
 .toast.err{background:#DC2626}
+
+/* ── Message bubbles ── */
 .msg{max-width:80%}.msg.u{align-self:flex-end}.msg.a{align-self:flex-start}
 .mrole{font-size:10.5px;color:var(--mu);margin-bottom:4px;font-weight:500;letter-spacing:.3px}
-.mb{padding:14px 16px;border-radius:14px;font-size:14px;line-height:1.72;font-family:'DM Sans',sans-serif}
+.mb{padding:14px 16px;border-radius:14px;font-size:14px;line-height:1.58;font-family:'DM Sans',sans-serif}
 .msg.u .mb{background:var(--g9);color:#fff;border-bottom-right-radius:3px}
 .msg.a .mb{background:var(--surf);border:1px solid var(--bd);border-bottom-left-radius:3px;box-shadow:var(--sh);padding:16px 18px}
 
-/* Heidi-style clinical typography */
-.md-p{margin:0 0 10px}
+/* ── Clinical typography — PATCHED SPACING ── */
+.md-p{margin:0 0 9px}
 .md-p:last-child{margin-bottom:0}
-.md-section{font-weight:600;font-size:14px;color:var(--tx);margin:14px 0 6px;letter-spacing:-.1px}
-.md-bullet{display:flex;gap:9px;margin:5px 0;line-height:1.6}
+.md-p:empty{display:none}
+.md-section{font-weight:600;font-size:14px;color:var(--tx);margin:10px 0 3px;letter-spacing:-.1px}
+.md-bullet{display:flex;gap:9px;margin:3px 0;line-height:1.55}
 .md-dot{color:var(--g5);flex-shrink:0;margin-top:2px;font-size:15px;line-height:1.4}
-.md-num{display:flex;gap:9px;margin:5px 0;line-height:1.6}
+.md-num{display:flex;gap:9px;margin:3px 0;line-height:1.55}
 .md-num-n{color:var(--mu);flex-shrink:0;font-size:12px;margin-top:3px;min-width:16px;font-weight:500}
 .md-link{color:#1D4ED8;text-decoration:underline;font-size:11.5px;word-break:break-all}
 .md-table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px;border-radius:8px;overflow:hidden;border:1px solid var(--bd)}
@@ -298,10 +298,12 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx)}
 .dot{width:5px;height:5px;background:var(--mu);border-radius:50%;animation:bl 1.2s infinite}
 .dot:nth-child(2){animation-delay:.2s}.dot:nth-child(3){animation-delay:.4s}
 @keyframes bl{0%,80%,100%{transform:scale(.6);opacity:.4}40%{transform:scale(1);opacity:1}}
-.qrow{display:flex;gap:6px;flex-wrap:wrap;padding-bottom:6px;scrollbar-width:none;margin-bottom:10px}
-.qrow::-webkit-scrollbar{display:none}
-.qc{padding:6px 13px;background:var(--bg);border:1px solid var(--bd);border-radius:20px;font-size:12px;color:var(--g9);cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap;flex-shrink:0;transition:all .15s}
+
+/* ── PATCH 1 already applied: suggested questions wrap ── */
+.qrow{display:flex;gap:6px;flex-wrap:wrap;padding-bottom:6px;margin-bottom:10px}
+.qc{padding:6px 13px;background:var(--bg);border:1px solid var(--bd);border-radius:20px;font-size:12px;color:var(--g9);cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap;transition:all .15s}
 .qc:hover{background:var(--g1)}
+
 .ci{flex:1;padding:11px 14px;border:1.5px solid var(--bd);border-radius:var(--rds);font-size:14px;font-family:'DM Sans',sans-serif;color:var(--tx);background:var(--bg);resize:none;outline:none;transition:border-color .15s;line-height:1.5;min-height:44px;max-height:100px}
 .ci:focus{border-color:var(--g5);background:var(--surf)}
 .sb{width:44px;height:44px;border-radius:var(--rds);background:var(--g9);color:#fff;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s}
@@ -338,7 +340,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx)}
 .snum{font-family:'Playfair Display',serif;font-size:28px;font-weight:600;line-height:1;margin-top:5px}
 .sdsc{font-size:11px;color:var(--mu);margin-top:2px}
 .mob-chat{display:flex;flex-direction:column;height:calc(100vh - 155px);min-height:460px}
-.mob-msgs{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:12px}
+.mob-msgs{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px}
 .mob-cbot{padding:9px 14px 12px;background:var(--surf);border-top:1px solid var(--bd);flex-shrink:0}
 .mob-irow{display:flex;gap:7px;align-items:flex-end}
 .bnav{position:absolute;bottom:0;left:0;right:0;height:68px;background:var(--surf);border-top:1px solid var(--bd);display:flex;border-radius:0 0 28px 28px;overflow:hidden}
@@ -379,13 +381,13 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx)}
   .desk-sc{background:var(--surf);border:1px solid var(--bd);border-radius:var(--rd);padding:18px;box-shadow:var(--sh)}
   .desk-snum{font-family:'Playfair Display',serif;font-size:36px;font-weight:600;line-height:1;margin-top:6px}
 
-  /* Desktop chat */
+  /* ── PATCH 3 & 4: Desktop chat — full width, wider messages ── */
   .desk-chat{display:flex;flex-direction:column;height:calc(100vh - 85px)}
-  .desk-msgs{flex:1;overflow-y:auto;padding:24px 32px;display:flex;flex-direction:column;gap:16px;max-width:900px;width:100%}
+  .desk-msgs{flex:1;overflow-y:auto;padding:20px 32px;display:flex;flex-direction:column;gap:12px;width:100%}
   .desk-cbot{padding:16px 32px 20px;background:var(--surf);border-top:1px solid var(--bd)}
-  .desk-cbot-inner{max-width:900px}
+  .desk-cbot-inner{max-width:100%}
   .desk-irow{display:flex;gap:10px;align-items:flex-end}
-  .desk-msg{max-width:72%}
+  .desk-msg{max-width:88%}
 
   /* Desktop records grid */
   .desk-records-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:14px}
@@ -465,7 +467,7 @@ function ShareModal({ content, onClose }) {
 // ── PDF Generation ────────────────────────────────────────────────────────────
 function generatePDF(content, question) {
   const plain = content
-    .replace(/<div class="ref-box">[\s\S]*<\/div>/,'') // refs handled separately
+    .replace(/<div class="ref-box">[\s\S]*<\/div>/,'')
     .replace(/<[^>]+>/g,'\n')
     .replace(/\n{3,}/g,'\n\n')
     .replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>')
@@ -507,9 +509,7 @@ function generatePDF(content, question) {
   const blob = new Blob([html], { type: 'text/html' });
   const url  = URL.createObjectURL(blob);
   const win  = window.open(url, '_blank');
-  if(win) {
-    win.onload = () => { win.print(); };
-  }
+  if(win) { win.onload = () => { win.print(); }; }
   setTimeout(() => URL.revokeObjectURL(url), 10000);
 }
 
@@ -545,16 +545,12 @@ function PasteModal({ onClose, onAnalyze, analyzing }) {
           <div style={{fontSize:12.5,color:'var(--mu)',marginBottom:12,lineHeight:1.55}}>
             Paste lab results, doctor notes, symptom descriptions, medication lists, or any health text. Claude AI will analyze and categorize it automatically.
           </div>
-
-          {/* Optional title */}
           <input
             value={title}
             onChange={e=>setTitle(e.target.value)}
             placeholder="Title (optional — e.g. CBC Results, Symptoms, Visit Notes)"
             style={{width:'100%',padding:'9px 12px',border:'1.5px solid var(--bd)',borderRadius:'var(--rds)',fontSize:13,fontFamily:"'DM Sans',sans-serif",color:'var(--tx)',background:'var(--bg)',outline:'none',marginBottom:10}}
           />
-
-          {/* Type selector */}
           <div style={{fontSize:11,fontWeight:700,textTransform:'uppercase',letterSpacing:'.6px',color:'var(--mu)',marginBottom:7}}>Record type</div>
           <div className="type-row">
             {PASTE_TYPES.map(t=>(
@@ -563,8 +559,6 @@ function PasteModal({ onClose, onAnalyze, analyzing }) {
               </button>
             ))}
           </div>
-
-          {/* Text area */}
           <textarea
             ref={areaRef}
             className="paste-area"
@@ -572,18 +566,16 @@ function PasteModal({ onClose, onAnalyze, analyzing }) {
             onChange={e=>setText(e.target.value)}
             placeholder={`Paste your ${recType} information here…\n\nExamples:\n• Lab results with values and reference ranges\n• Doctor visit notes or discharge summaries\n• Symptoms you're experiencing\n• Medication names and dosages\n• Any health-related text`}
           />
-
           <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginTop:8}}>
             <span style={{fontSize:11.5,color:'var(--mu)'}}>{text.length} characters</span>
             <button
               style={{fontSize:12,color:'var(--g7)',background:'none',border:'none',cursor:'pointer',textDecoration:'underline'}}
-              onClick={async()=>{try{const t=await navigator.clipboard.readText();setText(t);}catch{toast2&&toast2('Paste manually with Ctrl+V / Cmd+V',true);}}}
+              onClick={async()=>{try{const t=await navigator.clipboard.readText();setText(t);}catch{}}}
             >
               Paste from clipboard
             </button>
           </div>
         </div>
-
         <div className="modal-foot">
           <button className="btn btnO btnsm" onClick={handleSendToChat} disabled={!text.trim()}>
             <MessageSquare size={13}/>Send to AI chat
@@ -687,7 +679,7 @@ const PEPTIDE_CSS = `
 `;
 
 function PeptideConsultant({ name, library, isMobile }) {
-  const [step,    setStep]    = useState('intro');   // intro | questionnaire | chat
+  const [step,    setStep]    = useState('intro');
   const [qData,   setQData]   = useState({ goals:[], age:'', sex:'', activity:'', history:'', currentMeds:'', experience:'', notes:'' });
   const [msgs,    setMsgs]    = useState([]);
   const [input,   setInput]   = useState('');
@@ -717,8 +709,6 @@ I'll now generate your personalized peptide recommendations. Ask me anything abo
 
     setMsgs([{ role:'assistant', content: intro }]);
     setStep('chat');
-
-    // Auto-trigger initial recommendation
     setTimeout(() => sendPeptide(`Based on my profile above, provide personalized peptide recommendations with specific dosing protocols for my primary goals: ${qData.goals.map(g => PEPTIDE_GOALS.find(p=>p.id===g)?.label || g).join(', ')}`), 300);
   };
 
@@ -772,7 +762,6 @@ I'll now generate your personalized peptide recommendations. Ask me anything abo
       <div className="p-wrap">
         <div className="p-msgs">
           <div className="p-msgs-inner">
-          {/* Intro */}
           {step === 'intro' && (
             <div style={{maxWidth:640,width:'100%',margin:'0 auto'}}>
             <div className="qz-card fu">
@@ -802,7 +791,6 @@ I'll now generate your personalized peptide recommendations. Ask me anything abo
             </div>
           )}
 
-          {/* Questionnaire */}
           {step === 'questionnaire' && (
             <div style={{maxWidth:640,width:'100%',margin:'0 auto'}}>
             <div className="qz-card fu">
@@ -835,7 +823,7 @@ I'll now generate your personalized peptide recommendations. Ask me anything abo
                 <option value="Athlete/competitive">Athlete / Competitive</option>
               </select>
 
-              <div className="qz-section">Step 3 — Health history & medications</div>
+              <div className="qz-section">Step 3 — Health history &amp; medications</div>
               <textarea className="qz-textarea" placeholder="Relevant health conditions, diagnoses, or concerns (e.g. hypothyroidism, insulin resistance, history of cancer...)" value={qData.history} onChange={e=>setQData(d=>({...d,history:e.target.value}))}/>
               <textarea className="qz-textarea" placeholder="Current medications, hormones, or peptides (e.g. testosterone, metformin, BPC-157...)" value={qData.currentMeds} onChange={e=>setQData(d=>({...d,currentMeds:e.target.value}))}/>
               <select className="qz-select" value={qData.experience} onChange={e=>setQData(d=>({...d,experience:e.target.value}))}>
@@ -860,7 +848,6 @@ I'll now generate your personalized peptide recommendations. Ask me anything abo
             </div>
           )}
 
-          {/* Chat */}
           {step === 'chat' && msgs.map((m,i) => (
             <div key={i} className={`${isMobile?'msg':'desk-msg'} ${m.role==='user'?'u':'a'} fu`}>
               <div className="mrole" style={{display:'flex',alignItems:'center',gap:6}}>
@@ -889,10 +876,9 @@ I'll now generate your personalized peptide recommendations. Ask me anything abo
             </div>
           )}
           <div ref={endRef}/>
-          </div>{/* end p-msgs-inner */}
+          </div>
         </div>
 
-        {/* Bottom bar */}
         {step==='chat' && (
           <div className="p-cbot">
             <div className="p-cbot-inner">
@@ -909,7 +895,7 @@ I'll now generate your personalized peptide recommendations. Ask me anything abo
               <button className="sb" onClick={()=>sendPeptide()} disabled={busy||!input.trim()}><Send size={16}/></button>
             </div>
             <div className="disc">⚕ For clinical decision-support only. Peptide therapy requires clinician supervision.</div>
-            </div>{/* end p-cbot-inner */}
+            </div>
           </div>
         )}
       </div>
@@ -920,59 +906,18 @@ I'll now generate your personalized peptide recommendations. Ask me anything abo
 function Setup({ onDone }) {
   const [name, setName] = useState('');
   return (
-    <div style={{
-      minHeight: '100vh',
-      background: '#f9fafb',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      padding: '24px',
-    }}>
-      <div style={{
-        background: '#ffffff',
-        borderRadius: 16,
-        padding: '36px 28px',
-        maxWidth: 440,
-        width: '100%',
-        boxShadow: '0 4px 24px rgba(0,0,0,0.08)',
-      }}>
-
-        {/* Logo */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10 }}>
-          <Heart size={28} style={{ color: '#52B788' }} fill="#52B788" />
-          <span style={{
-            fontSize: 26,
-            fontWeight: 700,
-            color: '#1B4332',
-            fontFamily: "'Playfair Display', Georgia, serif",
-          }}>Vitae</span>
+    <div style={{minHeight:'100vh',background:'#f9fafb',display:'flex',alignItems:'center',justifyContent:'center',padding:'24px'}}>
+      <div style={{background:'#ffffff',borderRadius:16,padding:'36px 28px',maxWidth:440,width:'100%',boxShadow:'0 4px 24px rgba(0,0,0,0.08)'}}>
+        <div style={{display:'flex',alignItems:'center',gap:10,marginBottom:10}}>
+          <Heart size={28} style={{color:'#52B788'}} fill="#52B788"/>
+          <span style={{fontSize:26,fontWeight:700,color:'#1B4332',fontFamily:"'Playfair Display',Georgia,serif"}}>Vitae</span>
         </div>
-
-        {/* Subtitle */}
-        <p style={{
-          fontSize: 15,
-          color: '#6B7280',
-          marginBottom: 24,
-          lineHeight: 1.6,
-        }}>
+        <p style={{fontSize:15,color:'#6B7280',marginBottom:24,lineHeight:1.6}}>
           Your personal health AI. Enter your name to get started — no account or API key needed.
         </p>
-
-        {/* What you can do box */}
-        <div style={{
-          background: '#F0FDF4',
-          border: '1px solid #D1FAE5',
-          borderRadius: 12,
-          padding: '16px',
-          marginBottom: 24,
-        }}>
-          <div style={{
-            fontWeight: 600,
-            fontSize: 13,
-            color: '#1B4332',
-            marginBottom: 8,
-          }}>✓ What you can do</div>
-          <div style={{ fontSize: 13, color: '#2D6A4F', lineHeight: 1.8 }}>
+        <div style={{background:'#F0FDF4',border:'1px solid #D1FAE5',borderRadius:12,padding:'16px',marginBottom:24}}>
+          <div style={{fontWeight:600,fontSize:13,color:'#1B4332',marginBottom:8}}>✓ What you can do</div>
+          <div style={{fontSize:13,color:'#2D6A4F',lineHeight:1.8}}>
             • Upload lab results, imaging, or any medical document<br/>
             • Get AI analysis with flagged values highlighted<br/>
             • Ask health questions with cited clinical guidelines<br/>
@@ -981,91 +926,34 @@ function Setup({ onDone }) {
             • Ask questions about the most popular peptides
           </div>
         </div>
-
-        {/* Name field */}
-        <div style={{ marginBottom: 16 }}>
-          <label style={{
-            display: 'block',
-            fontSize: 11,
-            fontWeight: 700,
-            letterSpacing: '0.08em',
-            color: '#374151',
-            marginBottom: 6,
-            textTransform: 'uppercase',
-          }}>Your Name</label>
+        <div style={{marginBottom:16}}>
+          <label style={{display:'block',fontSize:11,fontWeight:700,letterSpacing:'0.08em',color:'#374151',marginBottom:6,textTransform:'uppercase'}}>Your Name</label>
           <input
             value={name}
-            onChange={e => setName(e.target.value)}
+            onChange={e=>setName(e.target.value)}
             placeholder="e.g. Alex Johnson"
-            onKeyDown={e => e.key === 'Enter' && name.trim() && onDone(name.trim())}
-            style={{
-              width: '100%',
-              padding: '12px 14px',
-              fontSize: 15,
-              border: '1.5px solid #D1FAE5',
-              borderRadius: 10,
-              outline: 'none',
-              boxSizing: 'border-box',
-              color: '#111827',
-              background: '#fff',
-              fontFamily: 'inherit',
-            }}
-            onFocus={e => e.target.style.borderColor = '#52B788'}
-            onBlur={e => e.target.style.borderColor = '#D1FAE5'}
+            onKeyDown={e=>e.key==='Enter'&&name.trim()&&onDone(name.trim())}
+            style={{width:'100%',padding:'12px 14px',fontSize:15,border:'1.5px solid #D1FAE5',borderRadius:10,outline:'none',boxSizing:'border-box',color:'#111827',background:'#fff',fontFamily:'inherit'}}
+            onFocus={e=>e.target.style.borderColor='#52B788'}
+            onBlur={e=>e.target.style.borderColor='#D1FAE5'}
           />
         </div>
-
-        {/* Get Started button */}
         <button
-          onClick={() => name.trim() && onDone(name.trim())}
+          onClick={()=>name.trim()&&onDone(name.trim())}
           disabled={!name.trim()}
-          style={{
-            width: '100%',
-            padding: '14px',
-            fontSize: 15,
-            fontWeight: 600,
-            color: '#fff',
-            background: name.trim() ? '#2D6A4F' : '#9CA3AF',
-            border: 'none',
-            borderRadius: 10,
-            cursor: name.trim() ? 'pointer' : 'not-allowed',
-            transition: 'background 0.2s',
-            fontFamily: 'inherit',
-          }}
-          onMouseEnter={e => { if (name.trim()) e.target.style.background = '#1B4332'; }}
-          onMouseLeave={e => { if (name.trim()) e.target.style.background = '#2D6A4F'; }}
+          style={{width:'100%',padding:'14px',fontSize:15,fontWeight:600,color:'#fff',background:name.trim()?'#2D6A4F':'#9CA3AF',border:'none',borderRadius:10,cursor:name.trim()?'pointer':'not-allowed',transition:'background 0.2s',fontFamily:'inherit'}}
+          onMouseEnter={e=>{if(name.trim())e.target.style.background='#1B4332';}}
+          onMouseLeave={e=>{if(name.trim())e.target.style.background='#2D6A4F';}}
         >
           Get Started →
         </button>
-
-        {/* Footer note */}
-        <p style={{
-          fontSize: 11,
-          color: '#9CA3AF',
-          marginTop: 16,
-          textAlign: 'center',
-          lineHeight: 1.6,
-        }}>
+        <p style={{fontSize:11,color:'#9CA3AF',marginTop:16,textAlign:'center',lineHeight:1.6}}>
           Your data stays in your browser session only. Nothing is stored on any server.
         </p>
-
-        {/* Powered by */}
-        <div style={{
-          marginTop: 20,
-          paddingTop: 16,
-          borderTop: '1px solid #F3F4F6',
-          textAlign: 'center',
-        }}>
-          <p style={{ fontSize: 11, color: '#9CA3AF', margin: '0 0 3px' }}>Powered by</p>
-          <p style={{
-            fontSize: 13,
-            fontWeight: 600,
-            color: '#1B4332',
-            margin: 0,
-            fontFamily: "'Playfair Display', Georgia, serif",
-          }}>Bio Precision Aging</p>
+        <div style={{marginTop:20,paddingTop:16,borderTop:'1px solid #F3F4F6',textAlign:'center'}}>
+          <p style={{fontSize:11,color:'#9CA3AF',margin:'0 0 3px'}}>Powered by</p>
+          <p style={{fontSize:13,fontWeight:600,color:'#1B4332',margin:0,fontFamily:"'Playfair Display',Georgia,serif"}}>Bio Precision Aging</p>
         </div>
-
       </div>
     </div>
   );
@@ -1164,8 +1052,7 @@ function ChatContent({msgs, busy, input, setInput, send, QUICK_QS, endRef, isMob
 
   const copyText = async (i, content) => {
     const plain = content.replace(/<[^>]+>/g,'').replace(/\s+/g,' ').trim();
-    try { await navigator.clipboard.writeText(plain); }
-    catch { /* silent */ }
+    try { await navigator.clipboard.writeText(plain); } catch {}
     setCopiedIdx(i);
     setTimeout(() => setCopiedIdx(null), 2000);
   };
@@ -1175,10 +1062,7 @@ function ChatContent({msgs, busy, input, setInput, send, QUICK_QS, endRef, isMob
   return (
     <>
       {shareIdx !== null && (
-        <ShareModal
-          content={msgs[shareIdx]?.content || ''}
-          onClose={() => setShareIdx(null)}
-        />
+        <ShareModal content={msgs[shareIdx]?.content || ''} onClose={() => setShareIdx(null)}/>
       )}
       <div className={isMobile?'mob-msgs':'desk-msgs'}>
         {(msgs||[]).map((m,i)=>(
@@ -1196,7 +1080,6 @@ function ChatContent({msgs, busy, input, setInput, send, QUICK_QS, endRef, isMob
               ? <div className="mb">{m.content}</div>
               : <>
                   <div className="mb" dangerouslySetInnerHTML={{__html:renderMd(m.content)}}/>
-                  {/* Action bar */}
                   <div className="action-bar">
                     <button className={`act-btn ${votes[i]==='up'?'voted':''}`} onClick={()=>vote(i,'up')} title="Helpful">
                       👍 {votes[i]==='up' ? 'Helpful' : ''}
@@ -1211,10 +1094,7 @@ function ChatContent({msgs, busy, input, setInput, send, QUICK_QS, endRef, isMob
                     <button className="act-btn" onClick={()=>setShareIdx(i)} title="Share">
                       🔗 Share
                     </button>
-                    <button className="act-btn" onClick={()=>generatePDF(
-                      m.content,
-                      userMsgs[Math.floor(i/2)]?.content || ''
-                    )} title="Download as PDF">
+                    <button className="act-btn" onClick={()=>generatePDF(m.content, userMsgs[Math.floor(i/2)]?.content||'')} title="Download as PDF">
                       📄 PDF
                     </button>
                   </div>
@@ -1245,33 +1125,23 @@ function ChatContent({msgs, busy, input, setInput, send, QUICK_QS, endRef, isMob
           {/* Sources toolbar */}
           <div className="src-bar">
             <span style={{fontSize:11,color:'var(--mu)',fontWeight:500,marginRight:2}}>Sources</span>
-
-            {/* Clinical Web toggle */}
             <button className={`src-btn ${sources.clinicalWeb?'on':''}`}
               onClick={()=>setSources(s=>({...s,clinicalWeb:!s.clinicalWeb}))}>
               🌐 Clinical web
               <button className={`src-toggle ${sources.clinicalWeb?'on':''}`}
-                onClick={e=>{e.stopPropagation();setSources(s=>({...s,clinicalWeb:!s.clinicalWeb}));}}
-              />
+                onClick={e=>{e.stopPropagation();setSources(s=>({...s,clinicalWeb:!s.clinicalWeb}));}}/>
             </button>
-
-            {/* Literature toggle */}
             <button className={`src-btn ${sources.literature?'on':''}`}
               onClick={()=>setSources(s=>({...s,literature:!s.literature}))}>
               📚 Literature &amp; guidelines
               <button className={`src-toggle ${sources.literature?'on':''}`}
-                onClick={e=>{e.stopPropagation();setSources(s=>({...s,literature:!s.literature}));}}
-              />
+                onClick={e=>{e.stopPropagation();setSources(s=>({...s,literature:!s.literature}));}}/>
             </button>
-
-            {/* My Library */}
             <button className={`src-btn ${library.length>0?'on':''}`}
               onClick={()=>setShowSrcMenu(v=>!v)}>
               🗂 My library
               {library.length>0 && <span className="src-count">{library.length}</span>}
             </button>
-
-            {/* Library dropdown */}
             {showSrcMenu && (
               <div className="src-menu" onClick={e=>e.stopPropagation()}>
                 <div className="src-menu-item">
@@ -1279,38 +1149,24 @@ function ChatContent({msgs, busy, input, setInput, send, QUICK_QS, endRef, isMob
                   <div className="src-menu-info">
                     <div className="src-menu-title">My Library</div>
                     <div className="src-menu-sub">Upload PDFs or text files. Claude will reference them as primary source material when answering your questions.</div>
-                    <label
-                      className="btn btnP btnsm"
-                      style={{marginTop:9,fontSize:11.5,cursor:'pointer',display:'inline-flex',alignItems:'center',gap:5}}
-                    >
+                    <label className="btn btnP btnsm" style={{marginTop:9,fontSize:11.5,cursor:'pointer',display:'inline-flex',alignItems:'center',gap:5}}>
                       + Add document
-                      <input
-                        type="file"
-                        accept=".pdf,.txt,.md"
-                        style={{position:'absolute',opacity:0,width:0,height:0,overflow:'hidden'}}
-                        onChange={e=>{
-                          const f=e.target.files?.[0];
-                          if(f){ addToLibrary(f); }
-                          e.target.value='';
-                        }}
-                      />
+                      <input type="file" accept=".pdf,.txt,.md" style={{position:'absolute',opacity:0,width:0,height:0,overflow:'hidden'}}
+                        onChange={e=>{const f=e.target.files?.[0];if(f){addToLibrary(f);}e.target.value='';}}/>
                     </label>
                     {library.map((doc,i)=>(
                       <div key={i} className="lib-item">
                         📄 <span style={{flex:1,overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{doc.name}</span>
-                        <button className="lib-del" onClick={()=>setLibrary(prev=>prev.filter((_,j)=>j!==i))}>
-                          <X size={12}/>
-                        </button>
+                        <button className="lib-del" onClick={()=>setLibrary(prev=>prev.filter((_,j)=>j!==i))}><X size={12}/></button>
                       </div>
                     ))}
-                    {library.length===0 && (
-                      <div style={{fontSize:12,color:'var(--mu)',marginTop:7,fontStyle:'italic'}}>No documents yet — add one above</div>
-                    )}
+                    {library.length===0 && <div style={{fontSize:12,color:'var(--mu)',marginTop:7,fontStyle:'italic'}}>No documents yet — add one above</div>}
                   </div>
                 </div>
               </div>
             )}
           </div>
+
           <div className={isMobile?'mob-irow':'desk-irow'}>
             <button className={`mic-btn ${recording?'recording':''}`} onClick={toggleVoice} title={recording?'Stop recording':'Start voice input'}>
               {recording ? <MicOff size={17}/> : <Mic size={17}/>}
@@ -1373,15 +1229,12 @@ export default function Vitae() {
   const [analyzing, setAnalyzing] = useState(false);
   const [toast,     setToast]     = useState(null);
   const [drag,      setDrag]      = useState(false);
-  // Voice state
   const [recording,  setRecording]  = useState(false);
   const [voiceHint,  setVoiceHint]  = useState('');
   const [lastModel,  setLastModel]  = useState('sonnet');
-  // Paste modal state
   const [showPaste,  setShowPaste]  = useState(false);
-  // Source preferences
   const [sources,    setSources]    = useState({ clinicalWeb: true, literature: true });
-  const [library,    setLibrary]    = useState([]);   // [{name, text}] uploaded library docs
+  const [library,    setLibrary]    = useState([]);
   const [showSrcMenu, setShowSrcMenu] = useState(false);
   const libraryFileRef = useRef(null);
   const recognitionRef = useRef(null);
@@ -1396,31 +1249,26 @@ export default function Vitae() {
   useEffect(()=>{
     if(!showSrcMenu) return;
     const close = (e) => {
-      // Only close if click is outside the src-bar area
       if (!e.target.closest('.src-bar') && !e.target.closest('.src-menu')) {
         setShowSrcMenu(false);
       }
     };
-    // Use mousedown so it fires before click events on children
     document.addEventListener('mousedown', close);
     return () => document.removeEventListener('mousedown', close);
   },[showSrcMenu]);
 
   const toast2=(msg,err=false)=>{setToast({msg,err});setTimeout(()=>setToast(null),3500);};
 
-  // ── Library document upload (extract text for search context) ────────────────
   const addToLibrary = (file) => {
     if (!file) return;
     const reader = new FileReader();
     reader.onload = (e) => {
-      // For text-based files read directly; for PDFs we send base64 to Claude for extraction
       const isText = file.type === 'text/plain';
       if (isText) {
         const text = e.target.result;
         setLibrary(prev => [...prev, { name: file.name, text: text.slice(0, 12000) }]);
         toast2(`✓ "${file.name}" added to My Library`);
       } else {
-        // Store as base64 for Claude to reference
         const b64 = e.target.result.split(',')[1];
         setLibrary(prev => [...prev, { name: file.name, b64, type: file.type }]);
         toast2(`✓ "${file.name}" added to My Library`);
@@ -1431,106 +1279,55 @@ export default function Vitae() {
     if (libraryFileRef.current) libraryFileRef.current.value = '';
   };
 
-  // ── Voice recording ──────────────────────────────────────────────────────────
   const startVoice = () => {
-    // Try Web Speech API first (Chrome, Edge, Safari)
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-
     if (SpeechRecognition) {
       const recognition = new SpeechRecognition();
       recognition.continuous      = false;
       recognition.interimResults  = true;
       recognition.lang            = 'en-US';
       recognitionRef.current      = recognition;
-
-      recognition.onstart = () => {
-        setRecording(true);
-        setVoiceHint('Listening… speak your question');
-      };
-
+      recognition.onstart = () => { setRecording(true); setVoiceHint('Listening… speak your question'); };
       recognition.onresult = (e) => {
         const transcript = Array.from(e.results).map(r => r[0].transcript).join('');
         setInput(transcript);
-        if (e.results[e.results.length - 1].isFinal) {
-          setVoiceHint('Got it — tap send or keep talking');
-        }
+        if (e.results[e.results.length - 1].isFinal) setVoiceHint('Got it — tap send or keep talking');
       };
-
-      recognition.onerror = (e) => {
-        setRecording(false);
-        setVoiceHint('');
-        if (e.error !== 'aborted') toast2('Microphone error: ' + e.error, true);
-      };
-
-      recognition.onend = () => {
-        setRecording(false);
-        setVoiceHint('');
-        recognitionRef.current = null;
-      };
-
+      recognition.onerror = (e) => { setRecording(false); setVoiceHint(''); if (e.error !== 'aborted') toast2('Microphone error: ' + e.error, true); };
+      recognition.onend = () => { setRecording(false); setVoiceHint(''); recognitionRef.current = null; };
       recognition.start();
       return;
     }
-
-    // Fallback: MediaRecorder → OpenAI Whisper
-    if (!navigator.mediaDevices?.getUserMedia) {
-      toast2('Voice input not supported in this browser. Try Chrome or Edge.', true);
-      return;
-    }
-
+    if (!navigator.mediaDevices?.getUserMedia) { toast2('Voice input not supported in this browser. Try Chrome or Edge.', true); return; }
     navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
       const chunks = [];
       const mimeType = MediaRecorder.isTypeSupported('audio/webm') ? 'audio/webm' : 'audio/mp4';
       const rec = new MediaRecorder(stream, { mimeType });
       mediaRecRef.current = rec;
-
       rec.ondataavailable = e => chunks.push(e.data);
       rec.onstop = async () => {
         stream.getTracks().forEach(t => t.stop());
         setVoiceHint('Transcribing…');
         try {
-          const blob   = new Blob(chunks, { type: mimeType });
-          const b64    = await new Promise((res, rej) => {
-            const r = new FileReader();
-            r.onload  = () => res(r.result.split(',')[1]);
-            r.onerror = rej;
-            r.readAsDataURL(blob);
-          });
-          const resp = await fetch('/api/transcribe', {
-            method:  'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body:    JSON.stringify({ audio: b64, mimeType }),
-          });
+          const blob = new Blob(chunks, { type: mimeType });
+          const b64  = await new Promise((res, rej) => { const r = new FileReader(); r.onload = () => res(r.result.split(',')[1]); r.onerror = rej; r.readAsDataURL(blob); });
+          const resp = await fetch('/api/transcribe', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ audio: b64, mimeType }) });
           const data = await resp.json();
           if (data.transcript) setInput(data.transcript);
           else toast2(data.error || 'Could not transcribe audio', true);
-        } catch {
-          toast2('Transcription failed — please try again', true);
-        } finally {
-          setRecording(false);
-          setVoiceHint('');
-          mediaRecRef.current = null;
-        }
+        } catch { toast2('Transcription failed — please try again', true); }
+        finally { setRecording(false); setVoiceHint(''); mediaRecRef.current = null; }
       };
-
       rec.start();
       setRecording(true);
       setVoiceHint('Recording… tap mic again to stop');
-    }).catch(() => {
-      toast2('Microphone access denied', true);
-    });
+    }).catch(() => { toast2('Microphone access denied', true); });
   };
 
   const stopVoice = () => {
-    if (recognitionRef.current) {
-      recognitionRef.current.stop();
-      recognitionRef.current = null;
-    }
-    if (mediaRecRef.current && mediaRecRef.current.state !== 'inactive') {
-      mediaRecRef.current.stop();
-    }
-    setRecording(false);
-    setVoiceHint('');
+    if (recognitionRef.current) { recognitionRef.current.stop(); recognitionRef.current = null; }
+    if (mediaRecRef.current && mediaRecRef.current.state !== 'inactive') mediaRecRef.current.stop();
+    setRecording(false); setVoiceHint('');
   };
 
   const toggleVoice = () => recording ? stopVoice() : startVoice();
@@ -1562,22 +1359,13 @@ export default function Vitae() {
     finally{setAnalyzing(false);if(fileRef.current)fileRef.current.value='';}
   };
 
-  // Attach analyze to fileRef so drag-drop in RecordsContent can call it
   useEffect(()=>{if(fileRef.current)fileRef.current._analyze=analyze;},[analyzing,uploads]);
 
-  // ── Analyze pasted text ────────────────────────────────────────────────────
   const analyzeText = async (text, hintType, hintTitle) => {
     setAnalyzing(true);
     try {
-      const textPrompt = `Analyze this pasted health information (type hint: ${hintType}).
-The user pasted this text:\n\n${text}\n\nReturn the JSON object as instructed.`;
-
-      const r = await callAI({
-        model:'claude-sonnet-4-6', max_tokens:1000,
-        system: ANALYZE_PROMPT,
-        _skipRouting: true,
-        messages:[{role:'user', content: textPrompt}],
-      });
+      const textPrompt = `Analyze this pasted health information (type hint: ${hintType}).\nThe user pasted this text:\n\n${text}\n\nReturn the JSON object as instructed.`;
+      const r = await callAI({ model:'claude-sonnet-4-6', max_tokens:1000, system: ANALYZE_PROMPT, _skipRouting: true, messages:[{role:'user', content: textPrompt}] });
       const d = await r.json();
       if(d.error) throw new Error(d.error.message || 'Analysis error');
       const txt = d.content?.[0]?.text || d.mergedText || '';
@@ -1587,37 +1375,18 @@ The user pasted this text:\n\n${text}\n\nReturn the JSON object as instructed.`;
       if(!p){const om=txt.match(/\{[\s\S]*\}/);if(om){try{p=JSON.parse(om[0]);}catch{}}}
       if(!p){try{p=JSON.parse(txt.trim());}catch{}}
       if(!p) throw new Error('Could not parse response — try again');
-
       const sty = TYPE_STYLE[p.type] || TYPE_STYLE[hintType] || TYPE_STYLE.note;
-      setUploads(prev=>[{
-        id: Date.now(), isNew:true,
-        type:     p.type || hintType || 'note',
-        name:     hintTitle || p.title || `Pasted ${hintType}`,
-        date:     p.date || new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}),
-        provider: p.provider || 'Pasted text',
-        flagged:  !!p.flagged,
-        flagReason: p.flagReason || null,
-        values:   p.values || [text.slice(0,80)+'…'],
-        color:    sty.color,
-        iconColor:sty.iconColor,
-      },...prev]);
-      setPage('records');
-      setFilter('All');
-      toast2(`✓ ${hintTitle || p.title || 'Pasted text'} added to records`);
+      setUploads(prev=>[{id:Date.now(),isNew:true,type:p.type||hintType||'note',name:hintTitle||p.title||`Pasted ${hintType}`,date:p.date||new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}),provider:p.provider||'Pasted text',flagged:!!p.flagged,flagReason:p.flagReason||null,values:p.values||[text.slice(0,80)+'…'],color:sty.color,iconColor:sty.iconColor},...prev]);
+      setPage('records'); setFilter('All');
+      toast2(`✓ ${hintTitle||p.title||'Pasted text'} added to records`);
       setShowPaste(false);
-    } catch(e) {
-      toast2(e.message || 'Analysis failed — please try again', true);
-    } finally {
-      setAnalyzing(false);
-    }
+    } catch(e) { toast2(e.message||'Analysis failed — please try again',true); }
+    finally { setAnalyzing(false); }
   };
 
   const handlePasteClose = ({ sendToChat } = {}) => {
     setShowPaste(false);
-    if (sendToChat) {
-      setPage('ai');
-      setInput(sendToChat.slice(0, 800)); // pre-fill chat with pasted text
-    }
+    if (sendToChat) { setPage('ai'); setInput(sendToChat.slice(0, 800)); }
   };
 
   const send=async(text)=>{
@@ -1625,24 +1394,13 @@ The user pasted this text:\n\n${text}\n\nReturn the JSON object as instructed.`;
     const h=[...(msgs||[]),{role:'user',content:m}];
     setMsgs(h);setInput('');setBusy(true);
     try{
-      // Build library context string from uploaded library docs
-      const libraryText = library.length > 0
-        ? library.map(d => `[Library: ${d.name}]\n${d.text||'(PDF — see base64 attachment)'}`).join('\n\n')
-        : null;
-
-      const r=await callAI({
-        model:'claude-sonnet-4-6',
-        max_tokens:2048,
-        system:makeChatPrompt(name,uploads),
-        messages:h,
-        _sources: sources,
-        _libraryText: libraryText,
-      });
+      const libraryText = library.length > 0 ? library.map(d=>`[Library: ${d.name}]\n${d.text||'(PDF — see base64 attachment)'}`).join('\n\n') : null;
+      const r=await callAI({model:'claude-sonnet-4-6',max_tokens:2048,system:makeChatPrompt(name,uploads),messages:h,_sources:sources,_libraryText:libraryText});
       const d=await r.json();
       if(d._meta?.model?.includes('opus')) setLastModel('opus');
       else setLastModel('sonnet');
       const reply = d.mergedText || d.content?.[0]?.text || 'Error — try again.';
-      setMsgs(p=>[...p,{role:'assistant',content:reply, _model: d._meta?.model, _sources: d._meta?.sources}]);
+      setMsgs(p=>[...p,{role:'assistant',content:reply,_model:d._meta?.model,_sources:d._meta?.sources}]);
     }catch{setMsgs(p=>[...p,{role:'assistant',content:'⚠ Connection error. Please try again.'}]);}
     finally{setBusy(false);}
   };
@@ -1664,24 +1422,13 @@ The user pasted this text:\n\n${text}\n\nReturn the JSON object as instructed.`;
       <input ref={libraryFileRef} type="file" accept=".pdf,.txt,.md" style={{display:'none'}} onChange={e=>{const f=e.target.files?.[0];if(f)addToLibrary(f);}}/>
       {toast&&<div className={`toast ${toast.err?'err':''}`}>{toast.msg}</div>}
 
-      {/* Paste Modal */}
-      {showPaste && (
-        <PasteModal
-          onClose={handlePasteClose}
-          onAnalyze={analyzeText}
-          analyzing={analyzing}
-        />
-      )}
+      {showPaste && <PasteModal onClose={handlePasteClose} onAnalyze={analyzeText} analyzing={analyzing}/>}
 
-      {/* Floating paste button — visible on all pages */}
-      <button
-        className="paste-fab"
-        onClick={() => setShowPaste(true)}
-        title="Paste or type health information"
-        aria-label="Open paste text panel"
-      >
+      <button className="paste-fab" onClick={()=>setShowPaste(true)} title="Paste or type health information" aria-label="Open paste text panel">
         <ClipboardPaste size={18}/>
       </button>
+
+      {/* ══ MOBILE ══ */}
       <div className="mob-wrap">
         <div className="phone">
           <div className="mob-hd">
@@ -1717,7 +1464,6 @@ The user pasted this text:\n\n${text}\n\nReturn the JSON object as instructed.`;
 
       {/* ══ DESKTOP ══ */}
       <div className="desk-app">
-        {/* Sidebar */}
         <aside className="desk-side">
           <div className="desk-brand">
             <Heart size={18} fill="#52B788" color="#52B788"/>
@@ -1729,9 +1475,7 @@ The user pasted this text:\n\n${text}\n\nReturn the JSON object as instructed.`;
           <nav className="desk-nav">
             {NAV.map(({id,lbl,I})=>(
               <button key={id} className={`desk-nav-item ${page===id?'on':''}`} onClick={()=>setPage(id)}>
-                <I size={18} strokeWidth={page===id?2.2:1.8}/>
-                {lbl}
-                <div className="desk-dot"/>
+                <I size={18} strokeWidth={page===id?2.2:1.8}/>{lbl}<div className="desk-dot"/>
               </button>
             ))}
           </nav>
@@ -1746,7 +1490,6 @@ The user pasted this text:\n\n${text}\n\nReturn the JSON object as instructed.`;
           </div>
         </aside>
 
-        {/* Main */}
         <main className="desk-main">
           <div className="desk-topbar">
             <div>
