@@ -48,6 +48,10 @@ References:
 
 ${ctx}
 
+PEPTIDE FORMULARY REFERENCE — BIO PRECISION AGING:
+When a patient asks about peptides, peptide therapy, BPC-157, TB-500, semaglutide, GLP-1, CJC-1295, ipamorelin, or any other peptide, draw from the following knowledge base and apply your clinical reasoning. Always note evidence quality and recommend physician supervision and 503A pharmacy sourcing for any compoundable peptide.
+${PEPTIDE_CONTEXT.slice(0, 8000)}
+
 End with: "⚕ For educational and clinical decision-support purposes only. All management decisions should be made in the context of the full clinical picture by the treating clinician."`;
 };
 
@@ -128,6 +132,16 @@ function renderMd(t) {
     .replace(/\n/g,'<br/>');
 
   html = `<p class="md-p">${html}</p>`;
+
+  // Strip md-p wrappers around bullets/nums so paragraph margin doesn't inflate spacing
+  html = html
+    .replace(/<p class="md-p">(<div class="md-bullet">)/g, '$1')
+    .replace(/<p class="md-p">(<div class="md-num">)/g, '$1')
+    .replace(/(<\/div>)<\/p>/g, (match, closing, offset, str) => {
+      const after = str.slice(offset + match.length).trimStart();
+      const isBulletContext = /<div class="md-(bullet|num)">/.test(str.slice(Math.max(0, offset - 200), offset + match.length));
+      return isBulletContext ? closing : match;
+    });
 
   if(refLines.length > 0) {
     const refs = refLines.map((r,i) =>
