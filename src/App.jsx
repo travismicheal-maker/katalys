@@ -1428,7 +1428,7 @@ export default function Vitae() {
   const filtered=allRecs.filter(r=>filter==='All'?true:filter==='Labs'?r.type==='lab':filter==='Imaging'?r.type==='imaging':filter==='Notes'?r.type==='note':filter==='Meds'?r.type==='medication':true);
   const flagCount=allRecs.filter(r=>r.flagged).length;
   const initials=name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
-  const NAV=[{id:'home',lbl:'Home',I:Home},{id:'records',lbl:'Records',I:FolderOpen},{id:'ai',lbl:'AI Consultant',I:MessageSquare},{id:'peptide',lbl:'Peptide Consultant',I:Dna},{id:'profile',lbl:'Profile',I:User}];
+  const NAV=[{id:'home',lbl:'Home',I:Home},{id:'records',lbl:'Records',I:FolderOpen},{id:'ai',lbl:'AI Consultant',I:MessageSquare},{id:'peptide',lbl:'Peptide Consultant',I:Dna},{id:'hormone',lbl:'Hormone Consultant',I:Brain},{id:'profile',lbl:'Profile',I:User}];
 
   const sharedProps = {uploads,setUploads,analyzing,setAnalyzing,filter,setFilter,allRecs,filtered,setPage,setInput,fileRef,toast2,drag,setDrag,msgs,busy,input,send,endRef,name,initials,setName,flagCount,recording,toggleVoice,voiceHint,lastModel,setShowPaste,sources,setSources,library,setLibrary,showSrcMenu,setShowSrcMenu,libraryFileRef,addToLibrary};
 
@@ -1451,8 +1451,8 @@ export default function Vitae() {
           <div className="mob-hd">
             {page==='home'
               ?<div className="logo"><Heart size={15} fill="#52B788" color="#52B788"/>Vitae<span style={{fontSize:11,fontWeight:400,color:'var(--mu)',borderLeft:'1px solid var(--bd)',paddingLeft:8,marginLeft:2}}><a href="https://www.bioprecisionaging.com" target="_blank" rel="noopener noreferrer" style={{color:'var(--mu)',textDecoration:'none'}}>Bio Precision Aging</a></span></div>
-              :<div><div className="ptitle">{{records:'My Records',ai:'AI Consultant',peptide:'Peptide Consultant',profile:'Profile'}[page]}</div>
-              <div className="psub">{{records:'Labs, imaging & notes',ai:uploads.length>0?`Seeing ${uploads.length} record${uploads.length!==1?'s':''}` :'Upload records for full context',peptide:'Bio Precision Peptide AI',profile:name}[page]}</div></div>}
+              :<div><div className="ptitle">{{records:'My Records',ai:'AI Consultant',peptide:'Peptide Consultant',hormone:'Hormone Consultant',profile:'Profile'}[page]}</div>
+              <div className="psub">{{records:'Labs, imaging & notes',ai:uploads.length>0?`Seeing ${uploads.length} record${uploads.length!==1?'s':''}` :'Upload records for full context',peptide:'Bio Precision Peptide AI',hormone:"Women's Hormone Optimization",profile:name}[page]}</div></div>}
             <div style={{display:'flex',gap:7,alignItems:'center'}}>
               {page==='records'&&<button className="btn btnP btnsm" onClick={()=>!analyzing&&fileRef.current?.click()} disabled={analyzing}>
                 {analyzing?<span className="spin"><Loader size={12}/></span>:<Upload size={12}/>}{analyzing?'Analyzing…':'Upload'}
@@ -1465,7 +1465,9 @@ export default function Vitae() {
             {page==='records'&&<div className="mob-pad"><RecordsContent {...sharedProps}/></div>}
             {page==='ai'&&<div className="mob-chat"><ChatContent {...sharedProps} QUICK_QS={QUICK_QS} isMobile={true}/></div>}
             {page==='peptide'&&<div className="mob-chat"><PeptideOverview /></div>}
+            {page==='hormone'&&<div className="mob-chat"><HormoneConsultant /></div>}
             {page==='profile'&&<div className="mob-pad"><ProfileContent {...sharedProps}/></div>}
+            
           </div>
           <nav className="bnav">
             {NAV.map(({id,lbl,I})=>{const on=page===id;return(
@@ -1511,7 +1513,7 @@ export default function Vitae() {
           <div className="desk-topbar">
             <div>
               <div className="desk-page-title">
-                {page==='home'?`Good morning, ${name.split(' ')[0]}`:{records:'My Records',ai:'AI Consultant',peptide:'Peptide Consultant',profile:'Profile'}[page]}
+                {page==='home'?`Good morning, ${name.split(' ')[0]}`:{records:'My Records',ai:'AI Consultant',peptide:'Peptide Consultant',hormone:'Hormone Consultant',profile:'Profile'}[page]}
               </div>
               <div className="desk-page-sub">
                 {{home:'Your health records at a glance',records:'Labs, imaging & notes',peptide:'Personalized peptide recommendations',ai:uploads.length>0?`Seeing ${uploads.length} uploaded record${uploads.length!==1?'s':''}` :'Upload records so AI can reference them',profile:'Your session'}[page]}
@@ -1528,6 +1530,7 @@ export default function Vitae() {
           {page==='records'&&<div className="desk-content"><RecordsContent {...sharedProps}/></div>}
           {page==='ai'&&<div className="desk-chat"><ChatContent {...sharedProps} QUICK_QS={QUICK_QS} isMobile={false}/></div>}
           {page==='peptide'&&<div className="desk-chat"><PeptideOverview /></div>}
+          {page==='hormone'&&<div className="desk-chat"><HormoneConsultant /></div>}
           {page==='profile'&&<div className="desk-content"><ProfileContent {...sharedProps}/></div>}
         </main>
       </div>
