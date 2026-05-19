@@ -1,4 +1,5 @@
 // @ts-nocheck
+import HormoneConsultant from './HormoneConsultant';
 import { useState, useRef, useEffect } from "react";
 import PeptideOverview from './PeptideOverview';
 import { Home, FolderOpen, MessageSquare, User, FlaskConical, ScanLine, ClipboardList, Pill, Send, AlertTriangle, CheckCircle2, XCircle, Heart, Upload, Bell, Lock, ExternalLink, ChevronRight, FileText, X, Loader, Mic, MicOff, Brain, Zap, ClipboardPaste, ChevronDown, Dna, RotateCcw } from "lucide-react";
