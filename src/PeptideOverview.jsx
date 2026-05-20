@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-
+import { PEPTIDE_CONTEXT } from './peptides';
 // ── Site color palette (matches Vitae) ──────────────────────────────────────
 const C = {
   bg:        '#f9fafb',
@@ -254,7 +254,7 @@ function PeptideAIChat({ onBack }) {
 
   useEffect(() => { endRef.current?.scrollIntoView({ behavior: 'smooth' }); }, [msgs, busy]);
 
-  const send = async () => {
+const send = async () => {
     const text = input.trim();
     if (!text || busy) return;
     const history = [...msgs, { role: 'user', content: text }];
@@ -262,36 +262,60 @@ function PeptideAIChat({ onBack }) {
     setInput('');
     setBusy(true);
     try {
-      const peptideContext = PEPTIDES.map(p =>
-        `PEPTIDE: ${p.name} (${p.fullName})\nCategory: ${p.category}\nSummary: ${p.summary}\nMechanism: ${p.mechanism}\nBenefits: ${p.benefits.join(' | ')}\nTypical Dose: ${p.dosing?.clinical || 'See protocol'}\nCycle: ${p.dosing?.cycle || 'See protocol'}\nSide Effects: ${p.sideEffects}\nResearch Level: ${p.researchLevel}\nRegulatory: ${p.regulatoryStatus}`
-      ).join('\n---\n');
-
-      const systemPrompt = `You are a Peptide Medicine Consultant with expertise in peptide therapeutics, longevity medicine, sports medicine, and regenerative medicine. You provide evidence-based guidance on peptide therapy.
-
-PEPTIDE KNOWLEDGE BASE:
-${peptideContext}
-
-RULES:
+ 
+      // Step 1 — Local knowledge base (primary source, always injected)
+      // PEPTIDE_CONTEXT is the pre-built string from peptides.js — richer
+      // and more current than the hardcoded PEPTIDES array in this file.
+ 
+      const systemPrompt = `You are a Peptide Medicine Consultant with deep expertise in peptide therapeutics, longevity medicine, sports medicine, and regenerative medicine. You provide evidence-based guidance grounded in peer-reviewed literature.
+ 
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+STEP 1 — ANSWER FROM THIS KNOWLEDGE BASE FIRST
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+The following is your curated peptide formulary. Always check here first before searching any external source. If the answer is fully contained here, do NOT search — answer directly and cite the relevant peptide entry.
+ 
+${PEPTIDE_CONTEXT}
+ 
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+STEP 2 — USE PUBMED SEARCH ONLY WHEN NEEDED
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Search PubMed or literature sources ONLY if:
+- The question involves a peptide not in the knowledge base above
+- The user asks for a specific study, trial, or citation not included above
+- The question asks for the very latest data that may post-date this formulary
+- The question requires comparative evidence across multiple peptides
+ 
+When you search, cite the source (PMID or journal) and note whether it confirms or adds to the local knowledge base.
+ 
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+CLINICAL RULES (always follow)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 - Always recommend physician supervision and 503A compounding pharmacy sourcing
-- Distinguish clearly between FDA-approved, compoundable, and research-only peptides
+- Clearly distinguish: FDA-approved vs compoundable vs research-only
 - Label evidence quality: [Verified] for established data, [Emerging] for limited data, [Theoretical] for proposed mechanisms
 - Provide specific dosing, cycling, and stacking guidance when asked
-- Never diagnose or prescribe — educate and guide
-- Flag research-only peptides clearly and advise against unregulated online sources
-- End responses with: "Always consult a licensed physician before starting any peptide protocol."`;
-
+- Never diagnose or prescribe — educate and guide clinicians
+- Flag research-only peptides and advise against unregulated online sources
+- End every clinical response with: "Always consult a licensed physician before starting any peptide protocol."`;
+ 
       const response = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          model: 'claude-sonnet-4-20250514',
+          model: 'claude-sonnet-4-6',
           max_tokens: 1000,
           system: systemPrompt,
           messages: history,
+          _sources: {
+            clinicalWeb: false,   // Do NOT search mayo/webmd/healthline etc.
+            literature: true,     // PubMed + Cochrane + NEJM etc. available as fallback
+          },
         }),
       });
+ 
       const data = await response.json();
-      const reply = data.content?.[0]?.text || 'Sorry, I could not get a response. Please try again.';
+      // api/chat returns mergedText when it processes tool calls (web search)
+      const reply = data.mergedText || data.content?.[0]?.text || 'Sorry, I could not get a response. Please try again.';
       setMsgs(prev => [...prev, { role: 'assistant', content: reply }]);
     } catch {
       setMsgs(prev => [...prev, { role: 'assistant', content: 'Connection error. Please try again.' }]);
@@ -299,8 +323,7 @@ RULES:
       setBusy(false);
     }
   };
-
-  return (
+    return (
     <div style={{ background: C.bg, minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       {/* Header */}
       <div style={{ background: C.card, borderBottom: `1px solid ${C.border}`, padding: '16px 20px', display: 'flex', alignItems: 'center', gap: 14 }}>
