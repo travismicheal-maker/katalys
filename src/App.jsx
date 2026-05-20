@@ -1019,7 +1019,7 @@ I'll now generate your personalized peptide recommendations. Ask me anything abo
 function Setup({ onDone }) {
   const [name, setName] = useState('');
   return (
-    <div style={{minHeight:'100vh',background:'#f0f4ff',display:'flex',alignItems:'flex-start',justifyContent:'center',paddingTop:'28px',paddingLeft:'24px',paddingRight:'24px',paddingBottom:'24px'}},justifyContent:'center'>
+    <div style={{minHeight:'100vh',background:'#f0f4ff',display:'flex',alignItems:'flex-start',justifyContent:'center',paddingTop:'28px',paddingLeft:'24px',paddingRight:'24px',paddingBottom:'24px'}}>
       <div style={{background:'#ffffff',borderRadius:16,padding:'36px 28px',maxWidth:440,width:'100%',boxShadow:'0 4px 24px rgba(0,0,0,0.08)'}}>
         <div style={{display:'flex',alignItems:'center',gap:10,marginBottom:10}}>
           <Heart size={28} style={{color:'#52B788'}} fill="#52B788"/>
