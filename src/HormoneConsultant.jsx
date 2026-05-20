@@ -598,7 +598,7 @@ export default function HormoneAIConsultant() {
             </div>
             {!isMobile && (
               <div style={{fontSize:"10px",color:"#94a3b8",letterSpacing:"0.05em",textTransform:"uppercase",marginTop:"1px"}}>
-                Evidenced Based Women's Hormone Optimization
+                Evidenced Based Men's and Women's Hormone Optimization
               </div>
             )}
           </div>
