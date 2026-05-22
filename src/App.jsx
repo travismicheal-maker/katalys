@@ -1058,7 +1058,7 @@ export default function Vitae() {
             {page==='ai'&&<div className="mob-chat"><ChatContent {...sharedProps} QUICK_QS={QUICK_QS} isMobile={true}/></div>}
             {page==='peptide'&&<div className="mob-chat"><PeptideOverview /></div>}
             {page==='hormone'&&<div className="mob-chat"><HormoneConsultant /></div>}
-            {page==='info'&&<div className="mob-pad" style={{overflowY:'auto',height:'100%'}}><VitaeInfoPage onLaunch={()=>setPage('home')}/></div>}
+            {page==='info'&&<div style={{overflowY:'auto',height:'100%',width:'100%'}}><VitaeInfoPage onLaunch={()=>setPage('home')}/></div>}
             {page==='profile'&&<div className="mob-pad"><ProfileContent {...sharedProps}/></div>}
           </div>
           <nav className="bnav">
@@ -1103,7 +1103,7 @@ export default function Vitae() {
           {page==='ai'&&<div className="desk-chat"><ChatContent {...sharedProps} QUICK_QS={QUICK_QS} isMobile={false}/></div>}
           {page==='peptide'&&<div className="desk-chat"><PeptideOverview /></div>}
           {page==='hormone'&&<div className="desk-chat"><HormoneConsultant /></div>}
-          {page==='info'&&<div className="desk-content" style={{overflowY:'auto',padding:0}}><VitaeInfoPage onLaunch={()=>setPage('home')}/></div>}
+          {page==='info'&&<div style={{flex:1,overflowY:'auto',width:'100%',minWidth:0}}><VitaeInfoPage onLaunch={()=>setPage('home')}/></div>}
           {page==='profile'&&<div className="desk-content"><ProfileContent {...sharedProps}/></div>}
         </main>
       </div>
