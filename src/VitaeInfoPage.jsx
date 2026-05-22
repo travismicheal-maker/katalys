@@ -1,434 +1,484 @@
-// VitaeInfoPage.jsx  — updated May 2026
-// Props:
-//   onLaunch  — function called when "Use VITAE AI Now" CTA is clicked
-//               (in App.jsx pass: onLaunch={() => setPage('home')} )
+// src/VitaeInfoPage.jsx
+// "What is VITAE AI" — platform information page
+// Reconstructed May 2026 from approved design session
 
-import { useState } from "react";
-import {
-  Heart, Brain, Dna, Lock, Search,
-  BookOpen, Zap, ChevronDown, ChevronUp, CheckCircle2,
-  XCircle, Star, FileText, UploadCloud, Cpu, BarChart3,
-  Microscope, ShieldCheck, Users, Info, ArrowRight,
-} from "lucide-react";
+import { useState } from 'react';
+import { Heart, CheckCircle2, XCircle, ChevronDown, ChevronUp, Shield, Database, Search, Brain, Dna, FlaskConical } from 'lucide-react';
 
-// ─── brand palette ────────────────────────────────────────────────────────────
+// ─── Color tokens ─────────────────────────────────────────────────────────────
 const C = {
-  emerald:    '#1B4332',
-  emeraldMid: '#2D6A4F',
-  emeraldLt:  '#52B788',
-  mint:       '#D8F3DC',
-  mintDark:   '#B7E4C7',
-  gold:       '#D4A017',
-  red:        '#C0392B',
-  redLt:      '#FDECEA',
-  white:      '#FFFFFF',
-  offWhite:   '#F8FAF8',
-  border:     '#E0EEE5',
-  text:       '#1A2E22',
-  muted:      '#5A7A65',
+  emerald:   '#1B4332',
+  emeraldMd: '#2D6A4F',
+  emeraldLt: '#52B788',
+  emeraldPl: '#D8F3DC',
+  white:     '#FFFFFF',
+  offWhite:  '#F8FAF9',
+  text:      '#111827',
+  muted:     '#6B7280',
+  border:    '#E5E7EB',
+  gold:      '#D4A017',
+  goldLt:    '#FEF9C3',
+  red:       '#DC2626',
+  redLt:     '#FEE2E2',
+  blue:      '#1D4ED8',
+  blueLt:    '#EFF6FF',
 };
 
-// ─── helpers ──────────────────────────────────────────────────────────────────
-const pill = (bg, color, border) => ({
-  display: 'inline-flex', alignItems: 'center', gap: 5,
-  padding: '3px 10px', borderRadius: 20, fontSize: 11, fontWeight: 600,
-  letterSpacing: '.4px', textTransform: 'uppercase',
-  background: bg, color, border: `1px solid ${border}`,
-});
-
-const card = (extra = {}) => ({
-  background: C.white, border: `1px solid ${C.border}`,
-  borderRadius: 14, padding: '24px 28px', ...extra,
-});
-
-// ─── sub-components ───────────────────────────────────────────────────────────
-function SectionHeader({ eyebrow, title, sub }) {
+// ─── Sub-components ───────────────────────────────────────────────────────────
+function Pill({ children, color = C.emeraldPl, textColor = C.emeraldMd }) {
   return (
-    <div style={{ marginBottom: 36, textAlign: 'center' }}>
-      <div style={{ ...pill(C.mint, C.emeraldMid, C.mintDark), marginBottom: 12, display: 'inline-flex' }}>{eyebrow}</div>
-      <h2 style={{ fontSize: 28, fontWeight: 700, color: C.text, margin: '0 0 10px', lineHeight: 1.25 }}>{title}</h2>
-      {sub && <p style={{ fontSize: 15, color: C.muted, maxWidth: 600, margin: '0 auto', lineHeight: 1.6 }}>{sub}</p>}
-    </div>
-  );
-}
-
-function FeatureCard({ icon: Icon, title, children, accent }) {
-  return (
-    <div style={{ ...card(), borderTop: accent ? `3px solid ${accent}` : undefined }}>
-      <div style={{ width: 42, height: 42, borderRadius: 10, background: C.mint, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 14 }}>
-        <Icon size={20} color={C.emeraldMid} />
-      </div>
-      <h3 style={{ fontSize: 15, fontWeight: 700, color: C.text, margin: '0 0 8px' }}>{title}</h3>
-      <p style={{ fontSize: 13.5, color: C.muted, margin: 0, lineHeight: 1.65 }}>{children}</p>
-    </div>
-  );
-}
-
-function CompRow({ label, vitae, chatgpt, generic }) {
-  const tick = (v, lbl) => (
-    <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, color: v ? C.emeraldMid : C.red }}>
-      {v ? <CheckCircle2 size={15} color={C.emeraldLt} /> : <XCircle size={15} color={C.red} />}
-      {lbl}
-    </div>
-  );
-  return (
-    <div style={{ display: 'grid', gridTemplateColumns: '1.6fr 1fr 1fr 1fr', alignItems: 'center', gap: 8, padding: '12px 16px', borderBottom: `1px solid ${C.border}` }}>
-      <span style={{ fontSize: 13, fontWeight: 600, color: C.text }}>{label}</span>
-      {tick(vitae.val,   vitae.label)}
-      {tick(chatgpt.val, chatgpt.label)}
-      {tick(generic.val, generic.label)}
-    </div>
-  );
-}
-
-function SourceTier({ label, sites, color, bg, border }) {
-  return (
-    <div style={{ ...card({ padding: '16px 20px' }), borderLeft: `4px solid ${color}` }}>
-      <div style={{ fontSize: 12, fontWeight: 700, color, letterSpacing: '.5px', textTransform: 'uppercase', marginBottom: 8 }}>{label}</div>
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
-        {sites.map(s => <span key={s} style={{ ...pill(bg, color, border), textTransform: 'none', fontSize: 12 }}>{s}</span>)}
-      </div>
-    </div>
+    <span style={{
+      display: 'inline-flex', alignItems: 'center', gap: 5,
+      background: color, color: textColor,
+      fontSize: 12, fontWeight: 600, padding: '4px 12px',
+      borderRadius: 20, letterSpacing: '.2px',
+    }}>
+      {children}
+    </span>
   );
 }
 
 function StatCard({ value, label, sub }) {
   return (
-    <div style={{ textAlign: 'center', padding: '20px 12px' }}>
-      <div style={{ fontSize: 36, fontWeight: 800, color: C.emerald, lineHeight: 1 }}>{value}</div>
+    <div style={{ textAlign: 'center', padding: '20px 16px' }}>
+      <div style={{ fontSize: 36, fontWeight: 800, color: C.emeraldLt, lineHeight: 1 }}>{value}</div>
       <div style={{ fontSize: 13, fontWeight: 600, color: C.text, margin: '6px 0 4px' }}>{label}</div>
       {sub && <div style={{ fontSize: 12, color: C.muted }}>{sub}</div>}
     </div>
   );
 }
 
-function FAQ({ q, a }) {
-  const [open, setOpen] = useState(false);
+function FeatureCard({ icon, title, body }) {
   return (
-    <div style={{ ...card({ padding: '16px 20px' }), marginBottom: 10, cursor: 'pointer' }} onClick={() => setOpen(o => !o)}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12 }}>
-        <span style={{ fontSize: 14, fontWeight: 600, color: C.text }}>{q}</span>
-        {open ? <ChevronUp size={16} color={C.muted} /> : <ChevronDown size={16} color={C.muted} />}
+    <div style={{
+      background: C.white, border: `1px solid ${C.border}`,
+      borderRadius: 12, padding: '20px', display: 'flex', gap: 14,
+    }}>
+      <div style={{
+        width: 38, height: 38, borderRadius: 10, background: C.emeraldPl,
+        display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
+        color: C.emeraldMd,
+      }}>
+        {icon}
       </div>
-      {open && <p style={{ margin: '12px 0 0', fontSize: 13.5, color: C.muted, lineHeight: 1.65 }}>{a}</p>}
+      <div>
+        <div style={{ fontSize: 14, fontWeight: 700, color: C.text, marginBottom: 5 }}>{title}</div>
+        <div style={{ fontSize: 13, color: C.muted, lineHeight: 1.6 }}>{body}</div>
+      </div>
     </div>
   );
 }
 
-// ─── MAIN EXPORT ──────────────────────────────────────────────────────────────
+function FAQItem({ q, a }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div style={{ borderBottom: `1px solid ${C.border}` }}>
+      <button
+        onClick={() => setOpen(o => !o)}
+        style={{
+          width: '100%', textAlign: 'left', padding: '16px 0', display: 'flex',
+          justifyContent: 'space-between', alignItems: 'center', background: 'none',
+          border: 'none', cursor: 'pointer', fontFamily: 'inherit',
+        }}
+      >
+        <span style={{ fontSize: 15, fontWeight: 600, color: C.text, paddingRight: 16 }}>{q}</span>
+        {open ? <ChevronUp size={18} color={C.emeraldMd} /> : <ChevronDown size={18} color={C.muted} />}
+      </button>
+      {open && (
+        <div style={{ fontSize: 14, color: C.muted, lineHeight: 1.7, paddingBottom: 16 }}>{a}</div>
+      )}
+    </div>
+  );
+}
+
+// ─── Comparison table data ────────────────────────────────────────────────────
+const COMPARE_ROWS = [
+  { cap: 'Dedicated AI Peptide Consultant module',          v: true,  gpt: false, gc: false },
+  { cap: 'Dedicated AI Hormone Consultant module',          v: true,  gpt: false, gc: false },
+  { cap: 'Proprietary peptide formulary knowledge base',    v: true,  gpt: false, gc: false },
+  { cap: 'GRADE-labeled evidence on every claim',           v: true,  gpt: false, gc: false },
+  { cap: 'PubMed / Cochrane / NEJM as sole web sources',    v: true,  gpt: false, gc: false },
+  { cap: 'Hard-blocks consumer health sites (WebMD, etc.)', v: true,  gpt: false, gc: false },
+  { cap: 'Deep reasoning mode (Opus) for complex queries',  v: true,  gpt: false, gc: false },
+  { cap: 'Reads and flags uploaded lab / imaging reports',  v: true,  gpt: true,  gc: true  },
+  { cap: 'Built-in hormone optimization treatment algorithm',v: true, gpt: false, gc: false },
+  { cap: 'No account or API key required',                  v: true,  gpt: false, gc: false },
+  { cap: 'Session-only data — nothing stored on any server',v: true,  gpt: false, gc: false },
+  { cap: 'Designed for clinical decision-support',          v: true,  gpt: false, gc: false },
+];
+
+function Check({ yes }) {
+  return yes
+    ? <CheckCircle2 size={18} color={C.emeraldLt} />
+    : <XCircle size={18} color='#D1D5DB' />;
+}
+
+// ─── MAIN COMPONENT ───────────────────────────────────────────────────────────
 export default function VitaeInfoPage({ onLaunch }) {
-  const section = (children, bg = C.white) => (
+  const section = (children, bg = C.offWhite) => (
     <section style={{ background: bg, padding: '60px 24px' }}>
       <div style={{ maxWidth: 860, margin: '0 auto' }}>{children}</div>
     </section>
   );
 
+  const sectionHead = (label, title, sub) => (
+    <div style={{ marginBottom: 36 }}>
+      <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '.1em', color: C.emeraldLt, textTransform: 'uppercase', marginBottom: 8 }}>{label}</div>
+      <h2 style={{ fontSize: 28, fontWeight: 800, color: C.text, margin: '0 0 12px', lineHeight: 1.2 }}>{title}</h2>
+      {sub && <p style={{ fontSize: 15, color: C.muted, lineHeight: 1.7, margin: 0, maxWidth: 640 }}>{sub}</p>}
+    </div>
+  );
+
   return (
-    <div style={{ fontFamily: 'Georgia, serif', color: C.text, background: C.offWhite, overflowY: 'auto', height: '100%' }}>
+    <div style={{ fontFamily: "'Georgia', 'Times New Roman', serif", color: C.text, background: C.offWhite }}>
 
-      {/* ── HERO ─────────────────────────────────────────────────────────── */}
-      <section style={{ background: C.emerald, color: C.white, padding: '72px 24px 64px', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
-        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'radial-gradient(circle at 20% 50%, rgba(82,183,136,.18) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(212,160,23,.10) 0%, transparent 50%)' }}/>
-        <div style={{ position: 'relative', maxWidth: 740, margin: '0 auto' }}>
-
-          {/* logo mark */}
+      {/* ── HERO ───────────────────────────────────────────────────────────── */}
+      <section style={{
+        background: C.emerald, color: C.white,
+        padding: '72px 24px 60px', textAlign: 'center', position: 'relative', overflow: 'hidden',
+      }}>
+        <div style={{
+          position: 'absolute', inset: 0,
+          backgroundImage: 'radial-gradient(circle at 20% 50%, rgba(82,183,136,.15) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(212,160,23,.08) 0%, transparent 50%)',
+          pointerEvents: 'none',
+        }}/>
+        <div style={{ position: 'relative', maxWidth: 720, margin: '0 auto' }}>
+          {/* Brand */}
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, marginBottom: 22 }}>
             <Heart size={22} fill={C.emeraldLt} color={C.emeraldLt}/>
             <span style={{ fontSize: 22, fontWeight: 800, letterSpacing: '-.3px' }}>Vitae</span>
-            <span style={{ fontSize: 12, color: 'rgba(255,255,255,.5)', borderLeft: '1px solid rgba(255,255,255,.2)', paddingLeft: 10, marginLeft: 4 }}>by Bio Precision Aging</span>
+            <span style={{ fontSize: 12, color: 'rgba(255,255,255,.5)', borderLeft: '1px solid rgba(255,255,255,.2)', paddingLeft: 10, marginLeft: 4 }}>
+              by Bio Precision Aging
+            </span>
           </div>
 
-          {/* ── UPDATED HEADLINE ── */}
-          <h1 style={{ fontSize: 40, fontWeight: 800, lineHeight: 1.15, margin: '0 0 22px', letterSpacing: '-.5px' }}>
+          {/* Specialty badges */}
+          <div style={{ display: 'flex', gap: 8, justifyContent: 'center', marginBottom: 20, flexWrap: 'wrap' }}>
+            <Pill color='rgba(82,183,136,.25)' textColor={C.emeraldLt}><Dna size={12}/>Peptide Specialist</Pill>
+            <Pill color='rgba(82,183,136,.25)' textColor={C.emeraldLt}><Brain size={12}/>Hormone Specialist</Pill>
+          </div>
+
+          {/* Headline */}
+          <h1 style={{ fontSize: 38, fontWeight: 800, lineHeight: 1.15, margin: '0 0 18px', letterSpacing: '-.5px' }}>
             The World's First<br/>
             <span style={{ color: C.emeraldLt }}>Clinical-Grade AI Consultant</span>
           </h1>
 
-          {/* ── UPDATED SUBTITLE ── */}
-          <p style={{ fontSize: 16, lineHeight: 1.75, color: 'rgba(255,255,255,.82)', margin: '0 auto 14px', maxWidth: 620 }}>
+          {/* Sub copy */}
+          <p style={{ fontSize: 16, lineHeight: 1.75, color: 'rgba(255,255,255,.82)', margin: '0 auto 14px', maxWidth: 600 }}>
             Vitae is not a chatbot. It is a precision medicine intelligence platform built on peer-reviewed
             clinical research, proprietary peptide formulary data, and a GRADE-graded evidence framework —
             designed for patients and clinicians who demand more than search engine summaries.
           </p>
-          <p style={{ fontSize: 15, lineHeight: 1.7, color: 'rgba(255,255,255,.7)', margin: '0 auto 30px', maxWidth: 600 }}>
-            Vitae is also home to the <strong style={{ color: C.emeraldLt }}>world's first dedicated AI Peptide Consultant</strong> and{' '}
-            <strong style={{ color: C.emeraldLt }}>AI Hormone Consultant</strong> — purpose-built specialty modules powered by a
-            proprietary clinical knowledge base that no general AI chatbot, telehealth platform, or supplement
-            company can match.
+          <p style={{ fontSize: 15, lineHeight: 1.7, color: 'rgba(255,255,255,.7)', margin: '0 auto 30px', maxWidth: 580 }}>
+            Vitae also features the world's first dedicated AI Peptide Consultant and AI Hormone Consultant
+            specialty modules — powered by the best available peer-reviewed clinical evidence and proprietary
+            formulary data from Bio Precision Aging.
           </p>
 
-          {/* ── BADGE PILLS ── */}
-          <div style={{ display: 'flex', justifyContent: 'center', gap: 10, marginBottom: 36, flexWrap: 'wrap' }}>
-            {['Evidence-Based Only', 'GRADE Framework', 'Zero Consumer Web', 'Proprietary KB', 'Peptide Specialist', 'Hormone Specialist'].map(t => (
-              <span key={t} style={{ ...pill('rgba(255,255,255,.12)', C.emeraldLt, 'rgba(82,183,136,.3)'), fontSize: 12 }}>
-                <CheckCircle2 size={11} /> {t}
-              </span>
+          {/* Brand promise pills */}
+          <div style={{ display: 'flex', gap: 8, justifyContent: 'center', flexWrap: 'wrap', marginBottom: 32 }}>
+            {['Evidence-Based Only', 'GRADE Framework', 'Zero Consumer Web', 'Proprietary KB'].map(p => (
+              <Pill key={p} color='rgba(255,255,255,.12)' textColor='rgba(255,255,255,.9)'>✓ {p}</Pill>
             ))}
           </div>
 
-          {/* ── CTA BUTTON ── */}
+          {/* CTA */}
           {onLaunch && (
-            <button
-              onClick={onLaunch}
-              style={{
-                display: 'inline-flex', alignItems: 'center', gap: 10,
-                background: C.emeraldLt, color: C.emerald,
-                border: 'none', borderRadius: 12, cursor: 'pointer',
-                fontSize: 15, fontWeight: 800, padding: '14px 32px',
-                letterSpacing: '.1px', transition: 'opacity .15s',
-              }}
-              onMouseEnter={e => e.currentTarget.style.opacity = '.88'}
-              onMouseLeave={e => e.currentTarget.style.opacity = '1'}
-            >
-              Use VITAE AI Now <ArrowRight size={17} strokeWidth={2.5}/>
+            <button onClick={onLaunch} style={{
+              background: C.emeraldLt, color: C.emerald, border: 'none',
+              padding: '14px 32px', borderRadius: 10, fontSize: 16, fontWeight: 700,
+              cursor: 'pointer', fontFamily: 'inherit', letterSpacing: '.2px',
+              transition: 'opacity .15s',
+            }}
+            onMouseEnter={e => e.target.style.opacity = '.85'}
+            onMouseLeave={e => e.target.style.opacity = '1'}>
+              Use VITAE AI Now →
             </button>
           )}
         </div>
       </section>
 
-      {/* ── STATS BAR ────────────────────────────────────────────────────── */}
-      {section(
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: 8, borderRadius: 14, border: `1px solid ${C.border}`, background: C.white, overflow: 'hidden' }}>
-          <StatCard value="20+" label="Peptides in Formulary" sub="Proprietary clinical data" />
-          <StatCard value="200+" label="Studies Referenced" sub="BPC-157 alone" />
-          <StatCard value="0"   label="Consumer Websites" sub="Zero Reddit, WebMD, Healthline" />
-          <StatCard value="2"   label="AI Models" sub="Sonnet + Opus routing" />
-          <StatCard value="100%" label="GRADE-Labeled" sub="Every clinical claim" />
-        </div>,
-        C.offWhite
-      )}
+      {/* ── STATS BAR ──────────────────────────────────────────────────────── */}
+      <section style={{ background: C.white, borderBottom: `1px solid ${C.border}` }}>
+        <div style={{ maxWidth: 860, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))' }}>
+          <StatCard value="20+" label="Peptides in formulary"     sub="With full dosing protocols" />
+          <StatCard value="200+" label="Studies extracted"        sub="Peer-reviewed only" />
+          <StatCard value="0"    label="Consumer health sites"    sub="WebMD, Healthline blocked" />
+          <StatCard value="2"    label="AI model tiers"           sub="Sonnet + Opus (deep reasoning)" />
+          <StatCard value="100%" label="GRADE-labeled"            sub="Every clinical claim verified" />
+        </div>
+      </section>
 
-      {/* ── WHY VITAE vs CHATGPT ─────────────────────────────────────────── */}
+      {/* ── COMPARISON TABLE ───────────────────────────────────────────────── */}
       {section(
         <>
-          <SectionHeader
-            eyebrow="Comparison"
-            title="Why Vitae beats ChatGPT and generic AI"
-            sub="General-purpose AI models are trained to be helpful to everyone. Vitae is built to be clinically precise for you."
-          />
-          <div style={{ ...card({ padding: 0 }), overflow: 'hidden', marginBottom: 28 }}>
-            <div style={{ display: 'grid', gridTemplateColumns: '1.6fr 1fr 1fr 1fr', padding: '12px 16px', background: C.emerald, gap: 8 }}>
-              <span style={{ fontSize: 12, fontWeight: 700, color: 'rgba(255,255,255,.6)', textTransform: 'uppercase', letterSpacing: '.4px' }}>Capability</span>
-              <span style={{ fontSize: 12, fontWeight: 700, color: C.emeraldLt, textTransform: 'uppercase', letterSpacing: '.4px', display: 'flex', alignItems: 'center', gap: 5 }}><Heart size={12} fill={C.emeraldLt}/>Vitae</span>
-              <span style={{ fontSize: 12, fontWeight: 700, color: 'rgba(255,255,255,.5)', textTransform: 'uppercase', letterSpacing: '.4px' }}>ChatGPT</span>
-              <span style={{ fontSize: 12, fontWeight: 700, color: 'rgba(255,255,255,.5)', textTransform: 'uppercase', letterSpacing: '.4px' }}>Generic Claude</span>
-            </div>
-            {[
-              { label: 'Dedicated AI Peptide Consultant module',        vitae: { val: true,  label: 'World-first specialty module' }, chatgpt: { val: false, label: 'None' },                  generic: { val: false, label: 'None' } },
-              { label: 'Dedicated AI Hormone Consultant module',        vitae: { val: true,  label: 'World-first specialty module' }, chatgpt: { val: false, label: 'None' },                  generic: { val: false, label: 'None' } },
-              { label: 'Proprietary peptide clinical knowledge base',   vitae: { val: true,  label: 'Proprietary formulary' },       chatgpt: { val: false, label: 'General training only' }, generic: { val: false, label: 'General training only' } },
-              { label: 'Evidence restricted to peer-reviewed journals', vitae: { val: true,  label: 'PubMed / NEJM / Cochrane' },    chatgpt: { val: false, label: 'Open web incl. Reddit' },  generic: { val: false, label: 'Open web' } },
-              { label: 'GRADE evidence labeling on every claim',        vitae: { val: true,  label: 'High / Moderate / Low' },       chatgpt: { val: false, label: 'No grading system' },      generic: { val: false, label: 'No grading system' } },
-              { label: 'Upload & analyze your medical records',         vitae: { val: true,  label: 'Labs, imaging, notes' },        chatgpt: { val: false, label: 'No record context' },      generic: { val: false, label: 'No record context' } },
-              { label: 'Session-protected document storage',            vitae: { val: true,  label: 'Encrypted session only' },      chatgpt: { val: false, label: 'Data used for training' }, generic: { val: false, label: 'No local storage' } },
-              { label: 'Deep reasoning auto-routing (Opus)',            vitae: { val: true,  label: 'Auto-triggered' },              chatgpt: { val: false, label: 'Manual selection only' },   generic: { val: false, label: 'Manual selection only' } },
-              { label: 'Proactive lab flagging on upload',              vitae: { val: true,  label: 'Auto-detected' },               chatgpt: { val: false, label: 'You must ask' },            generic: { val: false, label: 'You must ask' } },
-              { label: 'Consumer web permanently excluded',             vitae: { val: true,  label: 'Hard domain block' },           chatgpt: { val: false, label: 'No restriction' },          generic: { val: false, label: 'No restriction' } },
-            ].map(r => <CompRow key={r.label} {...r} />)}
-          </div>
-          <div style={{ ...card({ background: C.mint, borderColor: C.mintDark }), display: 'flex', gap: 14, alignItems: 'flex-start' }}>
-            <Info size={18} color={C.emeraldMid} style={{ flexShrink: 0, marginTop: 2 }} />
-            <p style={{ margin: 0, fontSize: 13.5, color: C.emeraldMid, lineHeight: 1.65 }}>
-              <strong>The core difference:</strong> When you ask ChatGPT about BPC-157, it searches the open web — including Reddit threads, supplement blogs, and bodybuilding forums. When you ask Vitae, it queries a curated clinical formulary built from peer-reviewed human and animal studies, then searches PubMed and Cochrane only if additional evidence is needed. The sources are not the same. The quality is not the same.
-            </p>
-          </div>
-        </>,
-        C.white
-      )}
-
-      {/* ── EVIDENCE ARCHITECTURE ────────────────────────────────────────── */}
-      {section(
-        <>
-          <SectionHeader
-            eyebrow="Research Architecture"
-            title="Evidence-based medicine, not the internet"
-            sub="Vitae's retrieval chain is built around a single principle: clinical decisions require clinical-grade sources."
-          />
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 14, marginBottom: 28 }}>
-            <SourceTier label="Step 1 — Proprietary KB (always first)" sites={['Vitae Peptide Formulary', 'Bio Precision Aging Clinical Notes', 'Extracted Peer-Review Data']} color={C.emeraldMid} bg={C.mint} border={C.mintDark} />
-            <SourceTier label="Step 2 — Literature fallback only" sites={['PubMed / NCBI', 'Cochrane Library', 'NEJM', 'The Lancet', 'JAMA', 'BMJ', 'ACC / AHA', 'Endocrine Society', 'NIH']} color="#1560BD" bg="#EBF4FF" border="#B3D1F5" />
-          </div>
-          <div style={{ ...card({ background: C.redLt, borderColor: '#F5B8B8' }), marginBottom: 14, display: 'flex', gap: 14, alignItems: 'flex-start' }}>
-            <XCircle size={18} color={C.red} style={{ flexShrink: 0, marginTop: 2 }} />
-            <div>
-              <div style={{ fontSize: 13, fontWeight: 700, color: C.red, marginBottom: 4 }}>Permanently excluded — hard domain block</div>
-              <p style={{ margin: 0, fontSize: 13, color: '#8B2020', lineHeight: 1.6 }}>
-                WebMD · Healthline · Reddit · Mayo Clinic consumer pages · Bodybuilding.com · supplement retailer blogs · YouTube · any social media platform. These domains are blocked at the API proxy level — Vitae cannot retrieve from them even if prompted.
-              </p>
-            </div>
-          </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 12 }}>
-            {[
-              { icon: BookOpen,   title: 'GRADE Evidence Framework',   body: 'Every clinical claim is labeled: [Verified — High], [Verified — Moderate], [Verified — Low], [Speculation], or [Unknown]. No fact is presented without its evidence quality declared.' },
-              { icon: Microscope, title: 'Statistics, not summaries',   body: 'Vitae presents actual study data: p-values, sample sizes, effect sizes, confidence intervals. "BPC-157 may help healing" becomes "83% tendon tensile strength recovery vs 30% control at day 14, p<0.001."' },
-              { icon: BarChart3,  title: 'Bayesian clinical reasoning', body: 'Vitae reasons like a senior clinician — stating pre-test probability, updating on your uploaded records, and giving differential probabilities rather than binary yes/no answers.' },
-              { icon: Cpu,        title: 'Smart model routing',          body: 'Standard questions use Claude Sonnet. Questions containing clinical reasoning triggers ("why", "should I", "how serious") automatically escalate to Claude Opus with a 10,000-token extended reasoning budget.' },
-            ].map(f => <FeatureCard key={f.title} icon={f.icon} title={f.title}>{f.body}</FeatureCard>)}
-          </div>
-        </>,
-        C.offWhite
-      )}
-
-      {/* ── PEPTIDE CONSULTANT ───────────────────────────────────────────── */}
-      {section(
-        <>
-          <SectionHeader
-            eyebrow="Peptide Consultant"
-            title="The world's first dedicated AI Peptide Consultant"
-            sub="Built by a practicing peptide clinician. Updated continuously from extracted peer-reviewed literature. Nothing else like it exists."
-          />
-          <div style={{ ...card({ background: C.emerald, color: C.white, marginBottom: 28 }), position: 'relative', overflow: 'hidden' }}>
-            <div style={{ position: 'absolute', right: -20, top: -20, opacity: .06 }}><Dna size={160} color={C.white} /></div>
-            <div style={{ position: 'relative' }}>
-              <div style={{ ...pill(C.mint, C.emeraldMid, C.mintDark), marginBottom: 14 }}>Proprietary Knowledge Base</div>
-              <p style={{ fontSize: 15, lineHeight: 1.7, color: 'rgba(255,255,255,.85)', margin: '0 0 16px' }}>
-                The Vitae Peptide Knowledge Base is not scraped from the internet. It is built entry-by-entry from extracted peer-reviewed research articles, with each data point carrying a specific citation, evidence grade, and clinical confidence level. No AI chatbot, no hospital website, and no telehealth platform offers this.
-              </p>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 10 }}>
-                {['20+ peptides with full clinical profiles','200+ studies for BPC-157 alone','Dosing: typical, range, route, cycle, notes','Mechanism of action with pathway detail','Side effect profiles with evidence grades','Stack protocols and timing guidance','CJC-1295: 4 peer-reviewed human studies extracted','Continuously updated from new literature'].map(i => (
-                  <div key={i} style={{ display: 'flex', gap: 8, alignItems: 'flex-start', fontSize: 13, color: 'rgba(255,255,255,.8)' }}>
-                    <CheckCircle2 size={13} color={C.emeraldLt} style={{ flexShrink: 0, marginTop: 2 }} />{i}
-                  </div>
+          {sectionHead(
+            'Market position',
+            'How VITAE AI compares',
+            'Generic AI tools were not built for clinical medicine. Every capability below reflects a deliberate design decision — not an accident of scale.'
+          )}
+          <div style={{ overflowX: 'auto', borderRadius: 12, border: `1px solid ${C.border}`, background: C.white }}>
+            <table style={{ width: '100%', borderCollapse: 'collapse', fontFamily: "'Georgia', serif" }}>
+              <thead>
+                <tr style={{ background: C.emerald }}>
+                  <th style={{ padding: '14px 18px', textAlign: 'left', fontSize: 13, fontWeight: 700, color: 'rgba(255,255,255,.7)', width: '50%' }}>Capability</th>
+                  <th style={{ padding: '14px 12px', textAlign: 'center', fontSize: 13, fontWeight: 700, color: C.emeraldLt }}>VITAE AI</th>
+                  <th style={{ padding: '14px 12px', textAlign: 'center', fontSize: 13, fontWeight: 700, color: 'rgba(255,255,255,.6)' }}>ChatGPT</th>
+                  <th style={{ padding: '14px 12px', textAlign: 'center', fontSize: 13, fontWeight: 700, color: 'rgba(255,255,255,.6)' }}>Generic Claude</th>
+                </tr>
+              </thead>
+              <tbody>
+                {COMPARE_ROWS.map((row, i) => (
+                  <tr key={i} style={{ borderTop: `1px solid ${C.border}`, background: i % 2 === 0 ? C.white : C.offWhite }}>
+                    <td style={{ padding: '13px 18px', fontSize: 13, color: C.text, lineHeight: 1.5 }}>{row.cap}</td>
+                    <td style={{ padding: '13px 12px', textAlign: 'center' }}><Check yes={row.v} /></td>
+                    <td style={{ padding: '13px 12px', textAlign: 'center' }}><Check yes={row.gpt} /></td>
+                    <td style={{ padding: '13px 12px', textAlign: 'center' }}><Check yes={row.gc} /></td>
+                  </tr>
                 ))}
-              </div>
-            </div>
+              </tbody>
+            </table>
           </div>
-          <div style={{ marginBottom: 14 }}>
-            <div style={{ fontSize: 13, fontWeight: 600, color: C.muted, marginBottom: 10, textTransform: 'uppercase', letterSpacing: '.4px' }}>Current formulary includes</div>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 7 }}>
-              {['BPC-157','TB-500','ARA-290','AOD-9604','Semaglutide','Tirzepatide','CJC-1295','Ipamorelin','PT-141','Sermorelin','Tesamorelin','Kisspeptin-10','GHK-Cu','Epithalon','Thymosin Alpha-1','Selank','Semax','KPV','MOTS-c','SS-31'].map(p => (
-                <span key={p} style={{ ...pill(C.mint, C.emeraldMid, C.mintDark), fontSize: 12, textTransform: 'none' }}>
-                  <Dna size={10} /> {p}
-                </span>
-              ))}
+
+          {/* CTA below table */}
+          {onLaunch && (
+            <div style={{ textAlign: 'center', marginTop: 36 }}>
+              <button onClick={onLaunch} style={{
+                background: C.emerald, color: C.white, border: 'none',
+                padding: '14px 32px', borderRadius: 10, fontSize: 15, fontWeight: 700,
+                cursor: 'pointer', fontFamily: 'inherit',
+              }}>
+                Use VITAE AI Now →
+              </button>
             </div>
-          </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 10 }}>
+          )}
+        </>,
+        C.offWhite
+      )}
+
+      {/* ── EVIDENCE ARCHITECTURE ──────────────────────────────────────────── */}
+      {section(
+        <>
+          {sectionHead(
+            'Evidence retrieval',
+            'How VITAE AI finds answers',
+            'A 3-step retrieval chain ensures clinical accuracy while eliminating noise from consumer health websites.'
+          )}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
             {[
-              { label: '[Verified]',    desc: 'Peer-reviewed, statistically significant, replicated data',          bg: '#EAF7EF', color: '#1B6B38', border: '#A8D8B9' },
-              { label: '[Speculation]', desc: 'Clinical reasoning without direct trial support — labeled explicitly', bg: '#FFF8E6', color: '#7A5400', border: '#FFD97A' },
-              { label: '[Unknown]',     desc: 'Conflicting or absent evidence — always disclosed',                   bg: '#FFF0F0', color: '#8B2020', border: '#F5B8B8' },
-            ].map(e => (
-              <div key={e.label} style={{ ...card({ background: e.bg, borderColor: e.border, padding: '16px 18px' }) }}>
-                <div style={{ fontSize: 12, fontWeight: 700, color: e.color, fontFamily: 'monospace', marginBottom: 6 }}>{e.label}</div>
-                <div style={{ fontSize: 13, color: e.color, lineHeight: 1.55 }}>{e.desc}</div>
+              {
+                step: '1', icon: <Database size={20}/>, color: C.emeraldPl, tcolor: C.emeraldMd,
+                title: 'Proprietary knowledge base first',
+                body: 'All 20+ peptide entries from the Bio Precision Aging formulary are injected directly into every response. Dosing, mechanisms, stacking protocols, evidence grades — no search required. If the answer is here, VITAE responds instantly without hitting the web.',
+              },
+              {
+                step: '2', icon: <Search size={20}/>, color: '#EFF6FF', tcolor: C.blue,
+                title: 'PubMed / Cochrane / NEJM fallback only',
+                body: 'When the proprietary KB is insufficient, VITAE searches peer-reviewed literature exclusively: PubMed, Cochrane Library, NEJM, JAMA, The Lancet, BMJ, ACC/AHA, Endocrine Society, and 12 other approved clinical sources. Every web search result is cited with PMID or journal DOI.',
+              },
+              {
+                step: '3', icon: <Shield size={20}/>, color: C.redLt, tcolor: C.red,
+                title: 'Hard-blocked: consumer health sites',
+                body: 'WebMD, Healthline, Mayo Clinic (patient-facing), Reddit, forums, supplement brand sites, and all consumer health content are explicitly excluded at the API level — not filtered after the fact. These sources cannot enter a VITAE response under any circumstances.',
+              },
+            ].map(s => (
+              <div key={s.step} style={{ display: 'flex', gap: 16, background: C.white, border: `1px solid ${C.border}`, borderRadius: 12, padding: '20px' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8, flexShrink: 0 }}>
+                  <div style={{ width: 36, height: 36, borderRadius: '50%', background: s.color, display: 'flex', alignItems: 'center', justifyContent: 'center', color: s.tcolor }}>{s.icon}</div>
+                  <div style={{ fontSize: 11, fontWeight: 800, color: s.tcolor }}>Step {s.step}</div>
+                </div>
+                <div>
+                  <div style={{ fontSize: 15, fontWeight: 700, color: C.text, marginBottom: 7 }}>{s.title}</div>
+                  <div style={{ fontSize: 13, color: C.muted, lineHeight: 1.7 }}>{s.body}</div>
+                </div>
               </div>
             ))}
           </div>
+
+          {/* Banned domains callout */}
+          <div style={{ marginTop: 20, background: C.redLt, border: `1px solid #FECACA`, borderRadius: 10, padding: '16px 18px' }}>
+            <div style={{ fontSize: 12, fontWeight: 700, color: C.red, textTransform: 'uppercase', letterSpacing: '.06em', marginBottom: 8 }}>Hard-blocked sources — never appear in VITAE responses</div>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+              {['WebMD', 'Healthline', 'Mayo Clinic (patient)', 'Reddit', 'Drugs.com', 'RxList', 'NHS.uk (patient)', 'Wikipedia', 'Supplement brand sites', 'Health forums', 'News articles', 'Social media'].map(d => (
+                <span key={d} style={{ fontSize: 12, background: C.white, color: C.red, border: `1px solid #FECACA`, padding: '3px 10px', borderRadius: 20 }}>{d}</span>
+              ))}
+            </div>
+          </div>
         </>,
         C.white
       )}
 
-      {/* ── HORMONE CONSULTANT ───────────────────────────────────────────── */}
+      {/* ── PEPTIDE CONSULTANT ─────────────────────────────────────────────── */}
       {section(
         <>
-          <SectionHeader
-            eyebrow="Hormone Consultant"
-            title="The world's first dedicated AI Hormone Consultant"
-            sub="A purpose-built specialty module for hormonal health — not a repurposed general chatbot. Guideline-anchored, clinician-calibrated."
-          />
+          {sectionHead(
+            'Specialty module',
+            "The world's first dedicated AI Peptide Consultant",
+            'Built on 20+ peer-reviewed peptide entries, 200+ extracted studies, and the Bio Precision Aging proprietary formulary — delivering practitioner-grade peptide guidance that no generic AI can match.'
+          )}
+          <div style={{ background: C.emerald, borderRadius: 14, padding: '24px', marginBottom: 20 }}>
+            <div style={{ fontSize: 13, fontWeight: 700, color: C.emeraldLt, textTransform: 'uppercase', letterSpacing: '.08em', marginBottom: 14 }}>Formulary — 20+ peptides</div>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 7 }}>
+              {['BPC-157', 'TB-500', 'CJC-1295', 'Ipamorelin', 'Semaglutide', 'Tirzepatide', 'PT-141', 'Sermorelin', 'Tesamorelin', 'Kisspeptin-10', 'GHK-Cu', 'Epithalon', 'Thymosin Alpha-1', 'ARA-290', 'AOD-9604', 'Selank', 'Semax', 'KPV', 'MOTS-c', 'SS-31'].map(p => (
+                <span key={p} style={{ fontSize: 12, fontWeight: 600, background: 'rgba(82,183,136,.18)', color: C.emeraldLt, padding: '4px 11px', borderRadius: 20, border: '1px solid rgba(82,183,136,.3)' }}>{p}</span>
+              ))}
+            </div>
+          </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 14 }}>
             {[
-              { icon: Brain,       title: 'Full clinical system prompt',      body: 'The Hormone Consultant runs on a medical-grade system identity: a senior attending physician and clinical pharmacologist who communicates with intellectual rigor, explicit Bayesian reasoning, and proactive safety flagging.', accent: C.emeraldLt },
-              { icon: FileText,    title: 'Upload your hormone labs',          body: 'Upload testosterone panels, thyroid, estradiol, cortisol, DHEA, IGF-1, or any endocrine workup. Vitae auto-detects flagged values, compares them to guideline targets (Endocrine Society, AACE), and generates a clinical interpretation.', accent: C.gold },
-              { icon: Search,      title: 'Guideline-anchored responses',      body: 'Every recommendation is anchored to current Endocrine Society, AACE, or relevant specialty guideline. Vitae states the guideline, the target, your lab value, and the gap — exactly the way a real consultant would.', accent: '#5B8DEF' },
-              { icon: ShieldCheck, title: 'Drug interactions & safety alerts', body: 'Vitae proactively surfaces drug interactions, contraindications, and safety signals — not only when asked, but whenever the clinical picture warrants it. The same way a department chief would catch what the ordering physician missed.', accent: C.red },
-            ].map(f => <FeatureCard key={f.title} icon={f.icon} title={f.title} accent={f.accent}>{f.body}</FeatureCard>)}
-          </div>
-        </>,
-        C.offWhite
-      )}
-
-      {/* ── RECORD UPLOADS & PRIVACY ─────────────────────────────────────── */}
-      {section(
-        <>
-          <SectionHeader eyebrow="Records & Privacy" title="Your records are yours. Always." sub="Vitae handles your most sensitive medical documents. Here is exactly how it works." />
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 14 }}>
-            {[
-              { icon: UploadCloud, title: 'Upload any medical document',     body: 'Labs, imaging reports, clinical notes, medication lists, specialist letters — upload as PDF or image. The AI analyzer extracts clinically significant findings, flags abnormal values, and categorizes the document in seconds.' },
-              { icon: Lock,        title: 'Session-only storage',             body: 'Your uploaded documents exist only for the duration of your session. Never stored on external servers, never indexed, never used to train AI models, never shared with third parties. When you close the app, they are gone.' },
-              { icon: ShieldCheck, title: 'Not used for AI training',         body: 'Unlike ChatGPT Plus, Vitae routes through an authenticated Anthropic API key with no data retention agreements. Your health data is not a training asset.' },
-              { icon: Zap,         title: 'Instant clinical flagging',        body: 'On upload, the document analyzer automatically detects values marked H (high), L (low), or CRITICAL — and flags the record with a visual alert before you even ask a question.' },
-              { icon: Users,       title: 'Full record context in AI chat',   body: 'Once uploaded, your records are injected into the AI context window. Every response takes your actual values into account — your Lp(a), testosterone level, eGFR — not population averages.' },
-              { icon: FileText,    title: 'Paste text & voice input',         body: 'No PDF? Use the paste panel to copy-paste lab values, prescriptions, or clinical notes. Voice input lets you describe symptoms conversationally and Vitae responds with clinical-grade precision.' },
-            ].map(f => <FeatureCard key={f.title} icon={f.icon} title={f.title}>{f.body}</FeatureCard>)}
-          </div>
-        </>,
-        C.white
-      )}
-
-      {/* ── NOTHING ELSE ON MARKET ───────────────────────────────────────── */}
-      {section(
-        <>
-          <SectionHeader eyebrow="Market Position" title="There is nothing else like this" sub="We reviewed the landscape. No product combines all of these capabilities for the consumer or patient." />
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 14, marginBottom: 28 }}>
-            {[
-              { label: 'Telehealth platforms',           gap: 'Give you access to a human physician on a 15-min video call. No AI, no record analysis, no peptide knowledge base, no 3am availability.' },
-              { label: 'ChatGPT / generic AI',           gap: 'General knowledge, open web sourcing including Reddit and supplement blogs, no record upload context, no GRADE labeling, no peptide or hormone specialty modules.' },
-              { label: "Supplement companies' chatbots", gap: 'Commercial bias. Designed to sell products. Zero peer-reviewed evidence standards. Zero clinical framework.' },
-              { label: 'Hospital patient portals',       gap: "Show you your records but won't interpret them. No AI reasoning, no clinical context, no treatment discussion." },
-              { label: 'Reddit / forums',                gap: 'Anecdotal. No evidence grading. Often dangerous. No personalization to your records. Signal-to-noise ratio is poor.' },
-              { label: 'Research databases (PubMed)',    gap: 'Raw literature. Requires medical training to synthesize. No interpretation layer. No personalization to patient context.' },
-            ].map(({ label, gap }) => (
-              <div key={label} style={{ ...card({ padding: '18px 20px' }), borderLeft: `3px solid ${C.border}` }}>
-                <div style={{ fontSize: 13, fontWeight: 700, color: C.text, marginBottom: 6 }}>{label}</div>
-                <div style={{ fontSize: 13, color: C.muted, lineHeight: 1.6 }}>{gap}</div>
+              { label: '[Verified]', desc: 'Peer-reviewed, RCT or strong cohort data', color: '#D1FAE5', tx: '#065F46' },
+              { label: '[Speculation]', desc: 'Mechanistic reasoning, clinical experience', color: C.goldLt, tx: '#854D0E' },
+              { label: '[Unknown]', desc: 'Conflicting or absent evidence — stated explicitly', color: '#F3F4F6', tx: '#374151' },
+            ].map(e => (
+              <div key={e.label} style={{ background: e.color, borderRadius: 10, padding: '14px 16px' }}>
+                <div style={{ fontSize: 13, fontWeight: 800, color: e.tx, fontFamily: 'monospace', marginBottom: 5 }}>{e.label}</div>
+                <div style={{ fontSize: 12, color: e.tx, opacity: .85, lineHeight: 1.5 }}>{e.desc}</div>
               </div>
             ))}
           </div>
-          <div style={{ ...card({ background: C.emerald, color: C.white, textAlign: 'center', padding: '32px 36px' }) }}>
-            <div style={{ fontSize: 18, fontWeight: 700, marginBottom: 12, color: C.white }}>Vitae is the only platform that combines all five:</div>
-            <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 12, marginBottom: 28 }}>
-              {['World-first dedicated AI Peptide Consultant','World-first dedicated AI Hormone Consultant','Peer-review-only evidence sourcing','Personalized to your uploaded records','GRADE evidence framework on every claim'].map(i => (
-                <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 7, fontSize: 13, color: 'rgba(255,255,255,.85)' }}>
-                  <Star size={12} color={C.gold} fill={C.gold} /> {i}
-                </div>
-              ))}
-            </div>
-            {onLaunch && (
-              <button
-                onClick={onLaunch}
-                style={{ display: 'inline-flex', alignItems: 'center', gap: 10, background: C.emeraldLt, color: C.emerald, border: 'none', borderRadius: 12, cursor: 'pointer', fontSize: 15, fontWeight: 800, padding: '14px 32px', letterSpacing: '.1px' }}
-              >
-                Use VITAE AI Now <ArrowRight size={17} strokeWidth={2.5}/>
-              </button>
-            )}
+        </>,
+        C.offWhite
+      )}
+
+      {/* ── HORMONE CONSULTANT ─────────────────────────────────────────────── */}
+      {section(
+        <>
+          {sectionHead(
+            'Specialty module',
+            "The world's first dedicated AI Hormone Consultant",
+            'Evidence-based hormone optimization guidance for men and women — covering TRT, HCG, enclomiphene, progesterone, estradiol, DHEA, thyroid, and more. Built on peer-reviewed endocrinology guidelines and a proprietary treatment algorithm.'
+          )}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 14 }}>
+            {[
+              { icon: <Brain size={18}/>, title: 'Men\'s hormone optimization', body: 'TRT protocols, HCG monotherapy, enclomiphene, SHBG management, and cardiovascular monitoring.' },
+              { icon: <FlaskConical size={18}/>, title: 'Women\'s hormone optimization', body: 'Menopause, perimenopause, progesterone, estradiol, DHEA, thyroid, and adrenal protocols.' },
+              { icon: <Database size={18}/>, title: 'Treatment algorithm', body: 'Built-in clinical decision framework walks through diagnosis, labs, first-line therapy, and escalation.' },
+              { icon: <Shield size={18}/>, title: 'GRADE-labeled guidance', body: 'Every treatment recommendation is labeled [Verified — High/Moderate/Low] or [Speculation].' },
+            ].map(f => (
+              <FeatureCard key={f.title} icon={f.icon} title={f.title} body={f.body} />
+            ))}
+          </div>
+        </>,
+        C.white
+      )}
+
+      {/* ── RECORDS & PRIVACY ──────────────────────────────────────────────── */}
+      {section(
+        <>
+          {sectionHead(
+            'Records & privacy',
+            'Your data, your session',
+            'Every record you upload stays in your browser session. Nothing is sent to a database. Closing the tab clears everything.'
+          )}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 14 }}>
+            {[
+              { icon: <Shield size={18}/>, title: 'Session-only storage', body: 'No database, no account, no retention. Your records exist only in your browser tab for the duration of your session.' },
+              { icon: <CheckCircle2 size={18}/>, title: 'Auto-flagging', body: 'Claude AI automatically flags any value outside its reference range — H, L, CRITICAL — and surfaces them for review.' },
+              { icon: <Database size={18}/>, title: 'Full context for AI', body: 'Every uploaded record is referenced by the AI when you ask questions — no copy-pasting values into the chat.' },
+              { icon: <Search size={18}/>, title: 'PDF & image support', body: 'Upload lab PDFs, imaging reports, visit notes, and medication lists. Claude reads and categorizes each one.' },
+              { icon: <Brain size={18}/>, title: 'Voice input', body: 'Tap the microphone to speak your question instead of typing. Works on mobile and desktop.' },
+              { icon: <FlaskConical size={18}/>, title: 'Paste health text', body: 'Paste raw lab values, symptom descriptions, or doctor notes directly. Claude analyzes and saves to your records.' },
+            ].map(f => (
+              <FeatureCard key={f.title} icon={f.icon} title={f.title} body={f.body} />
+            ))}
           </div>
         </>,
         C.offWhite
       )}
 
-      {/* ── FAQ ──────────────────────────────────────────────────────────── */}
+      {/* ── MARKET GAP ─────────────────────────────────────────────────────── */}
       {section(
         <>
-          <SectionHeader eyebrow="FAQ" title="Common questions" />
-          {[
-            { q: 'Is Vitae a replacement for my doctor?',                    a: "No. Vitae is a clinical decision-support and education platform. Every response ends with a clinical disclaimer: all management decisions should be made by the treating clinician with full knowledge of the patient's clinical picture. Vitae is designed to make you a more informed patient or a better-prepared clinician — not to replace the physician relationship." },
-            { q: 'Where does the peptide knowledge come from?',              a: "The Vitae peptide knowledge base is built by a practicing peptide clinician who uploads peer-reviewed research articles directly into the system. Each article is read by Claude, which extracts dosing, mechanisms, side effects, evidence levels, and citations into structured entries in the proprietary formulary. This data is then injected into every peptide consultation as primary reference material." },
-            { q: "Why can't I just use ChatGPT for this?",                   a: "ChatGPT has no peptide-specific clinical knowledge base, no GRADE evidence framework, no restriction on sources (it will cite Reddit and bodybuilding forums alongside NEJM), no ability to analyze your uploaded medical records in clinical context, and no routing to a deeper reasoning model for complex clinical questions. The difference in output quality for specialized clinical questions is significant." },
-            { q: 'How does Vitae decide when to use the more powerful model?', a: 'Vitae\'s API proxy analyzes every query against a set of clinical reasoning trigger patterns: "why", "should I", "how serious", "what does this mean", "what are my options". When a trigger is detected, the request is automatically routed to Claude Opus with a 10,000-token extended reasoning budget — the equivalent of asking a senior consultant instead of a junior resident.' },
-            { q: 'Can I upload any medical document?',                        a: "Yes. Vitae accepts PDFs and images of labs, imaging reports, clinical notes, medication lists, and specialist letters. The analyzer auto-detects document type, date, provider, and flags any values outside reference range. You can also paste text directly using the paste panel if you don't have a PDF." },
-            { q: 'What is the GRADE evidence framework?',                     a: 'GRADE (Grading of Recommendations Assessment, Development and Evaluation) is the international standard for rating clinical evidence quality. Vitae applies it to every clinically significant claim: [Verified — High] for RCTs and strong systematic reviews, [Verified — Moderate] for RCTs with limitations or strong cohort data, [Verified — Low] for observational data or mechanistic extrapolation, [Speculation] for clinical reasoning without direct trial support, and [Unknown] for conflicting or absent evidence.' },
-          ].map(f => <FAQ key={f.q} {...f} />)}
+          {sectionHead(
+            'The gap VITAE fills',
+            'Why nothing else does this',
+            'Every existing tool fails in at least one critical dimension. VITAE was built specifically to close all of them simultaneously.'
+          )}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 14 }}>
+            {[
+              { cat: 'Telehealth platforms', why: 'Provide access to physicians but no AI reasoning. You wait days for a message that may not reference your labs.' },
+              { cat: 'ChatGPT / generic LLMs', why: 'No clinical guardrails, no source restrictions, no GRADE labeling. Will confidently cite WebMD and Reddit.' },
+              { cat: 'Supplement chatbots', why: 'Optimized to sell products, not provide unbiased clinical guidance. Evidence quality is never labeled.' },
+              { cat: 'Hospital patient portals', why: 'Show your results but provide no interpretation. "Normal" and "Flagged" with no clinical context.' },
+              { cat: 'Reddit / forums', why: 'High engagement, zero clinical rigor. Anecdote presented as evidence. No dosing safety framework.' },
+              { cat: 'PubMed direct search', why: 'Powerful but requires clinical literacy to interpret. No synthesis, no GRADE, no personalization.' },
+            ].map(g => (
+              <div key={g.cat} style={{ background: C.white, border: `1px solid ${C.border}`, borderRadius: 12, padding: '18px' }}>
+                <div style={{ fontSize: 13, fontWeight: 700, color: C.text, marginBottom: 6 }}>{g.cat}</div>
+                <div style={{ fontSize: 12, color: C.muted, lineHeight: 1.65 }}>{g.why}</div>
+                <div style={{ marginTop: 10, fontSize: 11, fontWeight: 700, color: C.red, display: 'flex', alignItems: 'center', gap: 5 }}>
+                  <XCircle size={12}/> Does not close the gap
+                </div>
+              </div>
+            ))}
+          </div>
         </>,
         C.white
       )}
 
-      {/* ── FOOTER ───────────────────────────────────────────────────────── */}
-      <footer style={{ background: C.emerald, padding: '32px 24px', textAlign: 'center' }}>
-        <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
-          <Heart size={16} fill={C.emeraldLt} color={C.emeraldLt}/>
-          <span style={{ fontSize: 16, fontWeight: 700, color: C.white }}>Vitae</span>
+      {/* ── FAQ ────────────────────────────────────────────────────────────── */}
+      {section(
+        <>
+          {sectionHead('FAQ', 'Common questions')}
+          <div style={{ background: C.white, border: `1px solid ${C.border}`, borderRadius: 12, padding: '8px 20px' }}>
+            {[
+              {
+                q: 'Is VITAE AI replacing my doctor?',
+                a: 'No. VITAE AI is a clinical decision-support tool, not a licensed medical provider. It helps you understand your results, prepare better questions for your physician, and navigate the evidence — but all treatment decisions should be made with a qualified clinician.'
+              },
+              {
+                q: 'Where does the information come from?',
+                a: 'VITAE uses a two-tier system: first, a proprietary formulary built from peer-reviewed literature extraction; second, real-time searches of PubMed, Cochrane Library, NEJM, JAMA, and other approved clinical databases. Consumer health websites are explicitly blocked.'
+              },
+              {
+                q: 'How is VITAE different from just asking ChatGPT?',
+                a: 'ChatGPT has no source restrictions and no evidence-quality labeling. It can cite WebMD, Reddit, and supplement brand websites. VITAE blocks those sources at the API level, labels every claim with GRADE evidence grades, and has a built-in proprietary peptide and hormone knowledge base that no generic model has.'
+              },
+              {
+                q: 'What is the deep reasoning mode?',
+                a: 'For complex clinical questions — differential diagnoses, risk assessment, multi-system interactions — VITAE automatically routes to Claude Opus with extended thinking enabled. This takes longer but produces substantially more rigorous clinical reasoning. Simple factual queries use the faster Claude Sonnet model.'
+              },
+              {
+                q: 'Can I upload multiple documents?',
+                a: 'Yes. Upload any combination of PDFs and images — lab results, imaging reports, visit notes, and medication lists. Claude reads every document, categorizes it automatically, flags out-of-range values, and references all of them when you ask clinical questions.'
+              },
+              {
+                q: 'What does GRADE mean?',
+                a: 'GRADE (Grading of Recommendations, Assessment, Development and Evaluations) is the global standard framework for rating evidence quality in clinical medicine. VITAE labels every significant claim as [Verified — High/Moderate/Low], [Speculation], or [Unknown] so you always know how much confidence to place in the guidance.'
+              },
+            ].map(faq => (
+              <FAQItem key={faq.q} q={faq.q} a={faq.a} />
+            ))}
+          </div>
+        </>,
+        C.offWhite
+      )}
+
+      {/* ── FOOTER CTA ─────────────────────────────────────────────────────── */}
+      <section style={{ background: C.emerald, padding: '60px 24px', textAlign: 'center' }}>
+        <div style={{ maxWidth: 540, margin: '0 auto' }}>
+          <Heart size={28} fill={C.emeraldLt} color={C.emeraldLt} style={{ marginBottom: 16 }}/>
+          <h2 style={{ fontSize: 28, fontWeight: 800, color: C.white, margin: '0 0 14px' }}>Ready to start?</h2>
+          <p style={{ fontSize: 15, color: 'rgba(255,255,255,.75)', margin: '0 0 28px', lineHeight: 1.7 }}>
+            No account. No API key. Your data never leaves your browser. Enter your age and biological sex to get started.
+          </p>
+          {onLaunch && (
+            <button onClick={onLaunch} style={{
+              background: C.emeraldLt, color: C.emerald, border: 'none',
+              padding: '14px 36px', borderRadius: 10, fontSize: 16, fontWeight: 700,
+              cursor: 'pointer', fontFamily: 'inherit',
+            }}>
+              Use VITAE AI Now →
+            </button>
+          )}
+          <div style={{ marginTop: 20, fontSize: 12, color: 'rgba(255,255,255,.4)', lineHeight: 1.6 }}>
+            Powered by Bio Precision Aging · bioprecisionaging.com<br/>
+            For clinical decision-support purposes only. Not a substitute for professional medical advice.
+          </div>
         </div>
-        <p style={{ fontSize: 12, color: 'rgba(255,255,255,.5)', margin: '0 auto', maxWidth: 520, lineHeight: 1.65 }}>
-          For educational and clinical decision-support purposes only. All management decisions should be made in the context of the full clinical picture by the treating clinician. Vitae is not a licensed medical practice and does not establish a physician-patient relationship.
-        </p>
-        <p style={{ fontSize: 11, color: 'rgba(255,255,255,.3)', marginTop: 14 }}>
-          Powered by{' '}
-          <a href="https://www.bioprecisionaging.com" style={{ color: 'rgba(255,255,255,.5)', textDecoration: 'none' }}>Bio Precision Aging</a>
-          {' '}· Built with Anthropic Claude API
-        </p>
-      </footer>
+      </section>
+
     </div>
   );
 }
