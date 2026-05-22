@@ -1,9 +1,8 @@
 // @ts-nocheck
 import HormoneConsultant from './HormoneConsultant';
-import VitaeInfoPage from './VitaeInfoPage';
 import { useState, useRef, useEffect } from "react";
 import PeptideOverview from './PeptideOverview';
-import { Home, FolderOpen, MessageSquare, User, FlaskConical, ScanLine, ClipboardList, Pill, Send, AlertTriangle, CheckCircle2, XCircle, Heart, Upload, Bell, Lock, ExternalLink, ChevronRight, FileText, X, Loader, Mic, MicOff, Brain, Zap, ClipboardPaste, ChevronDown, Dna, RotateCcw, Info } from "lucide-react";
+import { Home, FolderOpen, MessageSquare, User, FlaskConical, ScanLine, ClipboardList, Pill, Send, AlertTriangle, CheckCircle2, XCircle, Heart, Upload, Bell, Lock, ExternalLink, ChevronRight, FileText, X, Loader, Mic, MicOff, Brain, Zap, ClipboardPaste, ChevronDown, Dna, RotateCcw } from "lucide-react";
 import { PEPTIDE_CONTEXT, OPTIMIZATION_GOALS as PEPTIDE_GOALS_DATA, PEPTIDE_KNOWLEDGE_BASE } from './peptides.js';
 
 const makeChatPrompt = (name, records) => {
@@ -735,16 +734,74 @@ function Setup({ onDone }) {
 }
 
 // ── Shared page content components ────────────────────────────────────────────
-function HomeContent({name, allRecs, flagCount, uploads, setPage, isMobile}) {
+function HomeContent({name, setName, age, setAge, sex, setSex, allRecs, flagCount, uploads, setPage, isMobile}) {
   const pad = isMobile ? 'mob-pad' : '';
+  const ready = age.trim().length > 0 && sex !== '';
+  const handleStart = () => {
+    if (!ready) return;
+    setName(`${sex}, Age ${age}`);
+  };
+
   return (
     <div className={pad} style={!isMobile?{padding:'0'}:{}}>
-      <div className="hero">
-        <div className="hlbl">Good morning · <a href="https://www.bioprecisionaging.com" target="_blank" rel="noopener noreferrer" style={{color:'rgba(255,255,255,.65)',textDecoration:'none',letterSpacing:'1px'}}>Bio Precision Aging</a></div>
-        <div className="hname">{name}</div>
-        <div className="hmsg">You have {allRecs.length} record{allRecs.length!==1?'s':''} on file{flagCount>0?` and ${flagCount} flagged for review`:' — all clear'}.</div>
-        <div className="hbtns"><button className="hb hbacc" onClick={()=>setPage('ai')}>Ask AI</button><button className="hb hbgh" onClick={()=>setPage('records')}>My Records</button></div>
-      </div>
+      {!name ? (
+        /* ── WELCOME / SETUP HERO ── */
+        <div className="hero" style={{paddingBottom:28}}>
+          <div className="hlbl">Welcome to Vitae AI · <a href="https://www.bioprecisionaging.com" target="_blank" rel="noopener noreferrer" style={{color:'rgba(255,255,255,.65)',textDecoration:'none',letterSpacing:'1px'}}>Bio Precision Aging</a></div>
+          <div className="hname" style={{fontSize:isMobile?20:24,marginBottom:6,lineHeight:1.3}}>Your personal health AI</div>
+          <div className="hmsg" style={{marginBottom:20}}>Enter your details below to get started — no account or API key needed.</div>
+
+          {/* Age input */}
+          <div style={{marginBottom:14}}>
+            <label style={{display:'block',fontSize:11,fontWeight:700,letterSpacing:'0.08em',color:'rgba(255,255,255,.7)',marginBottom:7,textTransform:'uppercase'}}>Your Age</label>
+            <input
+              value={age}
+              onChange={e=>setAge(e.target.value.replace(/\D/g,''))}
+              placeholder="e.g. 43"
+              maxLength={3}
+              inputMode="numeric"
+              onKeyDown={e=>e.key==='Enter'&&ready&&handleStart()}
+              style={{width:'100%',padding:'11px 14px',fontSize:15,border:'1.5px solid rgba(255,255,255,.35)',borderRadius:10,outline:'none',boxSizing:'border-box',color:'#fff',background:'rgba(255,255,255,.15)',fontFamily:'inherit',backdropFilter:'blur(4px)'}}
+              onFocus={e=>e.target.style.borderColor='rgba(255,255,255,.7)'}
+              onBlur={e=>e.target.style.borderColor='rgba(255,255,255,.35)'}
+            />
+          </div>
+
+          {/* Biological sex toggle */}
+          <div style={{marginBottom:20}}>
+            <label style={{display:'block',fontSize:11,fontWeight:700,letterSpacing:'0.08em',color:'rgba(255,255,255,.7)',marginBottom:9,textTransform:'uppercase'}}>Biological Sex</label>
+            <div style={{display:'flex',gap:10}}>
+              {['Male','Female'].map(s=>(
+                <button key={s} onClick={()=>setSex(s)} style={{flex:1,padding:'11px',fontSize:14,fontWeight:600,border:`2px solid ${sex===s?'#fff':'rgba(255,255,255,.35)'}`,borderRadius:10,cursor:'pointer',background:sex===s?'rgba(255,255,255,.25)':'rgba(255,255,255,.08)',color:'#fff',transition:'all 0.15s',fontFamily:'inherit'}}>
+                  {s==='Male'?'♂ Male':'♀ Female'}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="hbtns">
+            <button
+              className="hb hbacc"
+              onClick={handleStart}
+              disabled={!ready}
+              style={{opacity:ready?1:0.45,cursor:ready?'pointer':'not-allowed'}}
+            >
+              Get Started →
+            </button>
+          </div>
+          <div style={{marginTop:16,fontSize:11.5,color:'rgba(255,255,255,.5)',textAlign:'center'}}>Your data stays in your browser session only. Nothing is stored on any server.</div>
+        </div>
+      ) : (
+        /* ── NORMAL HERO (after setup) ── */
+        <div className="hero">
+          <div className="hlbl">Good morning · <a href="https://www.bioprecisionaging.com" target="_blank" rel="noopener noreferrer" style={{color:'rgba(255,255,255,.65)',textDecoration:'none',letterSpacing:'1px'}}>Bio Precision Aging</a></div>
+          <div className="hname">{name}</div>
+          <div className="hmsg">You have {allRecs.length} record{allRecs.length!==1?'s':''} on file{flagCount>0?` and ${flagCount} flagged for review`:' — all clear'}.</div>
+          <div className="hbtns"><button className="hb hbacc" onClick={()=>setPage('ai')}>Ask AI</button><button className="hb hbgh" onClick={()=>setPage('records')}>My Records</button></div>
+        </div>
+      )}
+
+      {/* Stats and upload card always visible */}
       {flagCount>0&&<div className="wcard"><AlertTriangle size={15} style={{flexShrink:0,marginTop:1}}/><div><strong>Action needed:</strong> {flagCount} result{flagCount!==1?'s':''} flagged for review.</div><button className="btn btnS btnsm" style={{flexShrink:0,marginLeft:'auto'}} onClick={()=>setPage('records')}>View →</button></div>}
       <div className={isMobile?'mob-stats':'desk-stats'}>
         {[{lbl:'Records',num:String(allRecs.length),dsc:'On file',w:false},{lbl:'Uploaded',num:String(uploads.length),dsc:'By you',w:false},{lbl:'Flagged',num:String(flagCount),dsc:flagCount>0?'Review needed':'All clear',w:flagCount>0},{lbl:'Medications',num:String(uploads.filter(r=>r.type==='medication').length),dsc:'On file',w:false}].map(s=>(
@@ -852,7 +909,7 @@ function ProfileContent({name, initials, setName, uploads, setPage}) {
 
 // ── Main App ──────────────────────────────────────────────────────────────────
 export default function Vitae() {
-  const [name,setName]=useState(null);const [page,setPage]=useState('home');const [filter,setFilter]=useState('All');
+  const [name,setName]=useState(null);const [age,setAge]=useState('');const [sex,setSex]=useState('');const [page,setPage]=useState('home');const [filter,setFilter]=useState('All');
   const [msgs,setMsgs]=useState(null);const [input,setInput]=useState('');const [busy,setBusy]=useState(false);
   const [uploads,setUploads]=useState([]);const [analyzing,setAnalyzing]=useState(false);const [toast,setToast]=useState(null);
   const [drag,setDrag]=useState(false);const [recording,setRecording]=useState(false);const [voiceHint,setVoiceHint]=useState('');
@@ -965,14 +1022,12 @@ export default function Vitae() {
     finally{setBusy(false);}
   };
 
-  if(!name)return <Setup onDone={n=>setName(n)}/>;
-
   const allRecs=[...uploads];
   const filtered=allRecs.filter(r=>filter==='All'?true:filter==='Labs'?r.type==='lab':filter==='Imaging'?r.type==='imaging':filter==='Notes'?r.type==='note':filter==='Meds'?r.type==='medication':true);
   const flagCount=allRecs.filter(r=>r.flagged).length;
-  const initials=name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
-  const NAV=[{id:'home',lbl:'Home',I:Home},{id:'records',lbl:'Records',I:FolderOpen},{id:'ai',lbl:'AI Consultant',I:MessageSquare},{id:'peptide',lbl:'Peptide Consultant',I:Dna},{id:'hormone',lbl:'Hormone Consultant',I:Brain},{id:'info',lbl:'What is VITAE AI',I:Info},{id:'profile',lbl:'Profile',I:User}];
-  const sharedProps={uploads,setUploads,analyzing,setAnalyzing,filter,setFilter,allRecs,filtered,setPage,setInput,fileRef,toast2,drag,setDrag,msgs,busy,input,send,endRef,name,initials,setName,flagCount,recording,toggleVoice,voiceHint,lastModel,setShowPaste,sources,setSources,library,setLibrary,showSrcMenu,setShowSrcMenu,libraryFileRef,addToLibrary};
+  const initials=name?name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase():'?';
+  const NAV=[{id:'home',lbl:'Home',I:Home},{id:'records',lbl:'Records',I:FolderOpen},{id:'ai',lbl:'AI Consultant',I:MessageSquare},{id:'peptide',lbl:'Peptide Consultant',I:Dna},{id:'hormone',lbl:'Hormone Consultant',I:Brain},{id:'profile',lbl:'Profile',I:User}];
+  const sharedProps={uploads,setUploads,analyzing,setAnalyzing,filter,setFilter,allRecs,filtered,setPage,setInput,fileRef,toast2,drag,setDrag,msgs,busy,input,send,endRef,name,setName,age,setAge,sex,setSex,initials,flagCount,recording,toggleVoice,voiceHint,lastModel,setShowPaste,sources,setSources,library,setLibrary,showSrcMenu,setShowSrcMenu,libraryFileRef,addToLibrary};
 
   return (
     <>
@@ -989,8 +1044,8 @@ export default function Vitae() {
           <div className="mob-hd">
             {page==='home'
               ?<div className="logo"><Heart size={15} fill="#52B788" color="#52B788"/>Vitae<span style={{fontSize:11,fontWeight:400,color:'var(--mu)',borderLeft:'1px solid var(--bd)',paddingLeft:8,marginLeft:2}}><a href="https://www.bioprecisionaging.com" target="_blank" rel="noopener noreferrer" style={{color:'var(--mu)',textDecoration:'none'}}>Bio Precision Aging</a></span></div>
-              :<div><div className="ptitle">{{records:'My Records',ai:'AI Consultant',peptide:'Peptide Consultant',hormone:'Hormone Consultant',info:'What is VITAE AI',profile:'Profile'}[page]}</div>
-              <div className="psub">{{records:'Labs, imaging & notes',ai:uploads.length>0?`Seeing ${uploads.length} record${uploads.length!==1?'s':''}` :'Upload records for full context',peptide:'Bio Precision Peptide AI',hormone:'Hormone Optimization',info:'About the platform',profile:name}[page]}</div></div>}
+              :<div><div className="ptitle">{{records:'My Records',ai:'AI Consultant',peptide:'Peptide Consultant',hormone:'Hormone Consultant',profile:'Profile'}[page]}</div>
+              <div className="psub">{{records:'Labs, imaging & notes',ai:uploads.length>0?`Seeing ${uploads.length} record${uploads.length!==1?'s':''}` :'Upload records for full context',peptide:'Bio Precision Peptide AI',hormone:'Hormone Optimization',profile:name}[page]}</div></div>}
             <div style={{display:'flex',gap:7,alignItems:'center'}}>
               {page==='records'&&<button className="btn btnP btnsm" onClick={()=>!analyzing&&fileRef.current?.click()} disabled={analyzing}>{analyzing?<span className="spin"><Loader size={12}/></span>:<Upload size={12}/>}{analyzing?'Analyzing…':'Upload'}</button>}
               <div style={{width:34,height:34,borderRadius:8,background:'#F0FDF4',border:'1px solid #D1FAE5',display:'flex',alignItems:'center',justifyContent:'center',cursor:'pointer'}}><Bell size={14} color="#2D6A4F"/></div>
@@ -1001,8 +1056,7 @@ export default function Vitae() {
             {page==='records'&&<div className="mob-pad"><RecordsContent {...sharedProps}/></div>}
             {page==='ai'&&<div className="mob-chat"><ChatContent {...sharedProps} QUICK_QS={QUICK_QS} isMobile={true}/></div>}
             {page==='peptide'&&<div className="mob-chat"><PeptideOverview /></div>}
-             {page==='hormone'&&<div className="mob-chat"><HormoneConsultant /></div>}
-            {page==='info'&&<div className="mob-pad" style={{overflowY:'auto',height:'100%'}}><VitaeInfoPage onLaunch={()=>setPage('home')}/></div>}
+            {page==='hormone'&&<div className="mob-chat"><HormoneConsultant /></div>}
             {page==='profile'&&<div className="mob-pad"><ProfileContent {...sharedProps}/></div>}
           </div>
           <nav className="bnav">
@@ -1030,15 +1084,15 @@ export default function Vitae() {
           <div className="desk-user">
             <div style={{display:'flex',alignItems:'center',gap:10}}>
               <div className="desk-avatar">{initials}</div>
-              <div style={{flex:1,minWidth:0}}><div style={{fontSize:13,fontWeight:600,color:'#fff',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{name}</div><div style={{fontSize:11,color:'rgba(255,255,255,.5)',marginTop:1}}>Health AI session</div></div>
+              <div style={{flex:1,minWidth:0}}><div style={{fontSize:13,fontWeight:600,color:'#fff',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{name||'Welcome'}</div><div style={{fontSize:11,color:'rgba(255,255,255,.5)',marginTop:1}}>Health AI session</div></div>
             </div>
           </div>
         </aside>
         <main className="desk-main">
           <div className="desk-topbar">
             <div>
-              <div className="desk-page-title">{page==='home'?`Good morning`:{records:'My Records',ai:'AI Consultant',peptide:'Peptide Consultant',hormone:'Hormone Consultant',info:'What is VITAE AI',profile:'Profile'}[page]}</div>
-              <div className="desk-page-sub">{{home:'Your health records at a glance',records:'Labs, imaging & notes',peptide:'Personalized peptide recommendations',hormone:'Hormone optimization',ai:uploads.length>0?`Seeing ${uploads.length} uploaded record${uploads.length!==1?'s':''}` :'Upload records so AI can reference them',info:'About the platform',profile:'Your session'}[page]}</div>
+              <div className="desk-page-title">{page==='home'?(name?'Good morning':'Welcome'):{records:'My Records',ai:'AI Consultant',peptide:'Peptide Consultant',hormone:'Hormone Consultant',profile:'Profile'}[page]}</div>
+              <div className="desk-page-sub">{{home:name?'Your health records at a glance':'Enter your details to get started',records:'Labs, imaging & notes',peptide:'Personalized peptide recommendations',hormone:'Hormone optimization',ai:uploads.length>0?`Seeing ${uploads.length} uploaded record${uploads.length!==1?'s':''}` :'Upload records so AI can reference them',profile:'Your session'}[page]}</div>
             </div>
             {page==='records'&&(<button className="btn btnP" onClick={()=>!analyzing&&fileRef.current?.click()} disabled={analyzing}>{analyzing?<><span className="spin"><Loader size={14}/></span>Analyzing…</>:<><Upload size={14}/>Upload Record</>}</button>)}
           </div>
@@ -1047,7 +1101,6 @@ export default function Vitae() {
           {page==='ai'&&<div className="desk-chat"><ChatContent {...sharedProps} QUICK_QS={QUICK_QS} isMobile={false}/></div>}
           {page==='peptide'&&<div className="desk-chat"><PeptideOverview /></div>}
           {page==='hormone'&&<div className="desk-chat"><HormoneConsultant /></div>}
-          {page==='info'&&<div className="desk-content" style={{overflowY:'auto',padding:0}}><VitaeInfoPage onLaunch={()=>setPage('home')}/></div>}
           {page==='profile'&&<div className="desk-content"><ProfileContent {...sharedProps}/></div>}
         </main>
       </div>
