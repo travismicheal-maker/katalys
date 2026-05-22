@@ -560,11 +560,12 @@ export default function HormoneAIConsultant() {
         method:"POST",
         headers:{"Content-Type":"application/json"},
         body:JSON.stringify({
-          model:"claude-sonnet-4-6",
-          max_tokens:1000,
-          system:buildSystemPrompt(),
-          messages:newMessages.map(m=>({role:m.role,content:m.content}))
-        })
+  model:"claude-sonnet-4-6",
+  max_tokens:3000,
+  system:buildSystemPrompt(),
+  messages:newMessages.map(m=>({role:m.role,content:m.content})),
+  _sources:{ clinicalWeb:false, literature:true }
+})
       });
       const data = await response.json();
       const reply = data.mergedText || data.content?.[0]?.text || "Connection error — please try again.";
