@@ -116,7 +116,7 @@ function Check({ yes }) {
 // ─── MAIN COMPONENT ───────────────────────────────────────────────────────────
 export default function VitaeInfoPage({ onLaunch }) {
   const section = (children, bg = C.offWhite) => (
-    <section style={{ background: bg, padding: '60px 24px' }}>
+    <section style={{ background: bg, padding: '60px 24px', width: '100%', boxSizing: 'border-box', display: 'block' }}>
       <div style={{ maxWidth: 860, margin: '0 auto' }}>{children}</div>
     </section>
   );
@@ -130,12 +130,13 @@ export default function VitaeInfoPage({ onLaunch }) {
   );
 
   return (
-    <div style={{ fontFamily: "'Georgia', 'Times New Roman', serif", color: C.text, background: C.offWhite }}>
+    <div style={{ fontFamily: "'Georgia', 'Times New Roman', serif", color: C.text, background: C.offWhite, width: '100%', boxSizing: 'border-box', overflowX: 'hidden' }}>
 
       {/* ── HERO ───────────────────────────────────────────────────────────── */}
       <section style={{
         background: C.emerald, color: C.white,
         padding: '72px 24px 60px', textAlign: 'center', position: 'relative', overflow: 'hidden',
+        width: '100%', boxSizing: 'border-box', display: 'block',
       }}>
         <div style={{
           position: 'absolute', inset: 0,
@@ -200,7 +201,7 @@ export default function VitaeInfoPage({ onLaunch }) {
       </section>
 
       {/* ── STATS BAR ──────────────────────────────────────────────────────── */}
-      <section style={{ background: C.white, borderBottom: `1px solid ${C.border}` }}>
+      <section style={{ background: C.white, borderBottom: `1px solid ${C.border}`, width: '100%', boxSizing: 'border-box', display: 'block' }}>
         <div style={{ maxWidth: 860, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))' }}>
           <StatCard value="20+" label="Peptides in formulary"     sub="With full dosing protocols" />
           <StatCard value="200+" label="Studies extracted"        sub="Peer-reviewed only" />
@@ -456,7 +457,7 @@ export default function VitaeInfoPage({ onLaunch }) {
       )}
 
       {/* ── FOOTER CTA ─────────────────────────────────────────────────────── */}
-      <section style={{ background: C.emerald, padding: '60px 24px', textAlign: 'center' }}>
+      <section style={{ background: C.emerald, padding: '60px 24px', textAlign: 'center', width: '100%', boxSizing: 'border-box', display: 'block' }}>
         <div style={{ maxWidth: 540, margin: '0 auto' }}>
           <Heart size={28} fill={C.emeraldLt} color={C.emeraldLt} style={{ marginBottom: 16 }}/>
           <h2 style={{ fontSize: 28, fontWeight: 800, color: C.white, margin: '0 0 14px' }}>Ready to start?</h2>
