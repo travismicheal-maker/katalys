@@ -1,8 +1,9 @@
 // @ts-nocheck
 import HormoneConsultant from './HormoneConsultant';
+import VitaeInfoPage from './VitaeInfoPage';
 import { useState, useRef, useEffect } from "react";
 import PeptideOverview from './PeptideOverview';
-import { Home, FolderOpen, MessageSquare, User, FlaskConical, ScanLine, ClipboardList, Pill, Send, AlertTriangle, CheckCircle2, XCircle, Heart, Upload, Bell, Lock, ExternalLink, ChevronRight, FileText, X, Loader, Mic, MicOff, Brain, Zap, ClipboardPaste, ChevronDown, Dna, RotateCcw } from "lucide-react";
+import { Home, FolderOpen, MessageSquare, User, FlaskConical, ScanLine, ClipboardList, Pill, Send, AlertTriangle, CheckCircle2, XCircle, Heart, Upload, Bell, Lock, ExternalLink, ChevronRight, FileText, X, Loader, Mic, MicOff, Brain, Zap, ClipboardPaste, ChevronDown, Dna, RotateCcw, Info } from "lucide-react";
 import { PEPTIDE_CONTEXT, OPTIMIZATION_GOALS as PEPTIDE_GOALS_DATA, PEPTIDE_KNOWLEDGE_BASE } from './peptides.js';
 
 const makeChatPrompt = (name, records) => {
@@ -1026,7 +1027,7 @@ export default function Vitae() {
   const filtered=allRecs.filter(r=>filter==='All'?true:filter==='Labs'?r.type==='lab':filter==='Imaging'?r.type==='imaging':filter==='Notes'?r.type==='note':filter==='Meds'?r.type==='medication':true);
   const flagCount=allRecs.filter(r=>r.flagged).length;
   const initials=name?name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase():'?';
-  const NAV=[{id:'home',lbl:'Home',I:Home},{id:'records',lbl:'Records',I:FolderOpen},{id:'ai',lbl:'AI Consultant',I:MessageSquare},{id:'peptide',lbl:'Peptide Consultant',I:Dna},{id:'hormone',lbl:'Hormone Consultant',I:Brain},{id:'profile',lbl:'Profile',I:User}];
+  const NAV=[{id:'home',lbl:'Home',I:Home},{id:'records',lbl:'Records',I:FolderOpen},{id:'ai',lbl:'AI Consultant',I:MessageSquare},{id:'peptide',lbl:'Peptide Consultant',I:Dna},{id:'hormone',lbl:'Hormone Consultant',I:Brain},{id:'info',lbl:'What is VITAE AI',I:Info},{id:'profile',lbl:'Profile',I:User}];
   const sharedProps={uploads,setUploads,analyzing,setAnalyzing,filter,setFilter,allRecs,filtered,setPage,setInput,fileRef,toast2,drag,setDrag,msgs,busy,input,send,endRef,name,setName,age,setAge,sex,setSex,initials,flagCount,recording,toggleVoice,voiceHint,lastModel,setShowPaste,sources,setSources,library,setLibrary,showSrcMenu,setShowSrcMenu,libraryFileRef,addToLibrary};
 
   return (
@@ -1057,6 +1058,7 @@ export default function Vitae() {
             {page==='ai'&&<div className="mob-chat"><ChatContent {...sharedProps} QUICK_QS={QUICK_QS} isMobile={true}/></div>}
             {page==='peptide'&&<div className="mob-chat"><PeptideOverview /></div>}
             {page==='hormone'&&<div className="mob-chat"><HormoneConsultant /></div>}
+            {page==='info'&&<div className="mob-pad" style={{overflowY:'auto',height:'100%'}}><VitaeInfoPage onLaunch={()=>setPage('home')}/></div>}
             {page==='profile'&&<div className="mob-pad"><ProfileContent {...sharedProps}/></div>}
           </div>
           <nav className="bnav">
@@ -1091,8 +1093,8 @@ export default function Vitae() {
         <main className="desk-main">
           <div className="desk-topbar">
             <div>
-              <div className="desk-page-title">{page==='home'?(name?'Good morning':'Welcome'):{records:'My Records',ai:'AI Consultant',peptide:'Peptide Consultant',hormone:'Hormone Consultant',profile:'Profile'}[page]}</div>
-              <div className="desk-page-sub">{{home:name?'Your health records at a glance':'Enter your details to get started',records:'Labs, imaging & notes',peptide:'Personalized peptide recommendations',hormone:'Hormone optimization',ai:uploads.length>0?`Seeing ${uploads.length} uploaded record${uploads.length!==1?'s':''}` :'Upload records so AI can reference them',profile:'Your session'}[page]}</div>
+              <div className="desk-page-title">{page==='home'?(name?'Good morning':'Welcome'):{records:'My Records',ai:'AI Consultant',peptide:'Peptide Consultant',hormone:'Hormone Consultant',info:'What is VITAE AI',profile:'Profile'}[page]}</div>
+              <div className="desk-page-sub">{{home:name?'Your health records at a glance':'Enter your details to get started',records:'Labs, imaging & notes',peptide:'Personalized peptide recommendations',hormone:'Hormone optimization',ai:uploads.length>0?`Seeing ${uploads.length} uploaded record${uploads.length!==1?'s':''}` :'Upload records so AI can reference them',info:'About the platform',profile:'Your session'}[page]}</div>
             </div>
             {page==='records'&&(<button className="btn btnP" onClick={()=>!analyzing&&fileRef.current?.click()} disabled={analyzing}>{analyzing?<><span className="spin"><Loader size={14}/></span>Analyzing…</>:<><Upload size={14}/>Upload Record</>}</button>)}
           </div>
@@ -1101,6 +1103,7 @@ export default function Vitae() {
           {page==='ai'&&<div className="desk-chat"><ChatContent {...sharedProps} QUICK_QS={QUICK_QS} isMobile={false}/></div>}
           {page==='peptide'&&<div className="desk-chat"><PeptideOverview /></div>}
           {page==='hormone'&&<div className="desk-chat"><HormoneConsultant /></div>}
+          {page==='info'&&<div className="desk-content" style={{overflowY:'auto',padding:0}}><VitaeInfoPage onLaunch={()=>setPage('home')}/></div>}
           {page==='profile'&&<div className="desk-content"><ProfileContent {...sharedProps}/></div>}
         </main>
       </div>
