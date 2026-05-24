@@ -477,7 +477,7 @@ Makimura H et al. J Clin Endocrinol Metab. 2012;97(12):4769-4779. PMID 23015655.
 Fourman LT et al. AIDS. 2017;31(16):2253-2259. PMID 28692538. [Liver enzymes secondary analysis, N=806]
 Clemmons DR et al. PLoS ONE. 2017;12(6):e0179538. PMID 28617841. [T2DM safety RCT, N=53]
 Lemke R. Tesamorelin (Egrifta): FDA-Approved Visceral Fat Reduction. The Peptide Toolkit. May 3, 2026. [Clinical guide — secondary source]`,
-}
+},
 
   // ─── Kisspeptin-10 ────────────────────────────────────────────────────────────
   {
