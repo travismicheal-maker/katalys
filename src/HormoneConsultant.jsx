@@ -563,7 +563,7 @@ export default function HormoneAIConsultant() {
   model:"claude-sonnet-4-6",
   max_tokens:3000,
   system:buildSystemPrompt(),
-  messages:newMessages.map(m=>({role:m.role,content:m.content})),
+  messages: newMessages.slice(-6).map(m => ({ role: m.role, content: m.content })),
   _sources:{ clinicalWeb:false, literature:true }
 })
       });
