@@ -257,8 +257,14 @@ function PeptideAIChat({ onBack }) {
 const send = async () => {
     const text = input.trim();
     if (!text || busy) return;
-    const history = [...msgs, { role: 'user', content: text }];
-    setMsgs(history);
+    // Build full history for display (UI shows all messages)
+const fullHistory = [...msgs, { role: 'user', content: text }];
+setMsgs(fullHistory);
+
+// Cap what gets sent to the API at last 8 messages (4 exchanges).
+// Prevents conversation history from growing unbounded and doubling
+// input tokens after long sessions — saves ~$400-700/mo at scale.
+const history = fullHistory.slice(-8);
     setInput('');
     setBusy(true);
     try {
