@@ -692,7 +692,7 @@ function Setup({ onDone }) {
       <div style={{background:'#ffffff',borderRadius:16,padding:'36px 28px',maxWidth:440,width:'100%',boxShadow:'0 4px 24px rgba(0,0,0,0.08)'}}>
         <div style={{display:'flex',alignItems:'center',gap:10,marginBottom:10}}>
           <Heart size={28} style={{color:'#52B788'}} fill="#52B788"/>
-          <span style={{fontSize:26,fontWeight:700,color:'#1B4332',fontFamily:"'Playfair Display',Georgia,serif"}}>Vitae</span>
+          <span style={{fontSize:26,fontWeight:700,color:'#1B4332',fontFamily:"'Playfair Display',Georgia,serif"}}>Katalys Health</span>
         </div>
         <p style={{fontSize:15,color:'#6B7280',marginBottom:24,lineHeight:1.6}}>Your personal health AI. Enter your details to get started — no account or API key needed.</p>
         <div style={{background:'#eff6ff',border:'1px solid #bfdbfe',borderRadius:12,padding:'16px',marginBottom:24}}>
@@ -920,7 +920,7 @@ export default function Vitae() {
   const libraryFileRef=useRef(null);const recognitionRef=useRef(null);const mediaRecRef=useRef(null);
   const endRef=useRef(null);const fileRef=useRef(null);
 
-  useEffect(()=>{if(name&&!msgs)setMsgs([{role:'assistant',content:`Hello! I'm Vitae AI — personalized for **${name}**.\n\nUpload records in the Records tab and I can see all your values — no copy-pasting needed. I'll give you [Verified] evidence-based guidance from recognized clinical guidelines.\n\nWhat would you like to know?`}]);},[name]);
+  useEffect(()=>{if(name&&!msgs)setMsgs([{role:'assistant',content:`Hello! I'm Katalys — personalized for **${name}**.\n\nUpload records in the Records tab and I can see all your values — no copy-pasting needed. I'll give you [Verified] evidence-based guidance from recognized clinical guidelines.\n\nWhat would you like to know?`}]);},[name]);
   useEffect(()=>{endRef.current?.scrollIntoView({behavior:'smooth'});},[msgs,busy]);
   useEffect(()=>{
     if(!showSrcMenu)return;
