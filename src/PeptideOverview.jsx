@@ -307,17 +307,23 @@ CLINICAL RULES (always follow)
       const response = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          model: 'claude-sonnet-4-6',
-          max_tokens: 2000,
-          system: systemPrompt,
-          messages: history,
-          _sources: {
-            clinicalWeb: false,   // Do NOT search mayo/webmd/healthline etc.
-            literature: true,     // PubMed + Cochrane + NEJM etc. available as fallback
-          },
-        }),
-      });
+        // REPLACE WITH:
+body: JSON.stringify({
+  model: 'claude-sonnet-4-6',
+  max_tokens: 800,
+  system: [
+    {
+      type: "text",
+      text: systemPrompt,
+      cache_control: { type: "ephemeral" }
+    }
+  ],
+  messages: history,
+  _sources: {
+    clinicalWeb: false,
+    literature: true,
+  },
+}),
  
       const data = await response.json();
       // api/chat returns mergedText when it processes tool calls (web search)
