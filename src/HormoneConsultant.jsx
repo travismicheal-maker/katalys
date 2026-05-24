@@ -373,11 +373,9 @@ function MessageBubble({ msg }) {
   const isUser = msg.role === "user";
   function formatContent(text) {
   if (!text) return '';
-  // Normalize line endings, remove em dashes
   let t = text.replace(/\r\n/g,'\n').replace(/\r/g,'\n')
               .replace(/ — /g,': ').replace(/—/g,'-');
 
-  // Process tables
   const tableRegex = /(\|.+\|\n)([ \t]*\|[\s\-|:]+\|\n)((?:\|.+\|\n?)*)/gm;
   t = t.replace(tableRegex, (match, headerRow, sepRow, bodyRows) => {
     const parseRow = r => r.trim().replace(/^\||\|$/g,'').split('|').map(c=>c.trim());
@@ -387,10 +385,8 @@ function MessageBubble({ msg }) {
     const trs = rows.map(r=>`<tr>${r.map((c,i)=>`<td style="padding:8px 12px;font-size:12px;border-bottom:1px solid #e2e8f0;${i===0?'font-weight:600;color:#0f172a':'color:#334155'}">${c}</td>`).join('')}</tr>`).join('');
     return `<table style="width:100%;border-collapse:collapse;margin:12px 0;border-radius:8px;overflow:hidden;border:1px solid #e2e8f0"><thead><tr>${ths}</tr></thead><tbody>${trs}</tbody></table>`;
   });
-  // Strip orphan table separator rows
   t = t.replace(/^\|[\s\-|:]+\|$/gm,'');
 
-  // Process line by line for block elements
   const lines = t.split('\n');
   const out = [];
   let bulletBuffer = [];
@@ -402,11 +398,9 @@ function MessageBubble({ msg }) {
   };
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
-    // HR
     if (/^[ \t]*[\-\*_]{3,}[ \t]*$/.test(line)) {
       flushBullets();
       out.push('<div style="height:1px;background:#e2e8f0;margin:14px 0"></div>');
-    // H1-H4
     } else if (/^#{1,4}\s/.test(line)) {
       flushBullets();
       const text = line.replace(/^#{1,4}\s+/, '');
@@ -414,25 +408,20 @@ function MessageBubble({ msg }) {
       const sz = level <= 2 ? '15px' : '13px';
       const wt = level <= 2 ? '700' : '600';
       out.push(`<div style="font-size:${sz};font-weight:${wt};color:#0f172a;margin:14px 0 6px;padding-bottom:5px;border-bottom:1px solid #e2e8f0">${text}</div>`);
-    // Bullet - or *
     } else if (/^[\-\*]\s+/.test(line)) {
       const text = line.replace(/^[\-\*]\s+/, '');
       bulletBuffer.push(`<li style="display:flex;gap:7px;align-items:flex-start;margin:3px 0;font-size:13px;line-height:1.55;color:#1e293b"><span style="color:#4f46e5;font-weight:700;flex-shrink:0;margin-top:1px">•</span><span>${text}</span></li>`);
-    // Numbered list
     } else if (/^\d+\.\s+/.test(line)) {
       flushBullets();
       const num = line.match(/^(\d+)/)[1];
       const text = line.replace(/^\d+\.\s+/, '');
       out.push(`<div style="display:flex;gap:8px;align-items:flex-start;margin:3px 0;font-size:13px;line-height:1.55"><span style="color:#94a3b8;font-weight:600;flex-shrink:0;min-width:18px">${num}.</span><span style="color:#1e293b">${text}</span></div>`);
-    // Table (already processed, pass through)
     } else if (line.includes('<table')) {
       flushBullets();
       out.push(line);
-    // Blank line
     } else if (line.trim() === '') {
       flushBullets();
       out.push('<div style="height:6px"></div>');
-    // Normal paragraph
     } else {
       flushBullets();
       out.push(`<p style="margin:0 0 4px;font-size:14px;line-height:1.55;color:#1e293b">${line}</p>`);
@@ -441,7 +430,6 @@ function MessageBubble({ msg }) {
   flushBullets();
   let html = out.join('\n');
 
-  // Inline: bold, italic, grade badges, disclaimer, bullets char, links
   html = html
     .replace(/\*\*(.*?)\*\*/g,'<strong style="color:#0f172a;font-weight:700">$1</strong>')
     .replace(/\[Verified\s*[-—]\s*High\]/g,'<span style="display:inline-flex;align-items:center;background:#f0fdf4;color:#15803d;padding:1px 7px;border-radius:4px;font-size:10px;font-weight:700;border:1px solid #bbf7d0">✓ Verified High</span>')
@@ -492,7 +480,7 @@ export default function HormoneAIConsultant() {
 
   useEffect(() => { messagesEndRef.current?.scrollIntoView({behavior:"smooth"}); }, [messages]);
 
-  // Build system prompt with uploaded doc context
+  // ─── Build system prompt with uploaded doc context ────────────────────────
   const buildSystemPrompt = () => {
     if (!uploadedDocs.length) return SYSTEM_PROMPT;
     const docContext = uploadedDocs.map((d,i) =>
@@ -501,6 +489,7 @@ export default function HormoneAIConsultant() {
     return SYSTEM_PROMPT + `\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\nPATIENT-UPLOADED DOCUMENTS (use these to personalize responses):\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n${docContext}\n\nIMPORTANT: Reference the patient's uploaded documents when answering. Personalize all recommendations based on their actual lab values, history, and clinical data shown above.`;
   };
 
+  // ─── File upload — PDF/image extraction (no system prompt, no caching) ────
   const handleFileUpload = async (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -516,19 +505,21 @@ export default function HormoneAIConsultant() {
         setUploadedDocs(prev => [...prev, { name:file.name, type:"text", text:text.slice(0,12000) }]);
       } else if (isPDF || isImage) {
         const b64 = await toBase64(file);
-        // For PDFs/images, use Claude to extract text via the API
         const resp = await fetch("/api/chat", {
           method:"POST",
           headers:{"Content-Type":"application/json"},
           body:JSON.stringify({
             model:"claude-sonnet-4-6",
             max_tokens:2000,
+            // NOTE: No system prompt here — this is a one-shot extraction call.
+            // Caching only applies to system prompts, so nothing to cache for this call.
             messages:[{
               role:"user",
               content:[
-                isPDF ? {type:"document",source:{type:"base64",media_type:"application/pdf",data:b64}}
-                      : {type:"image",source:{type:"base64",media_type:file.type,data:b64}},
-                {type:"text",text:"Extract all text and key clinical values from this document. Include lab values with their reference ranges, dates, provider names, diagnoses, medications, and any other clinically relevant information. Format clearly."}
+                isPDF
+                  ? {type:"document", source:{type:"base64", media_type:"application/pdf", data:b64}}
+                  : {type:"image",    source:{type:"base64", media_type:file.type,          data:b64}},
+                {type:"text", text:"Extract all text and key clinical values from this document. Include lab values with their reference ranges, dates, provider names, diagnoses, medications, and any other clinically relevant information. Format clearly."}
               ]
             }]
           })
@@ -546,6 +537,7 @@ export default function HormoneAIConsultant() {
 
   const removeDoc = (i) => setUploadedDocs(prev => prev.filter((_,j) => j !== i));
 
+  // ─── Send chat message — prompt caching + history trim applied ────────────
   const sendMessage = async (text) => {
     const userMsg = text || input;
     if (!userMsg.trim() || loading) return;
@@ -560,21 +552,25 @@ export default function HormoneAIConsultant() {
         method:"POST",
         headers:{"Content-Type":"application/json"},
         body: JSON.stringify({
-  model: "claude-sonnet-4-6",
-  max_tokens: 3000,
-  system: [
-    {
-      type: "text",
-      text: buildSystemPrompt(),
-      cache_control: { type: "ephemeral" }
-    }
-  ],
-  messages: newMessages.slice(-6).map(m => ({
-    role: m.role,
-    content: m.content
-  })),
-  _sources: { clinicalWeb: false, literature: true }
-})
+          model: "claude-sonnet-4-6",
+          max_tokens: 3000,
+          // Prompt caching: system prompt (~5,500 tokens) cached at $0.30/M
+          // instead of $3.00/M — saves ~85% on the largest input cost driver.
+          system: [
+            {
+              type: "text",
+              text: buildSystemPrompt(),
+              cache_control: { type: "ephemeral" }
+            }
+          ],
+          // History trim: last 6 messages (3 exchanges) prevents runaway
+          // conversation history from doubling input tokens after long sessions.
+          messages: newMessages.slice(-6).map(m => ({
+            role: m.role,
+            content: m.content
+          })),
+          _sources: { clinicalWeb: false, literature: true }
+        })
       });
       const data = await response.json();
       const reply = data.mergedText || data.content?.[0]?.text || "Connection error — please try again.";
@@ -587,14 +583,12 @@ export default function HormoneAIConsultant() {
 
   const step = ALGORITHM_STEPS[activeStep];
 
-  // ── NAV TABS ──────────────────────────────────────────────────────────────
   const navTabs = [
-    {k:"chat", label:"💬 Consult", short:"💬"},
+    {k:"chat",      label:"💬 Consult",   short:"💬"},
     {k:"algorithm", label:"📋 Algorithm", short:"📋"},
-    {k:"evidence", label:"📚 Evidence", short:"📚"},
+    {k:"evidence",  label:"📚 Evidence",  short:"📚"},
   ];
 
-  // ── RENDER ────────────────────────────────────────────────────────────────
   return (
     <div style={{minHeight:"100%",background:"#f1f5f9",fontFamily:"'Georgia','Times New Roman',serif",color:"#1e293b",display:"flex",flexDirection:"column",height:"100%"}}>
 
@@ -603,9 +597,7 @@ export default function HormoneAIConsultant() {
         <div style={{display:"flex",alignItems:"center",gap:"10px"}}>
           <div style={{width:isMobile?"32px":"38px",height:isMobile?"32px":"38px",background:"linear-gradient(135deg,#4f46e5,#7c3aed)",borderRadius:"9px",display:"flex",alignItems:"center",justifyContent:"center",fontSize:isMobile?"15px":"18px"}}>🧬</div>
           <div>
-            <div style={{fontSize:isMobile?"13px":"15px",fontWeight:"700",color:"#0f172a"}}>
-              Hormone AI Consultant
-            </div>
+            <div style={{fontSize:isMobile?"13px":"15px",fontWeight:"700",color:"#0f172a"}}>Hormone AI Consultant</div>
             {!isMobile && (
               <div style={{fontSize:"10px",color:"#94a3b8",letterSpacing:"0.05em",textTransform:"uppercase",marginTop:"1px"}}>
                 Evidenced Based Men's and Women's Hormone Optimization
@@ -633,7 +625,7 @@ export default function HormoneAIConsultant() {
         {activeView === "chat" && (
           <div style={{flex:1,display:"flex",flexDirection:"column",overflow:"hidden"}}>
 
-            {/* Desktop sidebar + chat split */}
+            {/* Desktop */}
             {!isMobile && (
               <div style={{flex:1,display:"flex",overflow:"hidden"}}>
                 {/* Sidebar */}
@@ -646,7 +638,6 @@ export default function HormoneAIConsultant() {
                       <span style={{flexShrink:0}}>{t.icon}</span><span>{t.label}</span>
                     </button>
                   ))}
-                  {/* Desktop doc upload */}
                   <div style={{marginTop:"16px",paddingTop:"14px",borderTop:"1px solid #e2e8f0"}}>
                     <p style={{fontSize:"10px",color:"#94a3b8",textTransform:"uppercase",letterSpacing:"0.1em",marginBottom:"8px",fontWeight:"700"}}>My Documents</p>
                     <label style={{display:"flex",alignItems:"center",gap:"5px",padding:"7px 10px",background:"#eef2ff",border:"1px solid #c7d2fe",borderRadius:"7px",cursor:uploading?"not-allowed":"pointer",fontSize:"11px",color:"#4338ca",fontWeight:"600",fontFamily:"inherit",width:"100%",boxSizing:"border-box"}}>
@@ -665,7 +656,7 @@ export default function HormoneAIConsultant() {
                   </div>
                 </div>
 
-                {/* Chat messages + input */}
+                {/* Chat area */}
                 <div style={{flex:1,display:"flex",flexDirection:"column",overflow:"hidden",background:"#f8fafc"}}>
                   <div style={{flex:1,overflowY:"auto",padding:"20px 24px"}}>
                     {messages.map((msg,i)=><MessageBubble key={i} msg={msg}/>)}
@@ -695,10 +686,9 @@ export default function HormoneAIConsultant() {
               </div>
             )}
 
-            {/* ── MOBILE CHAT ── */}
+            {/* ── MOBILE ── */}
             {isMobile && (
               <div style={{flex:1,display:"flex",flexDirection:"column",overflow:"hidden"}}>
-                {/* Mobile doc banner if docs uploaded */}
                 {uploadedDocs.length > 0 && (
                   <div style={{background:"#f0fdf4",borderBottom:"1px solid #bbf7d0",padding:"6px 14px",display:"flex",alignItems:"center",gap:"6px",flexShrink:0}}>
                     <span style={{fontSize:"11px"}}>📄</span>
@@ -706,8 +696,6 @@ export default function HormoneAIConsultant() {
                     <button onClick={()=>setUploadedDocs([])} style={{marginLeft:"auto",background:"none",border:"none",cursor:"pointer",color:"#94a3b8",fontSize:"12px"}}>✕</button>
                   </div>
                 )}
-
-                {/* Messages */}
                 <div style={{flex:1,overflowY:"auto",padding:"14px"}}>
                   {messages.map((msg,i)=><MessageBubble key={i} msg={msg}/>)}
                   {loading && (
@@ -720,8 +708,6 @@ export default function HormoneAIConsultant() {
                   )}
                   <div ref={messagesEndRef}/>
                 </div>
-
-                {/* Mobile quick topics collapsible */}
                 {showTopics && (
                   <div style={{background:"#ffffff",borderTop:"1px solid #e2e8f0",padding:"10px 12px",flexShrink:0}}>
                     <div style={{display:"flex",flexWrap:"wrap",gap:"6px"}}>
@@ -733,25 +719,19 @@ export default function HormoneAIConsultant() {
                     </div>
                   </div>
                 )}
-
-                {/* Mobile input bar */}
                 <div style={{padding:"10px 12px 12px",borderTop:"1px solid #e2e8f0",background:"#ffffff",flexShrink:0}}>
                   <div style={{display:"flex",gap:"6px",alignItems:"center"}}>
-                    {/* Topics toggle */}
                     <button onClick={()=>setShowTopics(v=>!v)} style={{width:"38px",height:"38px",borderRadius:"9px",background:showTopics?"#eef2ff":"#f8fafc",border:`1px solid ${showTopics?"#c7d2fe":"#e2e8f0"}`,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",fontSize:"16px",flexShrink:0}}>
                       💡
                     </button>
-                    {/* Upload button */}
                     <label style={{width:"38px",height:"38px",borderRadius:"9px",background:"#f8fafc",border:"1px solid #e2e8f0",cursor:uploading?"not-allowed":"pointer",display:"flex",alignItems:"center",justifyContent:"center",fontSize:"16px",flexShrink:0}}>
                       {uploading?"⏳":"📎"}
                       <input type="file" accept=".pdf,.txt,.md,image/*" style={{display:"none"}} onChange={handleFileUpload} disabled={uploading}/>
                     </label>
-                    {/* Text input */}
                     <input value={input} onChange={e=>setInput(e.target.value)} onKeyDown={e=>e.key==="Enter"&&!e.shiftKey&&sendMessage()}
                       placeholder="Ask a hormone question..."
                       style={{flex:1,padding:"10px 12px",background:"#f8fafc",border:"1px solid #e2e8f0",borderRadius:"10px",color:"#1e293b",fontSize:"13px",outline:"none",fontFamily:"inherit",minWidth:0}}
                       onFocus={e=>e.target.style.borderColor="#a5b4fc"} onBlur={e=>e.target.style.borderColor="#e2e8f0"}/>
-                    {/* Send */}
                     <button onClick={()=>sendMessage()} disabled={loading||!input.trim()} style={{width:"38px",height:"38px",background:loading||!input.trim()?"#e2e8f0":"linear-gradient(135deg,#4f46e5,#7c3aed)",border:"none",borderRadius:"10px",color:loading||!input.trim()?"#94a3b8":"#fff",cursor:loading||!input.trim()?"not-allowed":"pointer",display:"flex",alignItems:"center",justifyContent:"center",fontSize:"16px",flexShrink:0}}>
                       →
                     </button>
@@ -778,7 +758,6 @@ export default function HormoneAIConsultant() {
         {activeView === "algorithm" && (
           <div style={{flex:1,display:"flex",flexDirection:"column",overflow:"hidden"}}>
             {isMobile ? (
-              // Mobile algorithm — vertical scrollable list
               <div style={{flex:1,overflowY:"auto",padding:"14px"}}>
                 {ALGORITHM_STEPS.map((s,i)=>(
                   <div key={i} style={{background:"#ffffff",border:`1px solid ${s.border}`,borderRadius:"12px",padding:"16px",marginBottom:"12px"}}>
@@ -803,7 +782,6 @@ export default function HormoneAIConsultant() {
                 ))}
               </div>
             ) : (
-              // Desktop algorithm — sidebar + detail
               <div style={{flex:1,display:"flex",overflow:"hidden"}}>
                 <div style={{width:"195px",borderRight:"1px solid #e2e8f0",padding:"16px 12px",background:"#ffffff",overflowY:"auto"}}>
                   <p style={{fontSize:"10px",color:"#94a3b8",textTransform:"uppercase",letterSpacing:"0.1em",marginBottom:"14px",fontWeight:"700"}}>6-Step Algorithm</p>
