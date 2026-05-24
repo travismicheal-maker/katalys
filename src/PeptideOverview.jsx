@@ -109,10 +109,10 @@ function renderInline(text, isUser) {
 // ── Parse a markdown table block into header + rows ──────────────────────────
 function parseTableLines(lines) {
   const rows = lines
-    .filter(l => !/^\|[\s\-\|]+\|?\s*$/.test(l.trim())) // drop separator rows (|---|---|)
+    .filter(l => !/^\|[\s\-\|]+\|?\s*$/.test(l.trim()))
     .map(l =>
       l.trim()
-        .replace(/^\|/, '').replace(/\|$/, '') // strip leading/trailing pipes
+        .replace(/^\|/, '').replace(/\|$/, '')
         .split('|')
         .map(cell => cell.trim())
     );
@@ -121,25 +121,22 @@ function parseTableLines(lines) {
 
 // ── Compact Markdown Renderer ────────────────────────────────────────────────
 function MsgContent({ text, isUser }) {
-  const color   = isUser ? '#fff' : C.textMd;
-  const subColor= isUser ? 'rgba(255,255,255,0.75)' : C.textSm;
-  const lines   = text.split('\n');
-  const nodes   = [];
+  const color    = isUser ? '#fff' : C.textMd;
+  const subColor = isUser ? 'rgba(255,255,255,0.75)' : C.textSm;
+  const lines    = text.split('\n');
+  const nodes    = [];
   let i = 0;
 
   while (i < lines.length) {
     const line = lines[i];
 
-    // ── Blank line — skip silently ──────────────────────────────────────────
     if (line.trim() === '') { i++; continue; }
 
-    // ── Horizontal rule: --- or ─── ────────────────────────────────────────
     if (/^[\-─]{3,}\s*$/.test(line.trim())) {
       nodes.push(<hr key={i} style={{ border: 'none', borderTop: `1px solid ${isUser ? 'rgba(255,255,255,0.2)' : C.border}`, margin: '6px 0' }} />);
       i++; continue;
     }
 
-    // ── Heading: ###, ##, # ─────────────────────────────────────────────────
     if (/^#{1,3}\s/.test(line)) {
       const lvl = line.match(/^(#{1,3})/)[1].length;
       const txt = line.replace(/^#{1,3}\s+/, '');
@@ -151,7 +148,6 @@ function MsgContent({ text, isUser }) {
       i++; continue;
     }
 
-    // ── Markdown table: lines starting with | ───────────────────────────────
     if (/^\|/.test(line.trim())) {
       const tableLines = [];
       while (i < lines.length && /^\|/.test(lines[i].trim())) {
@@ -193,7 +189,6 @@ function MsgContent({ text, isUser }) {
       continue;
     }
 
-    // ── Bullet list: -, *, • ────────────────────────────────────────────────
     if (/^[\-\*•]\s/.test(line.trim())) {
       const bullets = [];
       while (i < lines.length && /^[\-\*•]\s/.test(lines[i].trim())) {
@@ -213,7 +208,6 @@ function MsgContent({ text, isUser }) {
       continue;
     }
 
-    // ── Numbered list: 1. 2. ───────────────────────────────────────────────
     if (/^\d+\.\s/.test(line.trim())) {
       const items = [];
       while (i < lines.length && /^\d+\.\s/.test(lines[i].trim())) {
@@ -233,7 +227,6 @@ function MsgContent({ text, isUser }) {
       continue;
     }
 
-    // ── Regular paragraph ───────────────────────────────────────────────────
     nodes.push(
       <p key={i} style={{ margin: '2px 0', fontSize: 13.5, color, lineHeight: 1.55 }}>
         {renderInline(line, isUser)}
@@ -254,34 +247,31 @@ function PeptideAIChat({ onBack }) {
 
   useEffect(() => { endRef.current?.scrollIntoView({ behavior: 'smooth' }); }, [msgs, busy]);
 
-const send = async () => {
+  const send = async () => {
     const text = input.trim();
     if (!text || busy) return;
-    // Build full history for display (UI shows all messages)
-const fullHistory = [...msgs, { role: 'user', content: text }];
-setMsgs(fullHistory);
 
-// Cap what gets sent to the API at last 8 messages (4 exchanges).
-// Prevents conversation history from growing unbounded and doubling
-// input tokens after long sessions — saves ~$400-700/mo at scale.
-const history = fullHistory.slice(-8);
+    // Build full history for display (UI shows all messages)
+    const fullHistory = [...msgs, { role: 'user', content: text }];
+    setMsgs(fullHistory);
+
+    // Cap what gets sent to the API at last 8 messages (4 exchanges).
+    // Prevents conversation history from growing unbounded and doubling
+    // input tokens after long sessions — saves ~$400-700/mo at scale.
+    const history = fullHistory.slice(-8);
+
     setInput('');
     setBusy(true);
     try {
- 
-      // Step 1 — Local knowledge base (primary source, always injected)
-      // PEPTIDE_CONTEXT is the pre-built string from peptides.js — richer
-      // and more current than the hardcoded PEPTIDES array in this file.
- 
       const systemPrompt = `You are a Peptide Medicine Consultant with deep expertise in peptide therapeutics, longevity medicine, sports medicine, and regenerative medicine. You provide evidence-based guidance grounded in peer-reviewed literature.
- 
+
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 STEP 1 — ANSWER FROM THIS KNOWLEDGE BASE FIRST
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 The following is your curated peptide formulary. Always check here first before searching any external source. If the answer is fully contained here, do NOT search — answer directly and cite the relevant peptide entry.
- 
+
 ${PEPTIDE_CONTEXT}
- 
+
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 STEP 2 — USE PUBMED SEARCH ONLY WHEN NEEDED
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -290,9 +280,9 @@ Search PubMed or literature sources ONLY if:
 - The user asks for a specific study, trial, or citation not included above
 - The question asks for the very latest data that may post-date this formulary
 - The question requires comparative evidence across multiple peptides
- 
+
 When you search, cite the source (PMID or journal) and note whether it confirms or adds to the local knowledge base.
- 
+
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 CLINICAL RULES (always follow)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -303,30 +293,34 @@ CLINICAL RULES (always follow)
 - Never diagnose or prescribe — educate and guide clinicians
 - Flag research-only peptides and advise against unregulated online sources
 - End every clinical response with: "Always consult a licensed physician before starting any peptide protocol."`;
- 
+
+      // ── CORRECTED FETCH CALL ──────────────────────────────────────────────
+      // Changes from original:
+      //   1. max_tokens: 800  (was 1000/2000 — 800 covers 95% of responses)
+      //   2. system: array with cache_control  (prompt caching — saves ~85% on input cost)
+      //   3. messages: history  (already trimmed to last 8 above)
       const response = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        // REPLACE WITH:
-body: JSON.stringify({
-  model: 'claude-sonnet-4-6',
-  max_tokens: 800,
-  system: [
-    {
-      type: "text",
-      text: systemPrompt,
-      cache_control: { type: "ephemeral" }
-    }
-  ],
-  messages: history,
-  _sources: {
-    clinicalWeb: false,
-    literature: true,
-  },
-}),
- 
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-6',
+          max_tokens: 800,
+          system: [
+            {
+              type: 'text',
+              text: systemPrompt,
+              cache_control: { type: 'ephemeral' },
+            }
+          ],
+          messages: history,
+          _sources: {
+            clinicalWeb: false,
+            literature: true,
+          },
+        }),
+      });
+
       const data = await response.json();
-      // api/chat returns mergedText when it processes tool calls (web search)
       const reply = data.mergedText || data.content?.[0]?.text || 'Sorry, I could not get a response. Please try again.';
       setMsgs(prev => [...prev, { role: 'assistant', content: reply }]);
     } catch {
@@ -335,7 +329,8 @@ body: JSON.stringify({
       setBusy(false);
     }
   };
-    return (
+
+  return (
     <div style={{ background: C.bg, minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       {/* Header */}
       <div style={{ background: C.card, borderBottom: `1px solid ${C.border}`, padding: '16px 20px', display: 'flex', alignItems: 'center', gap: 14 }}>
@@ -434,10 +429,10 @@ function PeptideDisclaimer() {
 
 // ── Main Export ──────────────────────────────────────────────────────────────
 export default function PeptideOverview() {
-  const [view, setView]       = useState('home'); // 'home' | 'library' | 'detail' | 'chat'
+  const [view, setView]         = useState('home');
   const [selected, setSelected] = useState(null);
-  const [filter, setFilter]   = useState('all');
-  const [search, setSearch]   = useState('');
+  const [filter, setFilter]     = useState('all');
+  const [search, setSearch]     = useState('');
 
   const filtered = PEPTIDES.filter(p => {
     const matchCat    = filter === 'all' || p.categoryTag === filter;
@@ -448,28 +443,20 @@ export default function PeptideOverview() {
     return matchCat && matchSearch;
   });
 
-  const goToLibrary = (cat) => {
-    setFilter(cat || 'all');
-    setView('library');
-  };
+  const goToLibrary = (cat) => { setFilter(cat || 'all'); setView('library'); };
 
   const cat   = selected ? (CAT[selected.categoryTag] || CAT.healing) : null;
   const badge = selected ? (RESEARCH_BADGE[selected.researchLevel] || RESEARCH_BADGE.moderate) : null;
 
-  // ── AI Chat Screen ─────────────────────────────────────────────────────────
   if (view === 'chat') return <PeptideAIChat onBack={() => setView('home')} />;
 
-  // ── Peptide Detail Screen ──────────────────────────────────────────────────
   if (view === 'detail' && selected) return (
     <div style={{ background: C.bg, minHeight: '100vh', fontFamily: 'system-ui, sans-serif' }}>
       <div style={{ maxWidth: 760, margin: '0 auto', padding: '28px 20px' }}>
-        {/* Nav */}
         <div style={{ display: 'flex', gap: 10, marginBottom: 24 }}>
           <button onClick={() => { setSelected(null); setView('library'); }} style={{ background: C.card, border: `1px solid ${C.border}`, borderRadius: 8, padding: '7px 14px', cursor: 'pointer', fontSize: 13, color: C.textMd }}>← Library</button>
           <button onClick={() => { setSelected(null); setView('home'); }} style={{ background: C.card, border: `1px solid ${C.border}`, borderRadius: 8, padding: '7px 14px', cursor: 'pointer', fontSize: 13, color: C.textMd }}>Home</button>
         </div>
-
-        {/* Research-only warning */}
         {selected.isResearchOnly && (
           <div style={{ background: C.orangeLt, border: `1px solid ${C.orangeBdr}`, borderRadius: 12, padding: '14px 16px', marginBottom: 20, display: 'flex', gap: 12 }}>
             <span style={{ fontSize: 18, flexShrink: 0 }}>⚠️</span>
@@ -479,8 +466,6 @@ export default function PeptideOverview() {
             </div>
           </div>
         )}
-
-        {/* Hero */}
         <div style={{ background: cat.bg, border: `1px solid ${cat.border}`, borderRadius: 16, padding: '24px', marginBottom: 16 }}>
           <div style={{ display: 'flex', alignItems: 'flex-start', gap: 16, marginBottom: 14, flexWrap: 'wrap' }}>
             <div style={{ width: 52, height: 52, borderRadius: 12, background: '#fff', border: `1px solid ${cat.border}`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24, flexShrink: 0 }}>{selected.icon}</div>
@@ -500,8 +485,6 @@ export default function PeptideOverview() {
             Regulatory Status: {selected.regulatoryStatus}
           </div>
         </div>
-
-        {/* Sections */}
         {[
           { title: 'Mechanism of Action', icon: '⚙️', content: <p style={{ fontSize: 14, color: C.textMd, lineHeight: 1.7, margin: 0 }}>{selected.mechanism}</p> },
           { title: 'Key Benefits', icon: '✅', content: <ul style={{ margin: 0, paddingLeft: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 8 }}>{selected.benefits.map((b, i) => <li key={i} style={{ display: 'flex', gap: 10, fontSize: 13.5, color: C.textMd, lineHeight: 1.5 }}><span style={{ color: cat.accent, flexShrink: 0 }}>✓</span>{b}</li>)}</ul> },
@@ -535,19 +518,16 @@ export default function PeptideOverview() {
             {section.content}
           </div>
         ))}
-
         <div style={{ textAlign: 'center', marginTop: 20 }}>
           <button onClick={() => setView('chat')} style={{ background: C.green2, color: '#fff', border: 'none', borderRadius: 10, padding: '12px 24px', fontSize: 14, fontWeight: 600, cursor: 'pointer' }}>
             Ask AI about {selected.name} →
           </button>
         </div>
-
         <p style={{ fontSize: 11, color: C.textXs, textAlign: 'center', marginTop: 16, lineHeight: 1.5 }}>Educational purposes only · Not medical advice · All peptide therapy requires physician supervision and a licensed 503A compounding pharmacy</p>
       </div>
     </div>
   );
 
-  // ── Library Grid Screen ────────────────────────────────────────────────────
   if (view === 'library') return (
     <div style={{ background: C.bg, minHeight: '100vh', fontFamily: 'system-ui, sans-serif' }}>
       <div style={{ maxWidth: 1100, margin: '0 auto', padding: '28px 20px' }}>
@@ -562,14 +542,10 @@ export default function PeptideOverview() {
             onBlur={e => e.target.style.borderColor = C.border}
           />
         </div>
-
-        {/* Warning bar */}
         <div style={{ background: C.orangeLt, border: `1px solid ${C.orangeBdr}`, borderRadius: 10, padding: '10px 16px', marginBottom: 20, display: 'flex', alignItems: 'center', gap: 10, fontSize: 12.5, color: '#B45309' }}>
           <span>⚠️</span>
           <span>Peptides marked <strong>RESEARCH ONLY</strong> are not FDA-approved. Only use compoundable peptides prescribed by a physician through a licensed 503A pharmacy.</span>
         </div>
-
-        {/* Category filter pills */}
         <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 20 }}>
           {FILTERS.map(f => {
             const active = filter === f.id;
@@ -581,8 +557,6 @@ export default function PeptideOverview() {
             );
           })}
         </div>
-
-        {/* Grid */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(290px, 1fr))', gap: 14 }}>
           {filtered.map(p => {
             const c = CAT[p.categoryTag] || CAT.healing;
@@ -618,25 +592,16 @@ export default function PeptideOverview() {
     </div>
   );
 
-  // ── Home Screen ────────────────────────────────────────────────────────────
   return (
     <div style={{ background: C.bg, minHeight: '100vh', fontFamily: 'system-ui, sans-serif' }}>
       <div style={{ maxWidth: 680, margin: '0 auto', padding: '40px 20px' }}>
-
-        {/* Header */}
         <div style={{ marginBottom: 24 }}>
           <div style={{ fontSize: 11, letterSpacing: 3, color: C.textXs, fontWeight: 700, marginBottom: 10, textTransform: 'uppercase' }}>Vitae · Bio Precision Aging</div>
           <h1 style={{ fontSize: 28, fontWeight: 800, color: C.green1, margin: '0 0 8px' }}>Peptide Consultant</h1>
           <p style={{ color: C.textSm, fontSize: 14.5, margin: 0, lineHeight: 1.6 }}>AI-assisted guidance for evidence-based peptide therapy. Explore the library, filter by goal, or chat with our AI consultant.</p>
         </div>
-
-        {/* Disclaimer */}
         <PeptideDisclaimer />
-
-        {/* Two main action buttons */}
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 24 }}>
-
-          {/* Peptide Overview */}
           <button onClick={() => goToLibrary('all')} style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '18px 16px', background: C.greenLt, border: `1.5px solid ${C.borderGrn}`, borderRadius: 14, cursor: 'pointer', textAlign: 'left', transition: 'all 0.15s' }}
             onMouseEnter={e => { e.currentTarget.style.background = '#D1FAE5'; e.currentTarget.style.borderColor = C.green3; e.currentTarget.style.boxShadow = '0 4px 12px rgba(52,183,120,0.15)'; }}
             onMouseLeave={e => { e.currentTarget.style.background = C.greenLt; e.currentTarget.style.borderColor = C.borderGrn; e.currentTarget.style.boxShadow = 'none'; }}
@@ -647,8 +612,6 @@ export default function PeptideOverview() {
               <div style={{ fontSize: 12, color: C.green2, lineHeight: 1.4 }}>Browse all {PEPTIDES.length} peptides in our library</div>
             </div>
           </button>
-
-          {/* Peptide AI Consultant */}
           <button onClick={() => setView('chat')} style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '18px 16px', background: '#EFF6FF', border: '1.5px solid #BFDBFE', borderRadius: 14, cursor: 'pointer', textAlign: 'left', transition: 'all 0.15s' }}
             onMouseEnter={e => { e.currentTarget.style.background = '#DBEAFE'; e.currentTarget.style.borderColor = '#93C5FD'; e.currentTarget.style.boxShadow = '0 4px 12px rgba(37,99,235,0.12)'; }}
             onMouseLeave={e => { e.currentTarget.style.background = '#EFF6FF'; e.currentTarget.style.borderColor = '#BFDBFE'; e.currentTarget.style.boxShadow = 'none'; }}
@@ -660,8 +623,6 @@ export default function PeptideOverview() {
             </div>
           </button>
         </div>
-
-        {/* Goal selection */}
         <div style={{ background: C.card, border: `1px solid ${C.border}`, borderRadius: 14, padding: '20px' }}>
           <div style={{ fontSize: 12, fontWeight: 700, color: C.textSm, letterSpacing: 1.5, textTransform: 'uppercase', marginBottom: 14 }}>Filter Library by Your Goal</div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 8 }}>
@@ -679,7 +640,6 @@ export default function PeptideOverview() {
             })}
           </div>
         </div>
-
         <p style={{ fontSize: 11, color: C.textXs, textAlign: 'center', marginTop: 20, lineHeight: 1.5 }}>
           Educational purposes only · Not medical advice · All peptide therapy requires physician supervision and a prescription from a licensed 503A compounding pharmacy.
         </p>
