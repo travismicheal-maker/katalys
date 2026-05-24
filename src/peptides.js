@@ -1,8 +1,14 @@
 // src/peptides.js
 // Peptide knowledge base — Vitae Bio Precision Aging
-// BPC-157 fully updated from research literature (May 2026)
-// MOTS-c fully updated from 12 peer-reviewed sources (May 2026)
-// Tesamorelin fully updated from 3 sources incl. 2 RCTs (May 2026)
+// Last updated: May 2026
+// ─────────────────────────────────────────
+// BPC-157        — 200+ preclinical + 3 human studies (May 2026)
+// MOTS-c         — 12 peer-reviewed sources (May 2026)
+// Tesamorelin    — 6 peer-reviewed sources incl. 3 RCTs (May 2026)
+// CJC-1295       — 4 peer-reviewed sources (May 2026)
+// HCG            — 4 peer-reviewed sources (May 2026)
+// ─────────────────────────────────────────
+// Remaining entries: foundational entries, pending full literature extraction
 // ─────────────────────────────────────────────────────────────
 
 export const PEPTIDE_GOALS_DATA = [
