@@ -1,5 +1,5 @@
-// src/VitaeInfoPage.jsx
-// "What is VITAE AI" — platform information page
+// src/KatalysInfoPage.jsx
+// "What is Katalys" — platform information page
 // Reconstructed May 2026 from approved design session
 
 import { useState } from 'react';
@@ -114,7 +114,7 @@ function Check({ yes }) {
 }
 
 // ─── MAIN COMPONENT ───────────────────────────────────────────────────────────
-export default function VitaeInfoPage({ onLaunch }) {
+export default function KatalysInfoPage({ onLaunch }) {
   const section = (children, bg = C.offWhite) => (
     <section style={{ background: bg, padding: '60px 24px', width: '100%', boxSizing: 'border-box', display: 'block' }}>
       <div style={{ maxWidth: 860, margin: '0 auto' }}>{children}</div>
@@ -147,7 +147,7 @@ export default function VitaeInfoPage({ onLaunch }) {
           {/* Brand */}
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, marginBottom: 22 }}>
             <Heart size={22} fill={C.emeraldLt} color={C.emeraldLt}/>
-            <span style={{ fontSize: 22, fontWeight: 800, letterSpacing: '-.3px' }}>Vitae</span>
+            <span style={{ fontSize: 22, fontWeight: 800, letterSpacing: '-.3px' }}>Katalys</span>
             <span style={{ fontSize: 12, color: 'rgba(255,255,255,.5)', borderLeft: '1px solid rgba(255,255,255,.2)', paddingLeft: 10, marginLeft: 4 }}>
               by Bio Precision Aging
             </span>
@@ -167,12 +167,12 @@ export default function VitaeInfoPage({ onLaunch }) {
 
           {/* Sub copy */}
           <p style={{ fontSize: 16, lineHeight: 1.75, color: 'rgba(255,255,255,.82)', margin: '0 auto 14px', maxWidth: 600 }}>
-            Vitae is not a chatbot. It is a precision medicine intelligence platform built on peer-reviewed
+            Katalys is not a chatbot. It is a precision medicine intelligence platform built on peer-reviewed
             clinical research, proprietary peptide formulary data, and a GRADE-graded evidence framework —
             designed for patients and clinicians who demand more than search engine summaries.
           </p>
           <p style={{ fontSize: 15, lineHeight: 1.7, color: 'rgba(255,255,255,.7)', margin: '0 auto 30px', maxWidth: 580 }}>
-            Vitae also features the world's first dedicated AI Peptide Consultant and AI Hormone Consultant
+            Katalys also features the world's first dedicated AI Peptide Consultant and AI Hormone Consultant
             specialty modules — powered by the best available peer-reviewed clinical evidence and proprietary
             formulary data from Bio Precision Aging.
           </p>
@@ -194,7 +194,7 @@ export default function VitaeInfoPage({ onLaunch }) {
             }}
             onMouseEnter={e => e.target.style.opacity = '.85'}
             onMouseLeave={e => e.target.style.opacity = '1'}>
-              Use VITAE AI Now →
+              Use Katalys AI Now →
             </button>
           )}
         </div>
@@ -216,7 +216,7 @@ export default function VitaeInfoPage({ onLaunch }) {
         <>
           {sectionHead(
             'Market position',
-            'How VITAE AI compares',
+            'How Katalys AI compares',
             'Generic AI tools were not built for clinical medicine. Every capability below reflects a deliberate design decision — not an accident of scale.'
           )}
           <div style={{ overflowX: 'auto', borderRadius: 12, border: `1px solid ${C.border}`, background: C.white }}>
@@ -224,7 +224,7 @@ export default function VitaeInfoPage({ onLaunch }) {
               <thead>
                 <tr style={{ background: C.emerald }}>
                   <th style={{ padding: '14px 18px', textAlign: 'left', fontSize: 13, fontWeight: 700, color: 'rgba(255,255,255,.7)', width: '50%' }}>Capability</th>
-                  <th style={{ padding: '14px 12px', textAlign: 'center', fontSize: 13, fontWeight: 700, color: C.emeraldLt }}>VITAE AI</th>
+                  <th style={{ padding: '14px 12px', textAlign: 'center', fontSize: 13, fontWeight: 700, color: C.emeraldLt }}>Katalys AI</th>
                   <th style={{ padding: '14px 12px', textAlign: 'center', fontSize: 13, fontWeight: 700, color: 'rgba(255,255,255,.6)' }}>ChatGPT</th>
                   <th style={{ padding: '14px 12px', textAlign: 'center', fontSize: 13, fontWeight: 700, color: 'rgba(255,255,255,.6)' }}>Generic Claude</th>
                 </tr>
@@ -250,7 +250,7 @@ export default function VitaeInfoPage({ onLaunch }) {
                 padding: '14px 32px', borderRadius: 10, fontSize: 15, fontWeight: 700,
                 cursor: 'pointer', fontFamily: 'inherit',
               }}>
-                Use VITAE AI Now →
+                Use Katalys AI Now →
               </button>
             </div>
           )}
@@ -263,7 +263,7 @@ export default function VitaeInfoPage({ onLaunch }) {
         <>
           {sectionHead(
             'Evidence retrieval',
-            'How VITAE AI finds answers',
+            'How Katalys AI finds answers',
             'A 3-step retrieval chain ensures clinical accuracy while eliminating noise from consumer health websites.'
           )}
           <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
@@ -271,17 +271,17 @@ export default function VitaeInfoPage({ onLaunch }) {
               {
                 step: '1', icon: <Database size={20}/>, color: C.emeraldPl, tcolor: C.emeraldMd,
                 title: 'Proprietary knowledge base first',
-                body: 'All 20+ peptide entries from the Bio Precision Aging formulary are injected directly into every response. Dosing, mechanisms, stacking protocols, evidence grades — no search required. If the answer is here, VITAE responds instantly without hitting the web.',
+                body: 'All 20+ peptide entries from the Bio Precision Aging formulary are injected directly into every response. Dosing, mechanisms, stacking protocols, evidence grades — no search required. If the answer is here, Katalys responds instantly without hitting the web.',
               },
               {
                 step: '2', icon: <Search size={20}/>, color: '#EFF6FF', tcolor: C.blue,
                 title: 'PubMed / Cochrane / NEJM fallback only',
-                body: 'When the proprietary KB is insufficient, VITAE searches peer-reviewed literature exclusively: PubMed, Cochrane Library, NEJM, JAMA, The Lancet, BMJ, ACC/AHA, Endocrine Society, and 12 other approved clinical sources. Every web search result is cited with PMID or journal DOI.',
+                body: 'When the proprietary KB is insufficient, Katalys searches peer-reviewed literature exclusively: PubMed, Cochrane Library, NEJM, JAMA, The Lancet, BMJ, ACC/AHA, Endocrine Society, and 12 other approved clinical sources. Every web search result is cited with PMID or journal DOI.',
               },
               {
                 step: '3', icon: <Shield size={20}/>, color: C.redLt, tcolor: C.red,
                 title: 'Hard-blocked: consumer health sites',
-                body: 'WebMD, Healthline, Mayo Clinic (patient-facing), Reddit, forums, supplement brand sites, and all consumer health content are explicitly excluded at the API level — not filtered after the fact. These sources cannot enter a VITAE response under any circumstances.',
+                body: 'WebMD, Healthline, Mayo Clinic (patient-facing), Reddit, forums, supplement brand sites, and all consumer health content are explicitly excluded at the API level — not filtered after the fact. These sources cannot enter a Katalys response under any circumstances.',
               },
             ].map(s => (
               <div key={s.step} style={{ display: 'flex', gap: 16, background: C.white, border: `1px solid ${C.border}`, borderRadius: 12, padding: '20px' }}>
@@ -299,7 +299,7 @@ export default function VitaeInfoPage({ onLaunch }) {
 
           {/* Banned domains callout */}
           <div style={{ marginTop: 20, background: C.redLt, border: `1px solid #FECACA`, borderRadius: 10, padding: '16px 18px' }}>
-            <div style={{ fontSize: 12, fontWeight: 700, color: C.red, textTransform: 'uppercase', letterSpacing: '.06em', marginBottom: 8 }}>Hard-blocked sources — never appear in VITAE responses</div>
+            <div style={{ fontSize: 12, fontWeight: 700, color: C.red, textTransform: 'uppercase', letterSpacing: '.06em', marginBottom: 8 }}>Hard-blocked sources — never appear in Katalys responses</div>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
               {['WebMD', 'Healthline', 'Mayo Clinic (patient)', 'Reddit', 'Drugs.com', 'RxList', 'NHS.uk (patient)', 'Wikipedia', 'Supplement brand sites', 'Health forums', 'News articles', 'Social media'].map(d => (
                 <span key={d} style={{ fontSize: 12, background: C.white, color: C.red, border: `1px solid #FECACA`, padding: '3px 10px', borderRadius: 20 }}>{d}</span>
@@ -392,9 +392,9 @@ export default function VitaeInfoPage({ onLaunch }) {
       {section(
         <>
           {sectionHead(
-            'The gap VITAE fills',
+            'The gap Katalys fills',
             'Why nothing else does this',
-            'Every existing tool fails in at least one critical dimension. VITAE was built specifically to close all of them simultaneously.'
+            'Every existing tool fails in at least one critical dimension. Katalys was built specifically to close all of them simultaneously.'
           )}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 14 }}>
             {[
@@ -425,20 +425,20 @@ export default function VitaeInfoPage({ onLaunch }) {
           <div style={{ background: C.white, border: `1px solid ${C.border}`, borderRadius: 12, padding: '8px 20px' }}>
             {[
               {
-                q: 'Is VITAE AI replacing my doctor?',
-                a: 'No. VITAE AI is a clinical decision-support tool, not a licensed medical provider. It helps you understand your results, prepare better questions for your physician, and navigate the evidence — but all treatment decisions should be made with a qualified clinician.'
+                q: 'Is Katalys AI replacing my doctor?',
+                a: 'No. Katalys AI is a clinical decision-support tool, not a licensed medical provider. It helps you understand your results, prepare better questions for your physician, and navigate the evidence — but all treatment decisions should be made with a qualified clinician.'
               },
               {
                 q: 'Where does the information come from?',
-                a: 'VITAE uses a two-tier system: first, a proprietary formulary built from peer-reviewed literature extraction; second, real-time searches of PubMed, Cochrane Library, NEJM, JAMA, and other approved clinical databases. Consumer health websites are explicitly blocked.'
+                a: 'Katalys uses a two-tier system: first, a proprietary formulary built from peer-reviewed literature extraction; second, real-time searches of PubMed, Cochrane Library, NEJM, JAMA, and other approved clinical databases. Consumer health websites are explicitly blocked.'
               },
               {
-                q: 'How is VITAE different from just asking ChatGPT?',
-                a: 'ChatGPT has no source restrictions and no evidence-quality labeling. It can cite WebMD, Reddit, and supplement brand websites. VITAE blocks those sources at the API level, labels every claim with GRADE evidence grades, and has a built-in proprietary peptide and hormone knowledge base that no generic model has.'
+                q: 'How is Katalys different from just asking ChatGPT?',
+                a: 'ChatGPT has no source restrictions and no evidence-quality labeling. It can cite WebMD, Reddit, and supplement brand websites. Katalys blocks those sources at the API level, labels every claim with GRADE evidence grades, and has a built-in proprietary peptide and hormone knowledge base that no generic model has.'
               },
               {
                 q: 'What is the deep reasoning mode?',
-                a: 'For complex clinical questions — differential diagnoses, risk assessment, multi-system interactions — VITAE automatically routes to Claude Opus with extended thinking enabled. This takes longer but produces substantially more rigorous clinical reasoning. Simple factual queries use the faster Claude Sonnet model.'
+                a: 'For complex clinical questions — differential diagnoses, risk assessment, multi-system interactions — Katalys automatically routes to Claude Opus with extended thinking enabled. This takes longer but produces substantially more rigorous clinical reasoning. Simple factual queries use the faster Claude Sonnet model.'
               },
               {
                 q: 'Can I upload multiple documents?',
@@ -446,7 +446,7 @@ export default function VitaeInfoPage({ onLaunch }) {
               },
               {
                 q: 'What does GRADE mean?',
-                a: 'GRADE (Grading of Recommendations, Assessment, Development and Evaluations) is the global standard framework for rating evidence quality in clinical medicine. VITAE labels every significant claim as [Verified — High/Moderate/Low], [Speculation], or [Unknown] so you always know how much confidence to place in the guidance.'
+                a: 'GRADE (Grading of Recommendations, Assessment, Development and Evaluations) is the global standard framework for rating evidence quality in clinical medicine. Katalys labels every significant claim as [Verified — High/Moderate/Low], [Speculation], or [Unknown] so you always know how much confidence to place in the guidance.'
               },
             ].map(faq => (
               <FAQItem key={faq.q} q={faq.q} a={faq.a} />
@@ -470,7 +470,7 @@ export default function VitaeInfoPage({ onLaunch }) {
               padding: '14px 36px', borderRadius: 10, fontSize: 16, fontWeight: 700,
               cursor: 'pointer', fontFamily: 'inherit',
             }}>
-              Use VITAE AI Now →
+              Use Katalys AI Now →
             </button>
           )}
           <div style={{ marginTop: 20, fontSize: 12, color: 'rgba(255,255,255,.4)', lineHeight: 1.6 }}>
