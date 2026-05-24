@@ -93,18 +93,18 @@ function FAQItem({ q, a }) {
 
 // ─── Comparison table data ────────────────────────────────────────────────────
 const COMPARE_ROWS = [
-  { cap: 'Dedicated AI Peptide Consultant module',          v: true,  gpt: false, gc: false },
-  { cap: 'Dedicated AI Hormone Consultant module',          v: true,  gpt: false, gc: false },
-  { cap: 'Proprietary peptide formulary knowledge base',    v: true,  gpt: false, gc: false },
-  { cap: 'GRADE-labeled evidence on every claim',           v: true,  gpt: false, gc: false },
-  { cap: 'PubMed / Cochrane / NEJM as sole web sources',    v: true,  gpt: false, gc: false },
-  { cap: 'Hard-blocks consumer health sites (WebMD, etc.)', v: true,  gpt: false, gc: false },
-  { cap: 'Deep reasoning mode (Opus) for complex queries',  v: true,  gpt: false, gc: false },
-  { cap: 'Reads and flags uploaded lab / imaging reports',  v: true,  gpt: true,  gc: true  },
-  { cap: 'Built-in hormone optimization treatment algorithm',v: true, gpt: false, gc: false },
-  { cap: 'No account or API key required',                  v: true,  gpt: false, gc: false },
-  { cap: 'Session-only data — nothing stored on any server',v: true,  gpt: false, gc: false },
-  { cap: 'Designed for clinical decision-support',          v: true,  gpt: false, gc: false },
+  { cap: 'Dedicated AI Peptide Consultant module',                           v: true,  gpt: false, gc: false },
+  { cap: 'Dedicated AI Hormone Consultant module',                           v: true,  gpt: false, gc: false },
+  { cap: 'Proprietary peptide formulary knowledge base',                     v: true,  gpt: false, gc: false },
+  { cap: 'GRADE-labeled evidence on every claim',                            v: true,  gpt: false, gc: false },
+  { cap: 'PubMed / Cochrane / NEJM as sole web sources',                     v: true,  gpt: false, gc: false },
+  { cap: 'Hard-blocks consumer health sites (WebMD, etc.)',                  v: true,  gpt: false, gc: false },
+  { cap: 'Deep reasoning mode (Opus) for complex queries',                   v: true,  gpt: false, gc: false },
+  { cap: 'Auto-extracts, categorizes & flags lab values from uploads',       v: true,  gpt: false, gc: false },
+  { cap: 'Built-in hormone optimization treatment algorithm',                v: true,  gpt: false, gc: false },
+  { cap: 'No account or API key required',                                   v: true,  gpt: false, gc: false },
+  { cap: 'Session-only data — nothing stored on any server',                 v: true,  gpt: false, gc: false },
+  { cap: 'Designed for clinical decision-support',                           v: true,  gpt: false, gc: false },
 ];
 
 function Check({ yes }) {
@@ -130,7 +130,7 @@ export default function KatalysInfoPage({ onLaunch }) {
   );
 
   return (
-    <div style={{ fontFamily: "'Georgia', 'Times New Roman', serif", color: C.text, background: C.offWhite, width: '100%', boxSizing: 'border-box', overflowX: 'hidden' }}>
+    <div style={{ fontFamily: "\'Georgia\', \'Times New Roman\', serif", color: C.text, background: C.offWhite, width: '100%', boxSizing: 'border-box', overflowX: 'hidden' }}>
 
       {/* ── HERO ───────────────────────────────────────────────────────────── */}
       <section style={{
@@ -144,7 +144,6 @@ export default function KatalysInfoPage({ onLaunch }) {
           pointerEvents: 'none',
         }}/>
         <div style={{ position: 'relative', maxWidth: 720, margin: '0 auto' }}>
-          {/* Brand */}
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, marginBottom: 22 }}>
             <Heart size={22} fill={C.emeraldLt} color={C.emeraldLt}/>
             <span style={{ fontSize: 22, fontWeight: 800, letterSpacing: '-.3px' }}>Katalys</span>
@@ -152,20 +151,14 @@ export default function KatalysInfoPage({ onLaunch }) {
               by Bio Precision Aging
             </span>
           </div>
-
-          {/* Specialty badges */}
           <div style={{ display: 'flex', gap: 8, justifyContent: 'center', marginBottom: 20, flexWrap: 'wrap' }}>
             <Pill color='rgba(82,183,136,.25)' textColor={C.emeraldLt}><Dna size={12}/>Peptide Specialist</Pill>
             <Pill color='rgba(82,183,136,.25)' textColor={C.emeraldLt}><Brain size={12}/>Hormone Specialist</Pill>
           </div>
-
-          {/* Headline */}
           <h1 style={{ fontSize: 38, fontWeight: 800, lineHeight: 1.15, margin: '0 0 18px', letterSpacing: '-.5px' }}>
             The World's First<br/>
             <span style={{ color: C.emeraldLt }}>Clinical-Grade AI Consultant</span>
           </h1>
-
-          {/* Sub copy */}
           <p style={{ fontSize: 16, lineHeight: 1.75, color: 'rgba(255,255,255,.82)', margin: '0 auto 14px', maxWidth: 600 }}>
             Katalys is not a chatbot. It is a precision medicine intelligence platform built on peer-reviewed
             clinical research, proprietary peptide formulary data, and a GRADE-graded evidence framework —
@@ -176,15 +169,11 @@ export default function KatalysInfoPage({ onLaunch }) {
             specialty modules — powered by the best available peer-reviewed clinical evidence and proprietary
             formulary data from Bio Precision Aging.
           </p>
-
-          {/* Brand promise pills */}
           <div style={{ display: 'flex', gap: 8, justifyContent: 'center', flexWrap: 'wrap', marginBottom: 32 }}>
             {['Evidence-Based Only', 'GRADE Framework', 'Zero Consumer Web', 'Proprietary KB'].map(p => (
               <Pill key={p} color='rgba(255,255,255,.12)' textColor='rgba(255,255,255,.9)'>✓ {p}</Pill>
             ))}
           </div>
-
-          {/* CTA */}
           {onLaunch && (
             <button onClick={onLaunch} style={{
               background: C.emeraldLt, color: C.emerald, border: 'none',
@@ -203,8 +192,8 @@ export default function KatalysInfoPage({ onLaunch }) {
       {/* ── STATS BAR ──────────────────────────────────────────────────────── */}
       <section style={{ background: C.white, borderBottom: `1px solid ${C.border}`, width: '100%', boxSizing: 'border-box', display: 'block' }}>
         <div style={{ maxWidth: 860, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))' }}>
-          <StatCard value="20+" label="Peptides in formulary"     sub="With full dosing protocols" />
-          <StatCard value="200+" label="Studies extracted"        sub="Peer-reviewed only" />
+          <StatCard value="21+"  label="Peptides in formulary"    sub="Including CJC-1295 / Ipamorelin stack" />
+          <StatCard value="200+" label="BPC-157 studies"          sub="Plus 4 CJC-1295 human trials" />
           <StatCard value="0"    label="Consumer health sites"    sub="WebMD, Healthline blocked" />
           <StatCard value="2"    label="AI model tiers"           sub="Sonnet + Opus (deep reasoning)" />
           <StatCard value="100%" label="GRADE-labeled"            sub="Every clinical claim verified" />
@@ -220,7 +209,7 @@ export default function KatalysInfoPage({ onLaunch }) {
             'Generic AI tools were not built for clinical medicine. Every capability below reflects a deliberate design decision — not an accident of scale.'
           )}
           <div style={{ overflowX: 'auto', borderRadius: 12, border: `1px solid ${C.border}`, background: C.white }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse', fontFamily: "'Georgia', serif" }}>
+            <table style={{ width: '100%', borderCollapse: 'collapse', fontFamily: "\'Georgia\', serif" }}>
               <thead>
                 <tr style={{ background: C.emerald }}>
                   <th style={{ padding: '14px 18px', textAlign: 'left', fontSize: 13, fontWeight: 700, color: 'rgba(255,255,255,.7)', width: '50%' }}>Capability</th>
@@ -241,8 +230,6 @@ export default function KatalysInfoPage({ onLaunch }) {
               </tbody>
             </table>
           </div>
-
-          {/* CTA below table */}
           {onLaunch && (
             <div style={{ textAlign: 'center', marginTop: 36 }}>
               <button onClick={onLaunch} style={{
@@ -271,7 +258,7 @@ export default function KatalysInfoPage({ onLaunch }) {
               {
                 step: '1', icon: <Database size={20}/>, color: C.emeraldPl, tcolor: C.emeraldMd,
                 title: 'Proprietary knowledge base first',
-                body: 'All 20+ peptide entries from the Bio Precision Aging formulary are injected directly into every response. Dosing, mechanisms, stacking protocols, evidence grades — no search required. If the answer is here, Katalys responds instantly without hitting the web.',
+                body: 'All 21+ peptide entries from the Bio Precision Aging formulary are injected directly into every response. Dosing, mechanisms, stacking protocols, evidence grades — no search required. If the answer is here, Katalys responds instantly without hitting the web.',
               },
               {
                 step: '2', icon: <Search size={20}/>, color: '#EFF6FF', tcolor: C.blue,
@@ -296,8 +283,6 @@ export default function KatalysInfoPage({ onLaunch }) {
               </div>
             ))}
           </div>
-
-          {/* Banned domains callout */}
           <div style={{ marginTop: 20, background: C.redLt, border: `1px solid #FECACA`, borderRadius: 10, padding: '16px 18px' }}>
             <div style={{ fontSize: 12, fontWeight: 700, color: C.red, textTransform: 'uppercase', letterSpacing: '.06em', marginBottom: 8 }}>Hard-blocked sources — never appear in Katalys responses</div>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
@@ -316,12 +301,12 @@ export default function KatalysInfoPage({ onLaunch }) {
           {sectionHead(
             'Specialty module',
             "The world's first dedicated AI Peptide Consultant",
-            'Built on 20+ peer-reviewed peptide entries, 200+ extracted studies, and the Bio Precision Aging proprietary formulary — delivering practitioner-grade peptide guidance that no generic AI can match.'
+            'Built on 21+ peer-reviewed peptide entries, 200+ extracted BPC-157 studies, 4 CJC-1295 human trials, and the Bio Precision Aging proprietary formulary — delivering practitioner-grade peptide guidance that no generic AI can match.'
           )}
           <div style={{ background: C.emerald, borderRadius: 14, padding: '24px', marginBottom: 20 }}>
-            <div style={{ fontSize: 13, fontWeight: 700, color: C.emeraldLt, textTransform: 'uppercase', letterSpacing: '.08em', marginBottom: 14 }}>Formulary — 20+ peptides</div>
+            <div style={{ fontSize: 13, fontWeight: 700, color: C.emeraldLt, textTransform: 'uppercase', letterSpacing: '.08em', marginBottom: 14 }}>Formulary — 21+ peptides & stacks</div>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 7 }}>
-              {['BPC-157', 'TB-500', 'CJC-1295', 'Ipamorelin', 'Semaglutide', 'Tirzepatide', 'PT-141', 'Sermorelin', 'Tesamorelin', 'Kisspeptin-10', 'GHK-Cu', 'Epithalon', 'Thymosin Alpha-1', 'ARA-290', 'AOD-9604', 'Selank', 'Semax', 'KPV', 'MOTS-c', 'SS-31'].map(p => (
+              {['BPC-157', 'TB-500', 'CJC-1295', 'Ipamorelin', 'CJC-1295 / Ipamorelin Stack', 'Semaglutide', 'Tirzepatide', 'PT-141', 'Sermorelin', 'Tesamorelin', 'Kisspeptin-10', 'GHK-Cu', 'Epithalon', 'Thymosin Alpha-1', 'ARA-290', 'AOD-9604', 'Selank', 'Semax', 'KPV', 'MOTS-c', 'SS-31'].map(p => (
                 <span key={p} style={{ fontSize: 12, fontWeight: 600, background: 'rgba(82,183,136,.18)', color: C.emeraldLt, padding: '4px 11px', borderRadius: 20, border: '1px solid rgba(82,183,136,.3)' }}>{p}</span>
               ))}
             </div>
@@ -352,8 +337,8 @@ export default function KatalysInfoPage({ onLaunch }) {
           )}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 14 }}>
             {[
-              { icon: <Brain size={18}/>, title: 'Men\'s hormone optimization', body: 'TRT protocols, HCG monotherapy, enclomiphene, SHBG management, and cardiovascular monitoring.' },
-              { icon: <FlaskConical size={18}/>, title: 'Women\'s hormone optimization', body: 'Menopause, perimenopause, progesterone, estradiol, DHEA, thyroid, and adrenal protocols.' },
+              { icon: <Brain size={18}/>, title: "Men's hormone optimization", body: 'TRT protocols, HCG monotherapy, enclomiphene, SHBG management, and cardiovascular monitoring.' },
+              { icon: <FlaskConical size={18}/>, title: "Women's hormone optimization", body: 'Menopause, perimenopause, progesterone, estradiol, DHEA, thyroid, and adrenal protocols.' },
               { icon: <Database size={18}/>, title: 'Treatment algorithm', body: 'Built-in clinical decision framework walks through diagnosis, labs, first-line therapy, and escalation.' },
               { icon: <Shield size={18}/>, title: 'GRADE-labeled guidance', body: 'Every treatment recommendation is labeled [Verified — High/Moderate/Low] or [Speculation].' },
             ].map(f => (
