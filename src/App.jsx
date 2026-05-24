@@ -687,45 +687,102 @@ function Setup({ onDone }) {
   const [age, setAge] = useState('');
   const [sex, setSex] = useState('');
   const ready = age.trim() && sex;
+
+  const C = {
+    emerald:'#1B4332', emeraldMid:'#2D6A4F', emeraldLt:'#52B788',
+    mint:'#D8F3DC', mintDark:'#B7E4C7', gold:'#D4A017',
+  };
+
+  const features = [
+    { icon:'🧬', title:'Peptide Consultant', sub:'World-first dedicated AI module with proprietary clinical formulary' },
+    { icon:'⚗️', title:'Hormone Consultant', sub:'Guideline-anchored hormone optimization — not a repurposed chatbot' },
+    { icon:'📋', title:'Upload Your Records', sub:'Labs, imaging, and notes analyzed and flagged automatically by AI' },
+    { icon:'🔬', title:'Evidence-Based Only', sub:'PubMed & Cochrane only — Reddit, WebMD, and Healthline blocked' },
+    { icon:'🏆', title:'GRADE Framework', sub:'Every claim labeled Verified, Speculation, or Unknown' },
+    { icon:'🔒', title:'Session-Only Privacy', sub:'Your data never stored — gone when you close the app' },
+  ];
+
   return (
-    <div style={{minHeight:'100vh',background:'#f0f4ff',display:'flex',alignItems:'flex-start',justifyContent:'center',paddingTop:'28px',paddingLeft:'24px',paddingRight:'24px',paddingBottom:'24px'}}>
-      <div style={{background:'#ffffff',borderRadius:16,padding:'36px 28px',maxWidth:440,width:'100%',boxShadow:'0 4px 24px rgba(0,0,0,0.08)'}}>
-        <div style={{display:'flex',alignItems:'center',gap:10,marginBottom:10}}>
-          <Heart size={28} style={{color:'#52B788'}} fill="#52B788"/>
-          <span style={{fontSize:26,fontWeight:700,color:'#1B4332',fontFamily:"'Playfair Display',Georgia,serif"}}>Katalys Health</span>
-        </div>
-        <p style={{fontSize:15,color:'#6B7280',marginBottom:24,lineHeight:1.6}}>Your personal health AI. Enter your details to get started — no account or API key needed.</p>
-        <div style={{background:'#eff6ff',border:'1px solid #bfdbfe',borderRadius:12,padding:'16px',marginBottom:24}}>
-          <div style={{fontWeight:600,fontSize:13,color:'#1e40af',marginBottom:8}}>✓ What you can do</div>
-          <div style={{fontSize:13,color:'#1d4ed8',lineHeight:1.8}}>
-            • Upload lab results, imaging, or any medical document<br/>
-            • Get AI analysis with flagged values highlighted<br/>
-            • Ask health questions with cited clinical guidelines<br/>
-            • Works on mobile and desktop<br/>
-            • A complete Peptide Guide with AI Consulting<br/>
-            • Ask questions about the most popular peptides
+    <div style={{minHeight:'100vh',background:'#F8FAF8',display:'flex',flexDirection:'column',overflowY:'auto'}}>
+
+      {/* ── Hero ── */}
+      <div style={{background:'#1B4332',color:'#fff',padding:'48px 24px 40px',textAlign:'center',position:'relative',overflow:'hidden'}}>
+        <div style={{position:'absolute',inset:0,backgroundImage:'radial-gradient(circle at 20% 50%, rgba(82,183,136,.18) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(212,160,23,.10) 0%, transparent 50%)'}}/>
+        <div style={{position:'relative',maxWidth:560,margin:'0 auto'}}>
+          <div style={{display:'inline-flex',alignItems:'center',gap:8,marginBottom:16}}>
+            <Heart size={22} fill="#52B788" color="#52B788"/>
+            <span style={{fontSize:22,fontWeight:800,letterSpacing:'-.3px'}}>Katalys Health</span>
+            <span style={{fontSize:11,color:'rgba(255,255,255,.45)',borderLeft:'1px solid rgba(255,255,255,.2)',paddingLeft:10,marginLeft:4}}>by Bio Precision Aging</span>
           </div>
+          <h1 style={{fontSize:32,fontWeight:800,lineHeight:1.15,margin:'0 0 14px',letterSpacing:'-.4px'}}>
+            The World's First<br/>
+            <span style={{color:'#52B788'}}>Clinical-Grade AI Consultant</span>
+          </h1>
+          <p style={{fontSize:14,lineHeight:1.7,color:'rgba(255,255,255,.75)',margin:'0 auto',maxWidth:480}}>
+            Katalys is not a chatbot. It is a precision medicine platform built on peer-reviewed clinical research, a proprietary peptide formulary, and a GRADE-graded evidence framework — with the world's first dedicated AI Peptide and Hormone Consultants.
+          </p>
         </div>
-        <div style={{marginBottom:16}}>
-          <label style={{display:'block',fontSize:11,fontWeight:700,letterSpacing:'0.08em',color:'#374151',marginBottom:6,textTransform:'uppercase'}}>Your Age</label>
-          <input value={age} onChange={e=>setAge(e.target.value.replace(/\D/g,''))} placeholder="e.g. 52" maxLength={3} inputMode="numeric"
-            onKeyDown={e=>e.key==='Enter'&&ready&&onDone(`${sex}, Age ${age}`)}
-            style={{width:'100%',padding:'12px 14px',fontSize:15,border:'1.5px solid #bfdbfe',borderRadius:10,outline:'none',boxSizing:'border-box',color:'#111827',background:'#fff',fontFamily:'inherit'}}
-            onFocus={e=>e.target.style.borderColor='#60a5fa'} onBlur={e=>e.target.style.borderColor='#bfdbfe'}/>
+      </div>
+
+      {/* ── Feature grid ── */}
+      <div style={{padding:'28px 20px 0',maxWidth:680,margin:'0 auto',width:'100%'}}>
+        <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(180px,1fr))',gap:10,marginBottom:28}}>
+          {features.map(f=>(
+            <div key={f.title} style={{background:'#fff',border:'0.5px solid #E0EEE5',borderRadius:12,padding:'14px 16px'}}>
+              <div style={{fontSize:20,marginBottom:8}}>{f.icon}</div>
+              <div style={{fontSize:13,fontWeight:700,color:'#1A2E22',marginBottom:4}}>{f.title}</div>
+              <div style={{fontSize:12,color:'#5A7A65',lineHeight:1.5}}>{f.sub}</div>
+            </div>
+          ))}
         </div>
-        <div style={{marginBottom:24}}>
-          <label style={{display:'block',fontSize:11,fontWeight:700,letterSpacing:'0.08em',color:'#374151',marginBottom:10,textTransform:'uppercase'}}>Biological Sex</label>
-          <div style={{display:'flex',gap:10}}>
-            {['Male','Female'].map(s=>(<button key={s} onClick={()=>setSex(s)} style={{flex:1,padding:'13px',fontSize:15,fontWeight:600,border:`2px solid ${sex===s?'#2D6A4F':'#bfdbfe'}`,borderRadius:10,cursor:'pointer',background:sex===s?'#2D6A4F':'#fff',color:sex===s?'#fff':'#374151',transition:'all 0.15s',fontFamily:'inherit'}}>{s==='Male'?'♂ Male':'♀ Female'}</button>))}
+
+        {/* ── Form ── */}
+        <div style={{background:'#fff',border:'0.5px solid #E0EEE5',borderRadius:16,padding:'24px',marginBottom:20}}>
+          <div style={{fontSize:16,fontWeight:700,color:'#1B4332',marginBottom:4,fontFamily:"'Playfair Display',Georgia,serif"}}>Get started — no account needed</div>
+          <div style={{fontSize:13,color:'#5A7A65',marginBottom:20,lineHeight:1.5}}>Enter your details so Katalys can personalize your experience.</div>
+
+          <div style={{marginBottom:16}}>
+            <label style={{display:'block',fontSize:11,fontWeight:700,letterSpacing:'0.08em',color:'#1A2E22',marginBottom:6,textTransform:'uppercase'}}>Your Age</label>
+            <input
+              value={age}
+              onChange={e=>setAge(e.target.value.replace(/\D/g,''))}
+              placeholder="e.g. 52"
+              maxLength={3}
+              inputMode="numeric"
+              onKeyDown={e=>e.key==='Enter'&&ready&&onDone(`${sex}, Age ${age}`)}
+              style={{width:'100%',padding:'12px 14px',fontSize:15,border:'1.5px solid #E0EEE5',borderRadius:10,outline:'none',boxSizing:'border-box',color:'#111827',background:'#F8FAF8',fontFamily:'inherit',transition:'border-color .15s'}}
+              onFocus={e=>e.target.style.borderColor='#52B788'}
+              onBlur={e=>e.target.style.borderColor='#E0EEE5'}
+            />
           </div>
+
+          <div style={{marginBottom:20}}>
+            <label style={{display:'block',fontSize:11,fontWeight:700,letterSpacing:'0.08em',color:'#1A2E22',marginBottom:10,textTransform:'uppercase'}}>Biological Sex</label>
+            <div style={{display:'flex',gap:10}}>
+              {['Male','Female'].map(s=>(
+                <button key={s} onClick={()=>setSex(s)}
+                  style={{flex:1,padding:'13px',fontSize:15,fontWeight:600,border:`2px solid ${sex===s?'#2D6A4F':'#E0EEE5'}`,borderRadius:10,cursor:'pointer',background:sex===s?'#1B4332':'#fff',color:sex===s?'#fff':'#374151',transition:'all 0.15s',fontFamily:'inherit'}}>
+                  {s==='Male'?'♂ Male':'♀ Female'}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <button
+            onClick={()=>ready&&onDone(`${sex}, Age ${age}`)}
+            disabled={!ready}
+            style={{width:'100%',padding:'14px',fontSize:15,fontWeight:700,color:'#fff',background:ready?'#1B4332':'#9CA3AF',border:'none',borderRadius:10,cursor:ready?'pointer':'not-allowed',transition:'background 0.2s',fontFamily:'inherit',letterSpacing:'.1px'}}
+            onMouseEnter={e=>{if(ready)e.target.style.background='#2D6A4F';}}
+            onMouseLeave={e=>{if(ready)e.target.style.background='#1B4332';}}>
+            Use Katalys AI →
+          </button>
+
+          <p style={{fontSize:11,color:'#9CA3AF',marginTop:12,textAlign:'center',lineHeight:1.6}}>
+            Your data stays in your browser session only. Nothing is stored on any server.
+          </p>
         </div>
-        <button onClick={()=>ready&&onDone(`${sex}, Age ${age}`)} disabled={!ready}
-          style={{width:'100%',padding:'14px',fontSize:15,fontWeight:600,color:'#fff',background:ready?'#2D6A4F':'#9CA3AF',border:'none',borderRadius:10,cursor:ready?'pointer':'not-allowed',transition:'background 0.2s',fontFamily:'inherit'}}
-          onMouseEnter={e=>{if(ready)e.target.style.background='#1B4332';}} onMouseLeave={e=>{if(ready)e.target.style.background='#2D6A4F';}}>
-          Get Started →
-        </button>
-        <p style={{fontSize:11,color:'#9CA3AF',marginTop:16,textAlign:'center',lineHeight:1.6}}>Your data stays in your browser session only. Nothing is stored on any server.</p>
-        <div style={{marginTop:20,paddingTop:16,borderTop:'1px solid #F3F4F6',textAlign:'center'}}>
+
+        <div style={{textAlign:'center',paddingBottom:32}}>
           <p style={{fontSize:11,color:'#9CA3AF',margin:'0 0 3px'}}>Powered by</p>
           <p style={{fontSize:13,fontWeight:600,color:'#1B4332',margin:0,fontFamily:"'Playfair Display',Georgia,serif"}}>Bio Precision Aging</p>
         </div>
@@ -1002,7 +1059,7 @@ export default function KatalysHealth() {
             {page==='ai'&&<div className="mob-chat"><ChatContent {...sharedProps} QUICK_QS={QUICK_QS} isMobile={true}/></div>}
             {page==='peptide'&&<div className="mob-chat"><PeptideOverview /></div>}
             {page==='hormone'&&<div className="mob-chat"><HormoneConsultant /></div>}
-            {page==='info'&&<div className="mob-pad" style={{overflowY:'auto',height:'100%'}}><KatalysInfoPage onLaunch={()=>setPage('home')}/></div>}
+            {page==='info'&&<div style={{overflowY:'auto',height:'100%',flex:1}}><KatalysInfoPage onLaunch={()=>setPage('home')}/></div>}
             {page==='profile'&&<div className="mob-pad"><ProfileContent {...sharedProps}/></div>}
           </div>
           <nav className="bnav">
@@ -1047,7 +1104,7 @@ export default function KatalysHealth() {
           {page==='ai'&&<div className="desk-chat"><ChatContent {...sharedProps} QUICK_QS={QUICK_QS} isMobile={false}/></div>}
           {page==='peptide'&&<div className="desk-chat"><PeptideOverview /></div>}
           {page==='hormone'&&<div className="desk-chat"><HormoneConsultant /></div>}
-          {page==='info'&&<div className="desk-content" style={{overflowY:'auto',padding:0}}><KatalysInfoPage onLaunch={()=>setPage('home')}/></div>}
+          {page==='info'&&<div style={{flex:1,overflowY:'auto',minHeight:0}}><KatalysInfoPage onLaunch={()=>setPage('home')}/></div>}
           {page==='profile'&&<div className="desk-content"><ProfileContent {...sharedProps}/></div>}
         </main>
       </div>
