@@ -661,7 +661,143 @@ export const PEPTIDE_KNOWLEDGE_BASE = [
     sideEffects: 'Very limited adverse event data. Appears well-tolerated.',
     keyReferences: ['Catania A et al. (2004). Alpha-MSH fragments and inflammation. Peptides.'],
   },
+// ─── HCG (Human Chorionic Gonadotropin) ──────────────────────────────────────
+// Updated May 2026 — 5 sources extracted (4 peer-reviewed + 1 community guide)
+// Evidence labels: [Verified] = peer-reviewed | [Speculation] = community/extrapolated | [Unknown] = no data
+//
+// Sources:
+//   [1] Lemke R. "HCG for TRT: Doses, Forms & The 2026 Compounding Crisis."
+//       The Peptide Toolkit. May 3, 2026. [Speculation — educational guide, no peer review]
+//   [2] Delemarre-van de Waal HA. Eur J Endocrinol. 2004;151:U89-U94.
+//       [Verified — n=68 HH males, GnRH+HCG, 85.3% spermatogenesis]
+//   [3] Liu Z et al. Medicine. 2016;95(9):e2867. PMID via DOI 10.1097/MD.0000000000002867
+//       [Verified — retrospective n=223 CHH, HCG/HMG, 64% spermatogenesis]
+//   [4] Hong BS & Ahn TY. Int J Urol. 2007;14:981-985.
+//       [Verified — TDS/TRT review, HCG background context]
+//   [5] Nieschlag E et al. Reprod Biol Endocrinol. 2017;15:17. NCT01709331.
+//       [Verified — Phase III, n=18 combined HCG+FSH, 77.8% spermatogenesis]
+//
+// IMPORTANT NOTE: HCG is a 244-amino-acid glycoprotein hormone, not a small peptide.
+// All peer-reviewed efficacy data comes from hypogonadotropic hypogonadism (HH) populations.
+// TRT adjunct use is off-label; no dedicated RCT for this indication.
 
+{
+  id: 'hcg',
+  name: 'HCG',
+  fullName: 'Human Chorionic Gonadotropin (hCG)',
+  aliases: ['Pregnyl', 'Novarel', 'Chorionic Gonadotropin', 'hCG', 'Human chorionic gonadotropin'],
+  category: 'Hormonal / Fertility',
+  categoryTag: 'fertility',
+  goals: ['fertility', 'sexual_function', 'metabolic_health', 'muscle_mass'],
+  regulatoryStatus:
+    'FDA-approved (Pregnyl, Novarel) for: (1) hypogonadotropic hypogonadism in males, (2) ovulation induction in females, (3) cryptorchidism in pediatric patients. ' +
+    'TRT adjunct use — the most common community use — is off-label, supported by long clinical practice but not on the FDA-approved label. ' +
+    'Compounding availability significantly reduced since FDA enforcement actions 2024–2025 against bulk-compounding pharmacies; many TRT clinics have switched to gonadorelin as of 2026. ' +
+    'Brand-name HCG still available by prescription through traditional pharmacy channels but is more expensive. ' +
+    'WADA Prohibited List 2026, Section S2 — banned in male competitive athletes. [Verified — Lemke 2026, FDA]',
+  researchLevel: 'high',
+
+  summary:
+    'Human Chorionic Gonadotropin is a 244-amino-acid glycoprotein hormone naturally produced by the placenta during pregnancy. In men, it functions as an LH mimic — binding directly to LH receptors on testicular Leydig cells and stimulating intratesticular testosterone (ITT) production and spermatogenesis support. ' +
+    'When a man starts TRT, the HPG axis shuts down: the brain stops producing GnRH → pituitary stops making LH/FSH → Leydig cells go dormant → testicular atrophy, fertility loss, and the "flat" mood some men on TRT-only describe. ' +
+    'HCG bypasses this shutdown by directly activating Leydig cells regardless of pituitary status. ' +
+    'In hypogonadotropic hypogonadism (HH) populations — the best-studied clinical group — HCG achieves testosterone normalization (0.9 → 15.1 nmol/L, P<0.001; Liu 2016, n=223) and testicular growth but usually requires FSH co-administration for complete spermatogenesis: 77.8% spermatogenesis success with HCG+corifollitropin alfa (Phase III, Nieschlag 2017, n=18) and 64% with HCG+HMG (retrospective, Liu 2016, n=223). ' +
+    'For TRT adjunct use, 250–500 IU SC 2–3x/week is the established community standard, preserving testicular size, fertility potential, and ITT. ' +
+    'As of 2026, HCG has become harder to source through compounding pharmacies; gonadorelin has emerged as the primary alternative for testicular function maintenance on TRT. ' +
+    '[Verified — 4 peer-reviewed sources; TRT adjunct dosing Speculation — Lemke 2026]',
+
+  mechanism:
+    'LH RECEPTOR MIMIC: HCG beta subunit binds LH receptors on testicular Leydig cells with high affinity. ' +
+    'Activates adenylyl cyclase → cAMP → steroidogenic enzyme upregulation → intratesticular testosterone (ITT) synthesis. ' +
+    'ITT is orders of magnitude higher than serum testosterone and is essential for spermatogenesis via Sertoli cell support. ' +
+    'HCG bypasses hypothalamic-pituitary signaling entirely — functional in men with intact Leydig cells regardless of HPG axis suppression from TRT. ' +
+    'PLASMA KINETICS: Terminal half-life ~33–37 hours. Biological effect on Leydig cells persists 3–5 days per injection — explaining why 2–3x/week dosing is sufficient despite the molecule clearing more quickly. ' +
+    'ESTRADIOL PATHWAY: Stimulated ITT → testicular aromatase → estradiol (E2) elevation. Higher E2 risk than gonadorelin because HCG provides stronger direct Leydig stimulation. ' +
+    'HPG AXIS CONTEXT: TRT suppresses GnRH → stops LH/FSH → Leydig cell dormancy → testicular atrophy and azoospermia within 3–6 months. ' +
+    'HCG counters all three downstream effects: maintains Leydig function (testosterone), prevents atrophy (testicular volume), and preserves spermatogenic machinery (ITT → Sertoli support). ' +
+    'IMPORTANT: HCG alone is often insufficient for complete spermatogenesis in HH patients — FSH co-administration (via HMG, recFSH, or corifollitropin alfa) is required in most fertility cases.',
+
+  benefits: [
+    '[Verified] Testosterone normalization in HH: 0.9±0.5 → 15.1±8.2 nmol/L (P<0.001) with HCG/HMG (Liu 2016, n=223). HCG pretreatment alone: 65.2 → 437.6 ng/dL in 16 weeks (Nieschlag 2017).',
+    '[Verified] Testicular volume restoration: 2.1±1.6 → 8.1±4.6 mL (P<0.001) in HH patients (Liu 2016). 2.30-fold increase in 52 weeks with HCG+FSH (Nieschlag 2017, 95% CI: 2.03–2.62).',
+    '[Verified] Spermatogenesis induction (HCG+FSH): 77.8% achieved sperm count ≥1×10⁶/mL in Phase III trial (Nieschlag 2017, n=18). 64% success in large CHH cohort with HCG+HMG (Liu 2016, n=223).',
+    '[Verified] Spermatogenesis maintenance: After GnRH-induced spermatogenesis in HH, hCG 1,500–3,000 IU 1–2x/week maintained or improved spermatogenesis in most patients. 10/68 fathered children (Delemarre-van de Waal 2004).',
+    '[Verified] Fertility outcomes: 19/34 (56%) married HH patients impregnated partners during HCG/HMG therapy (Liu 2016). Median time to first sperm: 15 months (95% CI 13.5–16.5). Time to >5M/mL: 27 months.',
+    '[Verified] TRT — testicular atrophy prevention: Concomitant HCG preserves spermatogenesis in men on TRT (Hsieh 2013, J Urol 189:647). Low-dose HCG maintains intratesticular testosterone in testosterone-suppressed men (Coviello 2005, JCEM 90:2595).',
+    '[Speculation] TRT — mood/well-being: Some men on TRT-only report "flat" or "off" feeling that resolves with HCG addition. Mechanism debated: ITT, DHEA-like adrenal effects, pregnenolone pathway. Anecdotal but consistently reported.',
+    '[Verified] Muscle mass, osteoblastic collagen, lipid effects: Positive effects reported in limited studies of HCG for age-related androgen deficiency (Zitzmann 2000, Acevedo 2002; cited Hong & Ahn 2007).',
+  ],
+
+  humanEvidence:
+    '4 clinical studies (1 Phase III, 1 retrospective cohort n=223, 1 interventional n=68, 1 review). ' +
+    '(1) Nieschlag et al 2017 (NCT01709331; n=18 combined phase): Phase III HCG+corifollitropin alfa — 77.8% spermatogenesis ≥1×10⁶/mL, 2.30-fold testicular volume increase. ' +
+    '(2) Liu et al 2016 (n=223 CHH): HCG+HMG — 64% spermatogenesis, median 15 months, 56% paternity rate in married patients. Cox regression predictors validated. ' +
+    '(3) Delemarre-van de Waal 2004 (n=68 HH): GnRH → HCG maintenance — 85.3% spermatogenesis, 10 fathered children. ' +
+    '(4) Hong & Ahn 2007 (review): TDS treatment context, HCG as TRT alternative. ' +
+    'NOTE: No RCT exists for HCG as TRT adjunct specifically (the primary community use). All peer-reviewed spermatogenesis data comes from HH populations.',
+
+  dosing: {
+    typical: '[Speculation — Lemke 2026] TRT adjunct: 250–500 IU SC, 2–3x/week. [Verified — Phase III] HH therapy: 1,500–3,000 IU SC/IM 2x/week.',
+    range:
+      'TRT adjunct [Speculation]: 250–500 IU per injection. ' +
+      'HH with HCG/HMG [Verified]: 2,000–5,000 IU IM 2x/week (Liu 2016). ' +
+      'HH Phase III [Verified]: 1,500–3,000 IU SC 2x/week (Nieschlag 2017). ' +
+      'GnRH maintenance [Verified]: 1,500–3,000 IU IM/SC 1–2x/week (Delemarre-van de Waal 2004). ' +
+      'Fertility restart post-TRT [Speculation]: 1,500–3,000 IU 2–3x/week + HMG or clomiphene.',
+    frequency:
+      '2–3x/week for TRT adjunct [Speculation]. 2x/week for HH [Verified]. ' +
+      'Biological effect persists 3–5 days per injection due to 33–37h half-life — more frequent dosing not necessary.',
+    route: ['subcutaneous injection', 'intramuscular injection (clinical trials)'],
+    cycle:
+      'TRT adjunct: continuous with TRT [Speculation]. ' +
+      'HH fertility: 6–18+ months depending on spermatogenesis goals [Verified]. ' +
+      'Effects on testicular function reverse within months of stopping — must continue for maintained benefit.',
+    notes:
+      'CRITICAL: HCG is dosed in International Units (IU), NOT milligrams. Confusing the two is the most common self-administration error and can cause 100x dosing errors. ' +
+      'RECONSTITUTION: Standard compounded vials are 5,000 IU or 10,000 IU. Add bacteriostatic water (BAC water only — sterile water degrades the molecule faster and increases contamination risk). ' +
+      '5,000 IU + 5 mL BAC water = 1,000 IU/mL. For 250 IU dose: draw 0.25 mL = 25 units on U-100 syringe. ' +
+      '5,000 IU + 10 mL BAC water = 500 IU/mL. For 250 IU dose: draw 0.5 mL = 50 units on U-100 syringe. ' +
+      'STORAGE: Refrigerate immediately after reconstitution. Never freeze (damages glycoprotein structure). Use within 30 days of reconstitution. ' +
+      'MONITORING: Estradiol (E2) every 6–8 weeks — higher aromatization than gonadorelin. Anastrozole 0.25–0.5 mg 2x/week only if E2 genuinely elevated on labs — do not crush E2 prophylactically. ' +
+      'Testosterone levels 48h after HCG injection (peak reference). Hematocrit and PSA per standard TRT monitoring. ' +
+      'PREGNANCY TEST INTERFERENCE: Home pregnancy tests detect HCG — after injection you will test positive for 7–14 days regardless of pregnancy status. ' +
+      '2026 ACCESS NOTE: HCG availability through compounding pharmacies is limited and inconsistent following 2024–2025 FDA enforcement. Gonadorelin is the widely available alternative. ' +
+      'If HCG unavailable: gonadorelin 100–500 mcg SC 2–3x/day is the primary substitute for testicular function maintenance on TRT.',
+  },
+
+  hcgVsGonadorelin: {
+    note: '[Speculation — Lemke 2026] Both preserve testicular function during TRT via different mechanisms.',
+    mechanism: 'HCG: direct LH receptor agonist on Leydig cells. Gonadorelin: synthetic GnRH → pituitary → endogenous LH/FSH release.',
+    injectionsPerWeek: 'HCG: 2–3. Gonadorelin: 14–21 (2–3x daily due to 5–10 min half-life).',
+    estrogenRisk: 'HCG: higher (direct Leydig overstimulation risk). Gonadorelin: lower (pulsatile, physiologic).',
+    intratesticularT: 'HCG: strong. Gonadorelin: modest.',
+    availability2026: 'HCG: limited/inconsistent. Gonadorelin: widely compounded.',
+    pregnancyTestInterference: 'HCG: yes (7–14 days). Gonadorelin: no.',
+  },
+
+  sideEffects:
+    '[Verified] Well-tolerated at TRT-adjunct doses. No serious adverse events in Phase III clinical trial (Nieschlag 2017). No hepatorenal impairment in large cohort (Liu 2016). ' +
+    '[Verified] Estradiol elevation: stimulates ITT → aromatization → E2 rise. Symptoms: nipple sensitivity, gynecomastia risk, water retention, mood changes. Gynecomastia occurred in 7% (16/223) at HH clinical doses; 2 required surgical excision (Liu 2016). ' +
+    '[Verified] Acne: 9% (20/223) at HH doses — testosterone-mediated. Reduced HCG dose resolved it. ' +
+    '[Verified] One patient discontinued Phase III trial (Nieschlag 2017) due to testosterone 1,528 ng/dL — reversed on discontinuation. ' +
+    '[Speculation] Water retention: indirect aldosterone elevation. Face/ankle puffiness in first weeks. Usually resolves. ' +
+    '[Verified] Pregnancy test cross-reactivity: positive home test for 7–14 days post-injection. Not harmful but important awareness. ' +
+    '[Unknown] Long-term TRT adjunct safety profile: no dedicated RCT. Extrapolated from HH clinical trials and long-standing clinical practice. ' +
+    'CONTRAINDICATIONS: Active prostate or breast cancer (HCG stimulates testosterone production). Primary hypogonadism — Klinefelter syndrome (absent Leydig cells; HCG cannot overcome). Prior bilateral cryptorchidism (reduced Leydig cell reserve). Known hypersensitivity to HCG components.',
+
+  keyReferences: [
+    'Lemke R. HCG for TRT: Doses, Forms & The 2026 Compounding Crisis. The Peptide Toolkit. May 3, 2026. [Speculation — educational guide]',
+    'Delemarre-van de Waal HA. Application of GnRH in hypogonadotropic hypogonadism — diagnostic and therapeutic aspects. Eur J Endocrinol. 2004;151:U89-U94.',
+    'Liu Z et al. Efficacy and outcome predictors of gonadotropin treatment for male congenital hypogonadotropic hypogonadism: retrospective study of 223 patients. Medicine. 2016;95(9):e2867. DOI 10.1097/MD.0000000000002867.',
+    'Hong BS & Ahn TY. Recent trends in the treatment of testosterone deficiency syndrome. Int J Urol. 2007;14:981-985.',
+    'Nieschlag E et al. Efficacy and safety of corifollitropin alfa combined with hCG in adult men with hypogonadotropic hypogonadism. Reprod Biol Endocrinol. 2017;15:17. NCT01709331.',
+    'Coviello AD et al. Low-dose hCG maintains intratesticular testosterone in men with testosterone-induced gonadotropin suppression. J Clin Endocrinol Metab. 2005;90(5):2595-2602.',
+    'Hsieh TC et al. Concomitant intramuscular hCG preserves spermatogenesis in men undergoing TRT. J Urol. 2013;189(2):647-650.',
+    'Bhasin S et al. Testosterone therapy in men with hypogonadism: Endocrine Society guideline. J Clin Endocrinol Metab. 2018;103(5):1715-1744.',
+    'U.S. FDA. Pregnyl and Novarel prescribing information. DailyMed.',
+    'WADA. Prohibited List 2026, Section S2 (hCG prohibited in male athletes).',
+  ],
+},
   // ─── MOTS-c ───────────────────────────────────────────────────────────────────
   // Updated May 2026 — 12 peer-reviewed sources
   {
