@@ -559,12 +559,21 @@ export default function HormoneAIConsultant() {
       const response = await fetch("/api/chat", {
         method:"POST",
         headers:{"Content-Type":"application/json"},
-        body:JSON.stringify({
-  model:"claude-sonnet-4-6",
-  max_tokens:3000,
-  system:buildSystemPrompt(),
-  messages: newMessages.slice(-6).map(m => ({ role: m.role, content: m.content })),
-  _sources:{ clinicalWeb:false, literature:true }
+        body: JSON.stringify({
+  model: "claude-sonnet-4-6",
+  max_tokens: 3000,
+  system: [
+    {
+      type: "text",
+      text: buildSystemPrompt(),
+      cache_control: { type: "ephemeral" }
+    }
+  ],
+  messages: newMessages.slice(-6).map(m => ({
+    role: m.role,
+    content: m.content
+  })),
+  _sources: { clinicalWeb: false, literature: true }
 })
       });
       const data = await response.json();
