@@ -1,12 +1,18 @@
 // src/peptides.js
 // Peptide knowledge base — Vitae Bio Precision Aging
-// Last updated: May 2026
+// Last updated: May 24, 2026
 // ─────────────────────────────────────────
-// BPC-157        — 200+ preclinical + 3 human studies (May 2026)
-// MOTS-c         — 12 peer-reviewed sources (May 2026)
-// Tesamorelin    — 6 peer-reviewed sources incl. 3 RCTs (May 2026)
-// CJC-1295       — 4 peer-reviewed sources (May 2026)
-// HCG            — 4 peer-reviewed sources (May 2026)
+// BPC-157          — 200+ preclinical + 3 human studies (May 2026)
+// MOTS-c           — 12 peer-reviewed sources (May 2026)
+// Tesamorelin      — 6 peer-reviewed sources incl. 3 RCTs (May 2026)
+// CJC-1295         — 4 peer-reviewed sources (May 2026)
+// HCG              — 4 peer-reviewed sources (May 2026)
+// Thymosin Alpha-1 — 8 peer-reviewed sources (May 2026) — UPDATED
+// ARA-290          — 4 peer-reviewed sources incl. SLE models (May 2026) — UPDATED
+// Glutathione      — 5 peer-reviewed sources (May 2026) — NEW
+// NAD+             — 7 peer-reviewed sources (May 2026) — NEW
+// Gonadorelin      — FDA + Endocrine Society guideline (May 2026) — NEW
+// MK-677           — Nass 2008 RCT + halted trial (May 2026) — NEW
 // ─────────────────────────────────────────
 // Remaining entries: foundational entries, pending full literature extraction
 // ─────────────────────────────────────────────────────────────
@@ -143,36 +149,43 @@ export const PEPTIDE_KNOWLEDGE_BASE = [
     sideEffects: 'Generally well-tolerated. Mild fatigue reported anecdotally. Limited long-term human data.',
     keyReferences: ['Goldstein AL et al. (2012). Thymosin beta4: a multi-functional regenerative peptide. Expert Opin Biol Ther.'],
   },
-
-  // ─── ARA-290 ─────────────────────────────────────────────────────────────────
+  // ─── ARA-290 — UPDATED May 2026 ─────────────────────────────────────────────
+  // Sources: Brines/Heij 2012 (SFN RCT), Niesters 2013, Culver 2017,
+  // + Huang B et al. J Cell Mol Med 2018 (SLE — two mouse models)
   {
     id: 'ara290',
     name: 'ARA-290',
     fullName: 'ARA-290 (Cibinetide)',
-    aliases: ['Cibinetide', 'ARA290'],
-    category: 'Neuroprotection & Metabolic',
+    aliases: ['Cibinetide', 'ARA290', 'EPO helix-B peptide'],
+    category: 'Neuroprotection & Immune',
     categoryTag: 'neuroprotection',
     goals: ['neuroprotection', 'inflammation', 'metabolic_health', 'fatigue'],
-    regulatoryStatus: 'Investigational. Not FDA-approved.',
+    regulatoryStatus: 'Investigational. Not FDA-approved. Phase II RCT data in sarcoidosis neuropathy.',
     researchLevel: 'high',
-    summary: 'A non-hematopoietic EPO analogue that selectively activates the tissue-protective receptor (βcR) without stimulating red blood cell production. Primarily studied for neuropathic pain and small fiber neuropathy.',
-    mechanism: 'Binds tissue-protective receptor complex (EPOR/βcR heterodimer). Activates Akt/PI3K, JAK2, and STAT3 pathways. Reduces systemic inflammation via NF-κB and TNF-α suppression.',
+    summary: 'ARA-290 (Cibinetide) is a non-hematopoietic EPO-derived helix-B peptide that selectively activates the tissue-protective receptor complex (EPOR/CD131 heterodimer) without stimulating erythropoiesis via the homodimeric EPOR. Primary studied indications: small fiber neuropathy in sarcoidosis (Phase II RCT), diabetic retinopathy neuroprotection, renal ischemia-reperfusion, rheumatoid arthritis, and — newly documented — systemic lupus erythematosus in two validated mouse models (Huang et al. 2018). Confirmed haematopoietic safety: no changes in peripheral blood cell counts, hemoglobin, haematocrit, or bone marrow HSC/HPC populations at therapeutic doses across all published studies.',
+    mechanism: 'ARA-290 binds the tissue-protective receptor (EPOR/CD131 heterodimer) on macrophages, neurons, endothelial cells, and other non-hematopoietic tissues. Downstream: Akt/PI3K, JAK2, STAT3 activation. Anti-inflammatory: inhibits NF-κB, suppresses TNF-α, IL-6, MCP-1, iNOS; increases TGF-β. Macrophage modulation (Huang 2018 — SLE): (1) Inhibits inflammatory macrophage activation — dose-dependently suppresses LPS-induced TNF-α and iNOS in RAW 264.7 cells (P<0.05). (2) Promotes macrophage phagocytosis of apoptotic cells (dose-dependent, P<0.05 by flow cytometry) — clinically significant in SLE where defective apoptotic cell clearance drives autoantibody production. Plasma half-life: short (minutes) — biological effects persist in vivo despite rapid clearance. Does NOT stimulate haematopoiesis: confirmed by flow cytometry of HSC/HPC populations across multiple studies.',
     benefits: [
-      'Significant reduction in neuropathic pain (sarcoidosis patients — RCT data)',
-      'Regeneration of small nerve fibers',
-      'Improved corneal nerve fiber density',
-      'Improved insulin sensitivity and metabolic parameters',
-      'Anti-inflammatory: reduces TNF-α, IL-6',
+      '[Verified — High] Small fiber neuropathy reduction in sarcoidosis: Phase II double-blind RCT (Brines/Heij et al. Mol Med. 2012;18:1430-1436, n=28) — significant reduction in neuropathic pain and improvement in corneal nerve fiber density.',
+      '[Verified — Moderate] Corneal nerve fiber regeneration: improved density by confocal microscopy — first evidence of nerve regeneration with any pharmacologic agent in SFN (Niesters M et al. PAIN. 2013).',
+      '[Verified — Moderate] Sarcoidosis fatigue improvement: Phase II ARA-290 — fatigue measures alongside immune modulation (Culver DA et al. Respir Med. 2017).',
+      '[Verified — Low] SLE/lupus nephritis — two mouse models (Huang et al. J Cell Mol Med. 2018;22:3330-3339, N=6/group): Significant decrease in serum ANA and anti-dsDNA antibodies (P<0.05); reduced IgG and C3 glomerular deposition; reduced glomerular size/cellularity; improved BUN, creatinine, urine albumin (all P<0.05). Confirmed in both pristane-induced SLE (C57BL/6) and MRL/lpr mice. Reduced spleen and lymph node weights. Suppressed IL-6/MCP-1/TNF-α; increased TGF-β.',
+      '[Verified — High] Haematopoietic safety confirmed: no changes in erythrocyte count, hemoglobin, haematocrit, or bone marrow HSC/HPC at 500 μg/kg/day x 28 days.',
+      '[Verified — Low] Improved insulin sensitivity and metabolic parameters in diabetic models.',
     ],
     dosing: {
-      typical: '4 mg once daily SC (clinical trial doses)',
-      range: '1–8 mg/day',
+      typical: '4 mg SC once daily (clinical trial doses for SFN/sarcoidosis)',
+      range: '1–8 mg/day SC; animal SLE studies used 500 μg/kg/day IP',
       route: ['subcutaneous injection'],
       cycle: '4–12 weeks depending on indication',
-      notes: 'Dosed based on clinical trial protocols.',
+      notes: 'All human dosing extrapolated from clinical trial protocols. SLE/autoimmune indication currently [Speculation] for human dosing — animal data only. No erythropoietic monitoring required (confirmed non-haematopoietic). Physician supervision required. Source from 503A compounding pharmacy.',
     },
-    sideEffects: 'Well-tolerated in clinical trials. Mild injection site reactions. No erythropoietic effects.',
-    keyReferences: ['Brines M et al. (2014). ARA290 alleviates chronic neuropathic pain in sarcoidosis. Mol Med.'],
+    sideEffects: '[Verified — High] Well-tolerated in clinical trials — no serious adverse events reported across published human studies. [Verified — High] No erythropoietic effects at any tested dose — confirmed by flow cytometry and CBC. [Verified — Moderate] Mild injection site reactions. [Unknown] Long-term human safety profile beyond 12 weeks.',
+    keyReferences: [
+      'Brines M et al. (Heij L et al.) ARA290 in sarcoidosis SFN: randomized double-blind pilot. Mol Med. 2012;18:1430-1436.',
+      'Niesters M et al. ARA290 and corneal nerve fiber density. PAIN. 2013. PMID 23787508.',
+      'Culver DA et al. Phase II ARA-290 in sarcoidosis fatigue. Respir Med. 2017. PMID 28390717.',
+      'Huang B et al. Non-erythropoietic EPO-derived peptide protects mice from SLE. J Cell Mol Med. 2018;22:3330-3339. DOI:10.1111/jcmm.13608. [Two mouse models, haematopoietic safety confirmed]',
+    ],
   },
 
   // ─── AOD-9604 ─────────────────────────────────────────────────────────────────
@@ -395,95 +408,72 @@ export const PEPTIDE_KNOWLEDGE_BASE = [
     keyReferences: ['Walker RF. (2006). Sermorelin: a better approach to management of adult-onset GH insufficiency? Clin Interv Aging.'],
   },
 
-  // ─────────────────────────────────────────────────────────────────────────────
-// TESAMORELIN — Updated May 2026
-// Sources: 5 peer-reviewed studies + FDA label
-//
-// Study 1: Falutz J et al. N Engl J Med 2007;357:2359. PMID 18057338
-//          Falutz J et al. JCEM 2010;95:4291. PMID 20554713
-//          Phase III RCT, N=806, HIV-lipodystrophy, 26 weeks
-//
-// Study 2: Baker LD et al. Arch Neurol 2012;69:1420. PMID 22925252
-//          RCT double-blind, N=152 (66 MCI + 86 healthy elderly), 20 weeks, 1 mg/d
-//
-// Study 3: Stanley TL et al. JCEM 2011;96:150. PMID 20943777
-//          Open-label interventional, N=13 healthy males, 2 mg/d x 14 days
-//
-// Study 4: Makimura H et al. JCEM 2012;97:4769. PMID 23015655
-//          RCT double-blind, N=60 non-HIV obese with reduced GH, 2 mg/d x 12 months
-//
-// Study 5: Fourman LT et al. AIDS 2017;31:2253. PMID 28692538
-//          Phase III secondary analysis, N=806, liver enzymes, 52 weeks
-//
-// Study 6: Clemmons DR et al. PLoS ONE 2017;12:e0179538. PMID 28617841
-//          RCT double-blind, N=53 T2DM patients, 1 or 2 mg x 12 weeks
-// ─────────────────────────────────────────────────────────────────────────────
-
-{
-  name: 'Tesamorelin',
-  fullName: 'Tesamorelin (trans-3-hexenoyl-GHRH[1-44]-amide; Egrifta SV)',
-  category: 'ghsecretagogue',
-  goals: ['fat_loss', 'muscle_mass', 'longevity', 'cognitive', 'metabolic', 'liver_health'],
-  summary: `Tesamorelin is the only FDA-approved growth hormone-releasing hormone (GHRH) analog in clinical use, approved in 2010 under the brand name Egrifta SV for reduction of excess abdominal (visceral) fat in HIV-infected patients with lipodystrophy. It is a stabilized synthetic analog of human GHRH(1-44) with a trans-3-hexenoic acid modification at the N-terminus that confers resistance to dipeptidyl peptidase IV (DPP-IV) degradation, extending its functional half-life from seconds (native GHRH) to 26–38 minutes — sufficient for once-daily subcutaneous dosing. Its short half-life is clinically significant: unlike CJC-1295 with DAC which produces sustained "GH bleed," tesamorelin generates a discrete pulsatile GH pulse that clears and synergizes with the natural nocturnal slow-wave-sleep GH burst, preserving physiological pulsatility. Five peer-reviewed human trials establish [Verified — High] evidence for visceral fat reduction in HIV-lipodystrophy (15–18% VAT reduction over 26 weeks), and [Verified — Moderate] evidence for VAT reduction in non-HIV obese (–19%), carotid IMT improvement, cognitive benefits in aging adults (executive function P=.005), liver enzyme normalization associated with VAT response, and glycemic safety in type 2 diabetics. Off-label use for NAFLD/MASLD and general metabolic optimization is [Speculation] supported by mechanistic extrapolation and growing clinical practice.`,
-
-  mechanism: `Tesamorelin binds the GHRH receptor on pituitary somatotroph cells, stimulating synthesis and pulsatile release of endogenous growth hormone. The downstream GH pulse elevates IGF-1 (mean +117–181% across trials, remaining within physiological range). The visceral-fat-selective effect is mechanistically explained by higher GH receptor density in visceral adipose tissue (VAT) compared to subcutaneous adipose tissue (SAT), driving preferential lipolysis in the visceral depot. This explains the consistent finding across trials that VAT decreases significantly while SAT is largely unaffected — a clinically desirable selectivity, since SAT may be cardioprotective. Tesamorelin preserves the natural negative IGF-1 feedback loop on pituitary GH secretion, preventing GH excess and its associated hyperglycemic effects — the key mechanistic advantage over exogenous recombinant human GH (rhGH). Stanley et al. 2011 confirmed via overnight 10-min GH sampling and AutoDecon deconvolution that tesamorelin increases GH pulse area (+0.4 log₁₀ μg/L, P=0.001) and basal secretion (P=0.008) without changing pulse frequency — demonstrating genuine pulsatility amplification rather than tonic elevation. The cognitive mechanism is hypothesized to involve IGF-1 crossing the blood-brain barrier, binding hippocampal and cortical receptors, reducing Aβ burden, regulating tau phosphorylation, and improving neurotrophic support — all mechanistically plausible but [Speculation] without direct human trial validation of the neural pathway.`,
-
-  benefits: [
-    '[Verified — High] Visceral adipose tissue (VAT) reduction: 15–18% over 26 weeks in HIV-lipodystrophy (Phase III, N=806). 69% of tesamorelin patients achieved FDA-defined VAT response (≥8% reduction) vs 33% placebo (P<0.001).',
-    '[Verified — High] GH pulsatility preserved: pulse frequency unchanged; pulse area and basal secretion increased. Key advantage over exogenous GH and CJC-1295 with DAC (Stanley et al. 2011).',
-    '[Verified — Moderate] VAT reduction in non-HIV obese: –19% net treatment effect vs placebo at 12 months (–35 cm², P=0.003), selectively visceral — SAT unchanged (Makimura et al. 2012).',
-    '[Verified — Moderate] Carotid intima-media thickness (cIMT) reduction in non-HIV obese: –0.04 mm net (–6%), P=0.02 — first evidence of tesamorelin cardiovascular benefit outside HIV (Makimura et al. 2012).',
-    '[Verified — Moderate] Triglyceride reduction: –37 mg/dL (–20%) in obese; ~50 mg/dL in HIV trials. CRP (log) –24% in obese (P=0.04).',
-    '[Verified — Moderate] Cognitive function: favorable effect on executive function (effect size f=0.37, P=.005) and verbal memory trend (P=.08) over 20 weeks, 1 mg/d, in both MCI and healthy older adults ages 55–87 (Baker et al. 2012, N=152).',
-    '[Verified — Moderate] IGF-1 elevation: +117–181% across trials, consistently within physiological range. IGF-1 returns to baseline within 10 weeks of discontinuation.',
-    '[Verified — Moderate] Liver enzyme improvement: ALT –8.9 U/L (–18%) in VAT responders vs +1.4 U/L nonresponders (P=0.004); AST –3.8 vs +0.4 U/L (P=0.04); ALT normalization OR 2.5 (95% CI 1.2–5.3). Benefits persisted 26 weeks post-discontinuation (Fourman et al. 2017, N=806).',
-    '[Verified — Moderate] Glycemic safety in T2DM: no significant change in relative insulin response (P=0.71), fasting glucose (P=0.44), or HbA1c overall at 12 weeks. Total and non-HDL cholesterol decreased significantly in 2 mg group (Clemmons et al. 2017, N=53).',
-    '[Verified — Moderate] Body composition: lean mass +3.7% (P<.001), body fat –7.4% (P<.001) at 20 weeks (Baker et al. 2012). Waist circumference –3 cm, lean mass +1.4 kg at 12 months in obese (Makimura et al. 2012).',
-    '[Speculation] NAFLD/MASLD off-label: mechanistic extrapolation from HIV-NAFLD data (Stanley et al. JAMA 2014) plus clinical practice experience in non-HIV metabolic syndrome. No large RCT in non-HIV NAFLD population.',
-    '[Speculation] Longevity and healthy aging: GH/IGF-1 axis restoration in aging; cognitive preservation; cardiovascular risk index improvement. Clinical plausibility strong but no long-term longevity endpoint RCT.',
-  ],
-
-  dosing: {
-    typical: '2 mg SC once daily (FDA label); 1–2 mg SC once daily (off-label body composition/NAFLD)',
-    range: '1–2 mg SC daily',
-    frequency: 'Daily',
-    route: ['subcutaneous injection'],
-    cycle: `FDA label (HIV lipodystrophy): continuous — effects reverse on discontinuation, VAT returns to baseline within months.
-Off-label NAFLD: continuous, minimum 12–26 weeks to assess hepatic fat fraction response.
-Off-label body composition: 12–26 weeks, sometimes 5 days on / 2 days off to reduce cumulative IGF-1 exposure and improve tolerability.
-Conservative starter: 1 mg SC daily, titrate to 2 mg over 2–4 weeks to reduce injection-site reactions and arthralgia incidence. Check IGF-1 at 4–6 weeks.`,
-    notes: `Timing: evening or pre-bed (30+ minutes after last meal) to align the GH pulse with the natural nocturnal slow-wave-sleep GH burst. Fasted state required (2+ hours since last meal) to avoid blunting the GH pulse.
-Monitoring (per FDA label): IGF-1 every 6 months; fasting glucose and HbA1c at baseline, 3 months, then periodically. Discontinue if IGF-1 persistently exceeds 2× the upper limit of normal for age and sex.
-Dose adjustment: reduce to 1 mg daily if IGF-1 consistently elevated above age-specific ULN, or if arthralgia/edema intolerable.
-Stacking: commonly used solo for NAFLD/visceral fat (no GHRP needed — robust GH pulses alone). Stack with Ipamorelin 200–300 mcg pre-bed if IGF-1 elevation on tesamorelin alone is suboptimal. Stack with semaglutide/tirzepatide for metabolic syndrome: complementary mechanisms (tesamorelin targets visceral/hepatic fat via GH/IGF-1; GLP-1 agonists target caloric intake and glycemic control).
-Reconstitution: 5 mg vial + 2.5 mL BAC water = 2 mg/mL (draw 1 mL = 2 mg = 100 IU on U-100 syringe). Egrifta SV: 1.4 mg vial + 2.2 mL sterile water (~0.625 mg/mL). Refrigerate 2–8°C; reconstituted stable ~30 days per compounding pharmacy beyond-use dates.
-Cost (2026): Brand Egrifta SV $3,000–4,500/month; compounded tesamorelin $250–600/month via 503A pharmacy.`,
-  },
-
-  sideEffects: `[Verified — High] Injection-site reactions (erythema, pruritus, pain): common — rotate sites, cold compress.
-[Verified — High] Arthralgias/myalgias: common (5–10%), dose-related, resolves with dose reduction. Titrate from 1 mg to reduce incidence.
+  // ─── TESAMORELIN — Updated May 2026 ──────────────────────────────────────────
+  // Sources: 6 peer-reviewed studies + FDA label
+  // Falutz J et al. NEJM 2007 + JCEM 2010 — Phase III RCT N=806 HIV
+  // Baker LD et al. Arch Neurol 2012 — RCT N=152 cognitive
+  // Stanley TL et al. JCEM 2011 — GH pulsatility N=13
+  // Makimura H et al. JCEM 2012 — non-HIV obese RCT N=60
+  // Fourman LT et al. AIDS 2017 — liver enzymes N=806
+  // Clemmons DR et al. PLoS ONE 2017 — T2DM RCT N=53
+  {
+    id: 'tesamorelin',
+    name: 'Tesamorelin',
+    fullName: 'Tesamorelin (trans-3-hexenoyl-GHRH[1-44]-amide; Egrifta SV)',
+    category: 'GH Axis / Metabolic',
+    categoryTag: 'gh_axis',
+    goals: ['visceral_fat', 'muscle_mass', 'longevity', 'mental_clarity', 'metabolic_health'],
+    regulatoryStatus: 'FDA-approved (Egrifta SV) for visceral fat reduction in HIV-associated lipodystrophy. Off-label: NAFLD/MASLD, general body composition, aging. Compoundable by prescription.',
+    researchLevel: 'high',
+    summary: `Tesamorelin is the only FDA-approved GHRH analog in clinical use, approved in 2010 under the brand name Egrifta SV for reduction of excess abdominal (visceral) fat in HIV-infected patients with lipodystrophy. It is a stabilized synthetic analog of human GHRH(1-44) with a trans-3-hexenoic acid modification at the N-terminus that confers resistance to DPP-IV degradation, extending its functional half-life from seconds (native GHRH) to 26-38 minutes. Unlike CJC-1295 with DAC which produces sustained GH bleed, tesamorelin generates a discrete pulsatile GH pulse that clears and synergizes with the natural nocturnal slow-wave-sleep GH burst, preserving physiological pulsatility. Five peer-reviewed human trials establish [Verified — High] evidence for visceral fat reduction in HIV-lipodystrophy (15-18% VAT reduction over 26 weeks), and [Verified — Moderate] evidence for VAT reduction in non-HIV obese, carotid IMT improvement, cognitive benefits in aging adults (executive function P=.005), liver enzyme normalization, and glycemic safety in T2DM.`,
+    mechanism: `Tesamorelin binds the GHRH receptor on pituitary somatotroph cells, stimulating synthesis and pulsatile release of endogenous growth hormone. The downstream GH pulse elevates IGF-1 (mean +117-181% across trials, within physiological range). The visceral-fat-selective effect is mechanistically explained by higher GH receptor density in visceral adipose tissue (VAT) compared to subcutaneous adipose tissue (SAT), driving preferential lipolysis in the visceral depot. Tesamorelin preserves the natural negative IGF-1 feedback loop on pituitary GH secretion, preventing GH excess — the key mechanistic advantage over exogenous rhGH. Stanley et al. 2011 confirmed via overnight 10-min GH sampling and AutoDecon deconvolution that tesamorelin increases GH pulse area (+0.4 log10 ug/L, P=0.001) and basal secretion (P=0.008) without changing pulse frequency.`,
+    benefits: [
+      '[Verified — High] VAT reduction 15-18% over 26 weeks in HIV-lipodystrophy (Phase III, N=806). 69% achieved FDA-defined VAT response vs 33% placebo (P<0.001).',
+      '[Verified — High] GH pulsatility preserved: pulse frequency unchanged; pulse area and basal secretion increased. Key advantage over exogenous GH and CJC-1295 with DAC (Stanley et al. 2011).',
+      '[Verified — Moderate] VAT reduction in non-HIV obese: -19% net treatment effect vs placebo at 12 months (-35 cm2, P=0.003), selectively visceral — SAT unchanged (Makimura et al. 2012).',
+      '[Verified — Moderate] Carotid IMT reduction in non-HIV obese: -0.04 mm net (-6%), P=0.02 — first evidence of tesamorelin cardiovascular benefit outside HIV (Makimura et al. 2012).',
+      '[Verified — Moderate] Triglyceride reduction: -37 mg/dL (-20%) in obese; ~50 mg/dL in HIV trials. CRP (log) -24% in obese (P=0.04).',
+      '[Verified — Moderate] Cognitive function: favorable effect on executive function (effect size f=0.37, P=.005) and verbal memory trend (P=.08) over 20 weeks in MCI and healthy older adults ages 55-87 (Baker et al. 2012, N=152).',
+      '[Verified — Moderate] IGF-1 elevation: +117-181% across trials, consistently within physiological range. Returns to baseline within 10 weeks of discontinuation.',
+      '[Verified — Moderate] Liver enzyme improvement: ALT -8.9 U/L (-18%) in VAT responders vs +1.4 U/L nonresponders (P=0.004); ALT normalization OR 2.5 (95% CI 1.2-5.3). Benefits persisted 26 weeks post-discontinuation (Fourman et al. 2017, N=806).',
+      '[Verified — Moderate] Glycemic safety in T2DM: no significant change in insulin response, fasting glucose, or HbA1c overall at 12 weeks (Clemmons et al. 2017, N=53).',
+      '[Verified — Moderate] Body composition: lean mass +3.7% (P<.001), body fat -7.4% (P<.001) at 20 weeks (Baker et al. 2012). Waist circumference -3 cm, lean mass +1.4 kg at 12 months in obese (Makimura et al. 2012).',
+      '[Speculation] NAFLD/MASLD off-label: mechanistic extrapolation from HIV-NAFLD data plus clinical practice experience. No large RCT in non-HIV NAFLD population.',
+      '[Speculation] Longevity and healthy aging: GH/IGF-1 axis restoration in aging; cognitive preservation; cardiovascular risk improvement. Clinical plausibility strong but no long-term longevity endpoint RCT.',
+    ],
+    dosing: {
+      typical: '2 mg SC once daily (FDA label); 1-2 mg SC once daily (off-label body composition/NAFLD)',
+      range: '1-2 mg SC daily',
+      frequency: 'Daily',
+      route: ['subcutaneous injection'],
+      cycle: `FDA label (HIV lipodystrophy): continuous — effects reverse on discontinuation, VAT returns to baseline within months.
+Off-label NAFLD: continuous, minimum 12-26 weeks to assess hepatic fat fraction response.
+Off-label body composition: 12-26 weeks, sometimes 5 days on / 2 days off to reduce cumulative IGF-1 exposure.
+Conservative starter: 1 mg SC daily, titrate to 2 mg over 2-4 weeks. Check IGF-1 at 4-6 weeks.`,
+      notes: `Timing: evening or pre-bed (30+ minutes after last meal) to align the GH pulse with the natural nocturnal slow-wave-sleep GH burst. Fasted state required (2+ hours since last meal) to avoid blunting the GH pulse.
+Monitoring: IGF-1 every 6 months; fasting glucose and HbA1c at baseline, 3 months, then periodically. Discontinue if IGF-1 persistently exceeds 2x the upper limit of normal.
+Stacking: solo for NAFLD/visceral fat. Stack with Ipamorelin 200-300 mcg pre-bed if IGF-1 elevation suboptimal. Stack with semaglutide/tirzepatide for metabolic syndrome.
+Reconstitution: 5 mg vial + 2.5 mL BAC water = 2 mg/mL (draw 1 mL = 2 mg = 100 IU on U-100 syringe). Refrigerate 2-8C; reconstituted stable ~30 days.
+Cost (2026): Brand Egrifta SV $3,000-4,500/month; compounded tesamorelin $250-600/month via 503A pharmacy.`,
+    },
+    sideEffects: `[Verified — High] Injection-site reactions (erythema, pruritus, pain): common — rotate sites.
+[Verified — High] Arthralgias/myalgias: common (5-10%), dose-related, resolves with dose reduction.
 [Verified — High] Peripheral edema: common — reduce dietary sodium; usually self-limiting.
 [Verified — Moderate] Numbness/paresthesias: possible, IGF-1 mediated — reduce dose if persistent.
-[Verified — Moderate] Transient fasting glucose increase: mild, observed at weeks 4–8 in Clemmons 2017 T2DM study (2 mg group), reversed by week 12. Monitor in metabolic syndrome patients.
-[Verified — Moderate] Increased IGF-1: expected (mechanism of action) — monitor to ensure within physiological range.
-[Verified — Low] Mild HbA1c increase (+0.1%) at 12 weeks with 2 mg in T2DM population (Clemmons 2017); clinically small, not statistically significant overall. Monitor periodically.
+[Verified — Moderate] Transient fasting glucose increase: mild, observed at weeks 4-8 in T2DM study (2 mg group), reversed by week 12.
 [Verified — High] Hypersensitivity reactions: rare — discontinue if rash, urticaria, or anaphylaxis.
-[Unknown] Tumor promotion risk with active malignancy: theoretical (GH/IGF-1 may promote tumor growth) — FDA contraindication. No direct clinical trial data in cancer patients; exclude active malignancy before initiation.
-Contraindications per FDA label: active malignancy; pregnancy (fetal effects not characterized); hypopituitarism (intact pituitary somatotroph function required for efficacy).
-Compliance across trials: 97–99.5% — excellent tolerability when properly titrated.`,
-
-  researchLevel: 'high',
-
-  sourceNotes: `FDA label (Egrifta SV): Theratechnologies prescribing information. DailyMed.
+[Unknown] Tumor promotion risk with active malignancy: theoretical — FDA contraindication.
+Contraindications: active malignancy; pregnancy; hypopituitarism.
+Compliance across trials: 97-99.5% — excellent tolerability when properly titrated.`,
+    sourceNotes: `FDA label (Egrifta SV): Theratechnologies prescribing information. DailyMed.
 Falutz J et al. N Engl J Med. 2007;357(23):2359-2370. PMID 18057338. [Phase III pivotal RCT, HIV, N=806]
 Falutz J et al. J Clin Endocrinol Metab. 2010;95(9):4291-4304. PMID 20554713. [Pooled Phase III analysis]
-Baker LD et al. Arch Neurol. 2012;69(11):1420-1429. PMID 22925252. [RCT, cognitive function, N=152 MCI+healthy]
-Stanley TL et al. J Clin Endocrinol Metab. 2011;96(1):150-158. PMID 20943777. [GH pulsatility + insulin sensitivity, N=13]
+Baker LD et al. Arch Neurol. 2012;69(11):1420-1429. PMID 22925252. [RCT, cognitive function, N=152]
+Stanley TL et al. J Clin Endocrinol Metab. 2011;96(1):150-158. PMID 20943777. [GH pulsatility, N=13]
 Makimura H et al. J Clin Endocrinol Metab. 2012;97(12):4769-4779. PMID 23015655. [Non-HIV obese RCT, N=60, 12 months]
 Fourman LT et al. AIDS. 2017;31(16):2253-2259. PMID 28692538. [Liver enzymes secondary analysis, N=806]
-Clemmons DR et al. PLoS ONE. 2017;12(6):e0179538. PMID 28617841. [T2DM safety RCT, N=53]
-Lemke R. Tesamorelin (Egrifta): FDA-Approved Visceral Fat Reduction. The Peptide Toolkit. May 3, 2026. [Clinical guide — secondary source]`,
-},
+Clemmons DR et al. PLoS ONE. 2017;12(6):e0179538. PMID 28617841. [T2DM safety RCT, N=53]`,
+  },
 
   // ─── Kisspeptin-10 ────────────────────────────────────────────────────────────
   {
@@ -576,34 +566,68 @@ Lemke R. Tesamorelin (Egrifta): FDA-Approved Visceral Fat Reduction. The Peptide
     keyReferences: ['Khavinson V et al. (2003). Epithalamin and aging. Annals NY Acad Sci.'],
   },
 
-  // ─── Thymosin Alpha-1 ─────────────────────────────────────────────────────────
+  // ─── THYMOSIN ALPHA-1 — UPDATED May 2026 ────────────────────────────────────
+  // Sources: Wu et al. Intensive Care Med 2013 (sepsis RCT); Garaci 2000;
+  // Costantini et al. Front Oncol 2019; King & Tuthill Vitam Horm 2016;
+  // Zhu et al. H1N1 vaccine pilot RCT (n=99); Matteucci gene expression;
+  // Tuthill clinical experience review; Lemke/Peptide Toolkit Apr 2026
   {
     id: 'thymosin_alpha1',
     name: 'Thymosin Alpha-1',
-    fullName: 'Thymosin Alpha-1 (Zadaxin)',
-    aliases: ['Ta1', 'Zadaxin', 'TA1'],
+    fullName: 'Thymosin Alpha-1 (Zadaxin / Thymalfasin)',
+    aliases: ['Ta1', 'Zadaxin', 'TA1', 'Thymalfasin'],
     category: 'Immune Modulation',
     categoryTag: 'immune',
-    goals: ['inflammation', 'fatigue', 'longevity'],
-    regulatoryStatus: 'FDA-approved in some countries (Zadaxin) for hepatitis B/C. Compoundable in US.',
+    goals: ['inflammation', 'fatigue', 'longevity', 'recovery'],
+    regulatoryStatus: 'NOT FDA-approved in US. Approved in 35+ countries (marketed as Zadaxin by SciClone) for hepatitis B, hepatitis C, and immune adjunct in cancer and sepsis. Distinct regulatory path from BPC-157/TB-500: Ta1 was never moved to FDA Category 2 status. Remained available via 503A compounding pharmacies throughout 2023-2026. Not part of the February 27, 2026 reclassification announcement. As of April 2026, broadly available by prescription through telehealth clinics including Marek Health, Ways2Well, Concierge MD.',
     researchLevel: 'high',
-    summary: 'Endogenous thymic peptide that modulates immune function — primarily T-cell differentiation and activation.',
-    mechanism: 'Binds TLR2 and TLR9 on dendritic cells and T-cells. Enhances Th1 differentiation, NK cell activity, IL-2 and IFN-gamma production.',
+    molecular: {
+      formula: 'C129H215N33O55',
+      molecularWeight: 3108.28,
+      casNumber: '62304-98-7',
+      sequence: 'Ac-Ser-Asp-Ala-Ala-Val-Asp-Thr-Ser-Ser-Glu-Ile-Thr-Thr-Lys-Asp-Leu-Lys-Glu-Lys-Lys-Glu-Val-Val-Glu-Glu-Ala-Glu-Asn-OH',
+      aminoAcids: 28,
+      source: 'Originally isolated from thymic extract by Allan Goldstein and colleagues, 1970s. Component of Thymosin Fraction 5.',
+    },
+    summary: 'Thymosin Alpha-1 is a 28-amino-acid acetylated peptide and the most clinically validated immune-modulating peptide currently in use. Marketed internationally as Zadaxin (thymalfasin), it is approved in over 35 countries for hepatitis B, hepatitis C, and as an immune adjunct in sepsis and cancer protocols. Its development program spans decades of human clinical trials. In 2026 it is most commonly used for: post-illness immune restoration (post-COVID, post-mononucleosis, post-Lyme), long COVID protocols, chronic immune dysregulation, pre/post-surgical immune support, cancer immunotherapy adjunct (off-label, with oncology supervision), elderly immune support, and hepatitis B/C per Zadaxin label. [Verified — High]',
+    mechanism: 'Ta1 acts upstream of the immune response, modulating how the immune system organizes itself rather than directly killing pathogens. Key arms: (1) Dendritic cell maturation — promotes effective antigen presentation to T cells. (2) T-cell activation — both CD4+ helper and CD8+ cytotoxic T cells. (3) Th1 polarization — pushes helper T cell response toward antiviral and antitumor patterns. (4) Reduction of T-cell apoptosis — particularly in lymphopenic states (e.g., severe COVID-19). (5) TLR2 and TLR9 activation on dendritic cells — influences inflammation balance. (6) MHC class I upregulation — increases expression of tumor, viral, and MHC I antigens. (7) ROS modulation — increases ROS in immune cells promoting proliferation; decreases ROS in tumor cells inhibiting proliferation via G1 arrest and Akt dephosphorylation. Plasma half-life: approximately 2 hours. Biological effect on T-cell and dendritic-cell function persists for days, supporting twice-weekly dosing. [Verified — High]',
     benefits: [
-      'Enhances T-cell immunity (Th1 response)',
-      'Antiviral: hepatitis B/C, COVID-19 (studied)',
-      'Adjuvant in cancer immunotherapy',
-      'Reduces chronic fatigue in immune-compromised patients',
+      '[Verified — High] Sepsis survival benefit: multicenter RCT (Wu et al. Intensive Care Med. 2013;39(10):1701-1709, n=361) — Ta1 + standard care vs standard care alone. Significant reduction in 28-day mortality in severe sepsis subgroup.',
+      '[Verified — High] Hepatitis B/C: Phase III trials conducted by SciClone. Approved indication in 35+ countries. Combination with IFN-alpha improved response rates in hepatitis B and C including IFN-nonresponders.',
+      '[Verified — Moderate] Cancer immunotherapy adjunct: NSCLC and melanoma — combination of Ta1 + IFN-alpha produced evidence of high potentiality in treatment of human cancer (Garaci et al. Int J Immunopharmacol. 2000;22(12):1067-1076).',
+      '[Verified — Moderate] Influenza vaccine adjuvant — pilot RCT (n=99 hemodialysis patients): Zadaxin + H1N1 pandemic vaccine vs vaccine alone. Both Vaccine + Ta1 groups met CHMP seroconversion criteria; vaccine-only group did not. No adverse events related to Ta1. [Zhu et al. 2011]',
+      '[Verified — Moderate] Transcription profile: 8,300 genes profiled in human PBMCs in vitro — Ta1 modulates a complex array of innate and adaptive immune response genes.',
+      '[Verified — Low] Anti-tumor ROS mechanism: increases ROS in leukomonocytes (promoting proliferation) while decreasing ROS in HepG2 hepatoma cells (inhibiting tumor cell proliferation via G1 arrest, Akt dephosphorylation).',
+      '[Speculation] Post-illness immune restoration (post-COVID, post-Lyme, post-mononucleosis): most commonly prescribed 2026 US telehealth indication. Perceptible benefit at 4-6 weeks consistently reported. No dedicated RCT for this indication.',
     ],
     dosing: {
-      typical: '1.6 mg SC twice weekly (Zadaxin standard)',
-      range: '0.8-3.2 mg/dose',
+      typical: '1.6 mg SC twice weekly — directly from Zadaxin label (standard for hepatitis B: 1.6 mg 2x/week x 6 months)',
+      range: '0.8-3.2 mg per dose; 1.6 mg per injection is the established anchor',
+      frequency: 'Twice weekly (Monday and Thursday standard). Once-weekly variant: 3.2 mg 1x/week for adherence.',
       route: ['subcutaneous injection'],
-      cycle: '6-12 months for chronic conditions; shorter for acute immune support',
-      notes: 'Well-established clinical dosing from Zadaxin trials.',
+      cycleByIndication: {
+        generalImmuneSupport: '8 weeks on, 4 weeks off, then reassess',
+        acutePostIllness: '4-8 weeks continuous',
+        longCovidChronicImmune: '3x/week tapering to 2x/week for 4 weeks intensive, then standard',
+        hepatitisBZadaxinLabel: '6 months continuous',
+        prePostSurgical: '2 weeks before through 2 weeks after',
+        cancerAdjunct: '1.6 mg 2-3x/week — long courses coordinated with oncology team',
+        elderlyLowFrequency: '1.6 mg 1x/week indefinitely',
+      },
+      notes: 'RECONSTITUTION: 5 mg + 5 mL BAC water = 1 mg/mL (draw 1.6 mL). 5 mg + 3.125 mL BAC water = 1.6 mg/mL (draw 1.0 mL — preferred for syringe simplicity). 10 mg + 10 mL BAC water = 1 mg/mL (draw 1.6 mL). One 5 mg vial = 3 doses at 1.6 mg = approximately 10 days at twice-weekly dosing. Reconstituted: stable 28-30 days refrigerated. STACKING: Most often run as monotherapy. When stacked: Ta1 + TB-500 (immune restoration + tissue repair); Ta1 + BPC-157 + GHK-Cu (comprehensive post-major-illness recovery). CAUTION — AUTOIMMUNITY: Promotes immune activation. Use cautiously or avoid in lupus, RA on biologics, MS, or transplant immunosuppression.',
+      cost2026: '5 mg vial: $160-280. 10 mg vial: $280-450. Per 1.6 mg dose: ~$65. Weekly cost (2x/week): ~$130. 8-week cycle cost: ~$1,040.',
     },
-    sideEffects: 'Very well-tolerated. Injection site reactions. No significant systemic adverse effects in trials.',
-    keyReferences: ['Tuthill CW et al. (1994). Thymosin alpha-1 clinical use. Ann NY Acad Sci.'],
+    sideEffects: '[Verified — High] Injection site reactions: most common, typically mild. [Verified — Low] Transient discomfort, fatigue, or muscle ache in first week: uncommon. [Verified — Low] Rash, transient eosinophilia: rare. [Verified — High] Strongest safety profile of any peptide in this category — decades of global clinical use as Zadaxin. No serious adverse events related to Ta1 in H1N1 vaccine pilot RCT (n=99). [Speculation] Theoretical concern: active autoimmune disease — promotes immune activation which is the mechanism of benefit in immunocompromised states but is the theoretical concern in active autoimmunity. CONTRAINDICATIONS: Active autoimmune disease (relative — requires specialist judgment); patients on immunosuppressants for solid organ transplant.',
+    keyReferences: [
+      'Wu M et al. Thymosin alpha1 therapy in critically ill patients with sepsis: multicenter RCT. Intensive Care Med. 2013;39(10):1701-1709. PMID 23921826.',
+      'Garaci E et al. Thymosin alpha 1 in treatment of cancer. Int J Immunopharmacol. 2000;22(12):1067-1076.',
+      'Costantini C et al. A reappraisal of thymosin alpha1 in cancer therapy. Front Oncol. 2019;9:873.',
+      'King R, Tuthill C. Immune modulation with thymosin alpha 1 treatment. Vitam Horm. 2016;102:151-178. PMID 26827955.',
+      'Zhu et al. Thymosin-alpha 1 enhances immunogenicity of pandemic H1N1v influenza vaccine in hemodialyzed patients. Pilot RCT n=99. CHMP criteria met in Ta1 groups only.',
+      'Matteucci C et al. Transcription profile of human lymphocytes with thymosin alpha-1. 8,300 genes profiled. Peptide Society.',
+      'Tuthill C et al. Thymosin alpha 1: past clinical experience and future promise.',
+      'Lemke R. Thymosin Alpha-1: Immune Modulation Dosing Guide. The Peptide Toolkit. April 27, 2026. [Speculation — educational guide]',
+    ],
   },
 
   // ─── Selank ───────────────────────────────────────────────────────────────────
@@ -694,143 +718,60 @@ Lemke R. Tesamorelin (Egrifta): FDA-Approved Visceral Fat Reduction. The Peptide
     sideEffects: 'Very limited adverse event data. Appears well-tolerated.',
     keyReferences: ['Catania A et al. (2004). Alpha-MSH fragments and inflammation. Peptides.'],
   },
-// ─── HCG (Human Chorionic Gonadotropin) ──────────────────────────────────────
-// Updated May 2026 — 5 sources extracted (4 peer-reviewed + 1 community guide)
-// Evidence labels: [Verified] = peer-reviewed | [Speculation] = community/extrapolated | [Unknown] = no data
-//
-// Sources:
-//   [1] Lemke R. "HCG for TRT: Doses, Forms & The 2026 Compounding Crisis."
-//       The Peptide Toolkit. May 3, 2026. [Speculation — educational guide, no peer review]
-//   [2] Delemarre-van de Waal HA. Eur J Endocrinol. 2004;151:U89-U94.
-//       [Verified — n=68 HH males, GnRH+HCG, 85.3% spermatogenesis]
-//   [3] Liu Z et al. Medicine. 2016;95(9):e2867. PMID via DOI 10.1097/MD.0000000000002867
-//       [Verified — retrospective n=223 CHH, HCG/HMG, 64% spermatogenesis]
-//   [4] Hong BS & Ahn TY. Int J Urol. 2007;14:981-985.
-//       [Verified — TDS/TRT review, HCG background context]
-//   [5] Nieschlag E et al. Reprod Biol Endocrinol. 2017;15:17. NCT01709331.
-//       [Verified — Phase III, n=18 combined HCG+FSH, 77.8% spermatogenesis]
-//
-// IMPORTANT NOTE: HCG is a 244-amino-acid glycoprotein hormone, not a small peptide.
-// All peer-reviewed efficacy data comes from hypogonadotropic hypogonadism (HH) populations.
-// TRT adjunct use is off-label; no dedicated RCT for this indication.
 
-{
-  id: 'hcg',
-  name: 'HCG',
-  fullName: 'Human Chorionic Gonadotropin (hCG)',
-  aliases: ['Pregnyl', 'Novarel', 'Chorionic Gonadotropin', 'hCG', 'Human chorionic gonadotropin'],
-  category: 'Hormonal / Fertility',
-  categoryTag: 'fertility',
-  goals: ['fertility', 'sexual_function', 'metabolic_health', 'muscle_mass'],
-  regulatoryStatus:
-    'FDA-approved (Pregnyl, Novarel) for: (1) hypogonadotropic hypogonadism in males, (2) ovulation induction in females, (3) cryptorchidism in pediatric patients. ' +
-    'TRT adjunct use — the most common community use — is off-label, supported by long clinical practice but not on the FDA-approved label. ' +
-    'Compounding availability significantly reduced since FDA enforcement actions 2024–2025 against bulk-compounding pharmacies; many TRT clinics have switched to gonadorelin as of 2026. ' +
-    'Brand-name HCG still available by prescription through traditional pharmacy channels but is more expensive. ' +
-    'WADA Prohibited List 2026, Section S2 — banned in male competitive athletes. [Verified — Lemke 2026, FDA]',
-  researchLevel: 'high',
-
-  summary:
-    'Human Chorionic Gonadotropin is a 244-amino-acid glycoprotein hormone naturally produced by the placenta during pregnancy. In men, it functions as an LH mimic — binding directly to LH receptors on testicular Leydig cells and stimulating intratesticular testosterone (ITT) production and spermatogenesis support. ' +
-    'When a man starts TRT, the HPG axis shuts down: the brain stops producing GnRH → pituitary stops making LH/FSH → Leydig cells go dormant → testicular atrophy, fertility loss, and the "flat" mood some men on TRT-only describe. ' +
-    'HCG bypasses this shutdown by directly activating Leydig cells regardless of pituitary status. ' +
-    'In hypogonadotropic hypogonadism (HH) populations — the best-studied clinical group — HCG achieves testosterone normalization (0.9 → 15.1 nmol/L, P<0.001; Liu 2016, n=223) and testicular growth but usually requires FSH co-administration for complete spermatogenesis: 77.8% spermatogenesis success with HCG+corifollitropin alfa (Phase III, Nieschlag 2017, n=18) and 64% with HCG+HMG (retrospective, Liu 2016, n=223). ' +
-    'For TRT adjunct use, 250–500 IU SC 2–3x/week is the established community standard, preserving testicular size, fertility potential, and ITT. ' +
-    'As of 2026, HCG has become harder to source through compounding pharmacies; gonadorelin has emerged as the primary alternative for testicular function maintenance on TRT. ' +
-    '[Verified — 4 peer-reviewed sources; TRT adjunct dosing Speculation — Lemke 2026]',
-
-  mechanism:
-    'LH RECEPTOR MIMIC: HCG beta subunit binds LH receptors on testicular Leydig cells with high affinity. ' +
-    'Activates adenylyl cyclase → cAMP → steroidogenic enzyme upregulation → intratesticular testosterone (ITT) synthesis. ' +
-    'ITT is orders of magnitude higher than serum testosterone and is essential for spermatogenesis via Sertoli cell support. ' +
-    'HCG bypasses hypothalamic-pituitary signaling entirely — functional in men with intact Leydig cells regardless of HPG axis suppression from TRT. ' +
-    'PLASMA KINETICS: Terminal half-life ~33–37 hours. Biological effect on Leydig cells persists 3–5 days per injection — explaining why 2–3x/week dosing is sufficient despite the molecule clearing more quickly. ' +
-    'ESTRADIOL PATHWAY: Stimulated ITT → testicular aromatase → estradiol (E2) elevation. Higher E2 risk than gonadorelin because HCG provides stronger direct Leydig stimulation. ' +
-    'HPG AXIS CONTEXT: TRT suppresses GnRH → stops LH/FSH → Leydig cell dormancy → testicular atrophy and azoospermia within 3–6 months. ' +
-    'HCG counters all three downstream effects: maintains Leydig function (testosterone), prevents atrophy (testicular volume), and preserves spermatogenic machinery (ITT → Sertoli support). ' +
-    'IMPORTANT: HCG alone is often insufficient for complete spermatogenesis in HH patients — FSH co-administration (via HMG, recFSH, or corifollitropin alfa) is required in most fertility cases.',
-
-  benefits: [
-    '[Verified] Testosterone normalization in HH: 0.9±0.5 → 15.1±8.2 nmol/L (P<0.001) with HCG/HMG (Liu 2016, n=223). HCG pretreatment alone: 65.2 → 437.6 ng/dL in 16 weeks (Nieschlag 2017).',
-    '[Verified] Testicular volume restoration: 2.1±1.6 → 8.1±4.6 mL (P<0.001) in HH patients (Liu 2016). 2.30-fold increase in 52 weeks with HCG+FSH (Nieschlag 2017, 95% CI: 2.03–2.62).',
-    '[Verified] Spermatogenesis induction (HCG+FSH): 77.8% achieved sperm count ≥1×10⁶/mL in Phase III trial (Nieschlag 2017, n=18). 64% success in large CHH cohort with HCG+HMG (Liu 2016, n=223).',
-    '[Verified] Spermatogenesis maintenance: After GnRH-induced spermatogenesis in HH, hCG 1,500–3,000 IU 1–2x/week maintained or improved spermatogenesis in most patients. 10/68 fathered children (Delemarre-van de Waal 2004).',
-    '[Verified] Fertility outcomes: 19/34 (56%) married HH patients impregnated partners during HCG/HMG therapy (Liu 2016). Median time to first sperm: 15 months (95% CI 13.5–16.5). Time to >5M/mL: 27 months.',
-    '[Verified] TRT — testicular atrophy prevention: Concomitant HCG preserves spermatogenesis in men on TRT (Hsieh 2013, J Urol 189:647). Low-dose HCG maintains intratesticular testosterone in testosterone-suppressed men (Coviello 2005, JCEM 90:2595).',
-    '[Speculation] TRT — mood/well-being: Some men on TRT-only report "flat" or "off" feeling that resolves with HCG addition. Mechanism debated: ITT, DHEA-like adrenal effects, pregnenolone pathway. Anecdotal but consistently reported.',
-    '[Verified] Muscle mass, osteoblastic collagen, lipid effects: Positive effects reported in limited studies of HCG for age-related androgen deficiency (Zitzmann 2000, Acevedo 2002; cited Hong & Ahn 2007).',
-  ],
-
-  humanEvidence:
-    '4 clinical studies (1 Phase III, 1 retrospective cohort n=223, 1 interventional n=68, 1 review). ' +
-    '(1) Nieschlag et al 2017 (NCT01709331; n=18 combined phase): Phase III HCG+corifollitropin alfa — 77.8% spermatogenesis ≥1×10⁶/mL, 2.30-fold testicular volume increase. ' +
-    '(2) Liu et al 2016 (n=223 CHH): HCG+HMG — 64% spermatogenesis, median 15 months, 56% paternity rate in married patients. Cox regression predictors validated. ' +
-    '(3) Delemarre-van de Waal 2004 (n=68 HH): GnRH → HCG maintenance — 85.3% spermatogenesis, 10 fathered children. ' +
-    '(4) Hong & Ahn 2007 (review): TDS treatment context, HCG as TRT alternative. ' +
-    'NOTE: No RCT exists for HCG as TRT adjunct specifically (the primary community use). All peer-reviewed spermatogenesis data comes from HH populations.',
-
-  dosing: {
-    typical: '[Speculation — Lemke 2026] TRT adjunct: 250–500 IU SC, 2–3x/week. [Verified — Phase III] HH therapy: 1,500–3,000 IU SC/IM 2x/week.',
-    range:
-      'TRT adjunct [Speculation]: 250–500 IU per injection. ' +
-      'HH with HCG/HMG [Verified]: 2,000–5,000 IU IM 2x/week (Liu 2016). ' +
-      'HH Phase III [Verified]: 1,500–3,000 IU SC 2x/week (Nieschlag 2017). ' +
-      'GnRH maintenance [Verified]: 1,500–3,000 IU IM/SC 1–2x/week (Delemarre-van de Waal 2004). ' +
-      'Fertility restart post-TRT [Speculation]: 1,500–3,000 IU 2–3x/week + HMG or clomiphene.',
-    frequency:
-      '2–3x/week for TRT adjunct [Speculation]. 2x/week for HH [Verified]. ' +
-      'Biological effect persists 3–5 days per injection due to 33–37h half-life — more frequent dosing not necessary.',
-    route: ['subcutaneous injection', 'intramuscular injection (clinical trials)'],
-    cycle:
-      'TRT adjunct: continuous with TRT [Speculation]. ' +
-      'HH fertility: 6–18+ months depending on spermatogenesis goals [Verified]. ' +
-      'Effects on testicular function reverse within months of stopping — must continue for maintained benefit.',
-    notes:
-      'CRITICAL: HCG is dosed in International Units (IU), NOT milligrams. Confusing the two is the most common self-administration error and can cause 100x dosing errors. ' +
-      'RECONSTITUTION: Standard compounded vials are 5,000 IU or 10,000 IU. Add bacteriostatic water (BAC water only — sterile water degrades the molecule faster and increases contamination risk). ' +
-      '5,000 IU + 5 mL BAC water = 1,000 IU/mL. For 250 IU dose: draw 0.25 mL = 25 units on U-100 syringe. ' +
-      '5,000 IU + 10 mL BAC water = 500 IU/mL. For 250 IU dose: draw 0.5 mL = 50 units on U-100 syringe. ' +
-      'STORAGE: Refrigerate immediately after reconstitution. Never freeze (damages glycoprotein structure). Use within 30 days of reconstitution. ' +
-      'MONITORING: Estradiol (E2) every 6–8 weeks — higher aromatization than gonadorelin. Anastrozole 0.25–0.5 mg 2x/week only if E2 genuinely elevated on labs — do not crush E2 prophylactically. ' +
-      'Testosterone levels 48h after HCG injection (peak reference). Hematocrit and PSA per standard TRT monitoring. ' +
-      'PREGNANCY TEST INTERFERENCE: Home pregnancy tests detect HCG — after injection you will test positive for 7–14 days regardless of pregnancy status. ' +
-      '2026 ACCESS NOTE: HCG availability through compounding pharmacies is limited and inconsistent following 2024–2025 FDA enforcement. Gonadorelin is the widely available alternative. ' +
-      'If HCG unavailable: gonadorelin 100–500 mcg SC 2–3x/day is the primary substitute for testicular function maintenance on TRT.',
+  // ─── HCG ──────────────────────────────────────────────────────────────────────
+  // Updated May 2026 — 4 peer-reviewed sources + 1 community guide
+  {
+    id: 'hcg',
+    name: 'HCG',
+    fullName: 'Human Chorionic Gonadotropin (hCG)',
+    aliases: ['Pregnyl', 'Novarel', 'Chorionic Gonadotropin', 'hCG'],
+    category: 'Hormonal / Fertility',
+    categoryTag: 'fertility',
+    goals: ['fertility', 'sexual_function', 'metabolic_health', 'muscle_mass'],
+    regulatoryStatus: 'FDA-approved (Pregnyl, Novarel) for: (1) hypogonadotropic hypogonadism in males, (2) ovulation induction in females, (3) cryptorchidism in pediatric patients. TRT adjunct use — the most common community use — is off-label. Compounding availability significantly reduced since FDA enforcement actions 2024-2025; many TRT clinics have switched to gonadorelin as of 2026. WADA Prohibited List 2026, Section S2 — banned in male competitive athletes. [Verified — FDA, WADA]',
+    researchLevel: 'high',
+    summary: 'Human Chorionic Gonadotropin is a 244-amino-acid glycoprotein hormone naturally produced by the placenta during pregnancy. In men, it functions as an LH mimic — binding directly to LH receptors on testicular Leydig cells and stimulating intratesticular testosterone (ITT) production and spermatogenesis support. In hypogonadotropic hypogonadism populations — the best-studied clinical group — HCG achieves testosterone normalization (0.9 → 15.1 nmol/L, P<0.001; Liu 2016, n=223) and testicular growth. As of 2026, HCG has become harder to source through compounding pharmacies; gonadorelin has emerged as the primary alternative. [Verified — 4 peer-reviewed sources; TRT adjunct dosing Speculation — Lemke 2026]',
+    mechanism: 'LH RECEPTOR MIMIC: HCG beta subunit binds LH receptors on testicular Leydig cells with high affinity. Activates adenylyl cyclase → cAMP → steroidogenic enzyme upregulation → intratesticular testosterone (ITT) synthesis. ITT is orders of magnitude higher than serum testosterone and is essential for spermatogenesis via Sertoli cell support. HCG bypasses hypothalamic-pituitary signaling entirely. PLASMA KINETICS: Terminal half-life ~33-37 hours. Biological effect persists 3-5 days per injection. ESTRADIOL PATHWAY: Stimulated ITT → testicular aromatase → estradiol elevation. Higher E2 risk than gonadorelin because HCG provides stronger direct Leydig stimulation. IMPORTANT: HCG alone is often insufficient for complete spermatogenesis in HH patients — FSH co-administration (via HMG, recFSH, or corifollitropin alfa) is required in most fertility cases.',
+    benefits: [
+      '[Verified] Testosterone normalization in HH: 0.9±0.5 → 15.1±8.2 nmol/L (P<0.001) with HCG/HMG (Liu 2016, n=223).',
+      '[Verified] Testicular volume restoration: 2.1±1.6 → 8.1±4.6 mL (P<0.001) in HH patients (Liu 2016). 2.30-fold increase with HCG+FSH (Nieschlag 2017, 95% CI: 2.03-2.62).',
+      '[Verified] Spermatogenesis induction (HCG+FSH): 77.8% achieved sperm count ≥1×10⁶/mL in Phase III trial (Nieschlag 2017, n=18). 64% success with HCG+HMG (Liu 2016, n=223).',
+      '[Verified] Fertility outcomes: 19/34 (56%) married HH patients impregnated partners during HCG/HMG therapy (Liu 2016). Median time to first sperm: 15 months.',
+      '[Verified] TRT — testicular atrophy prevention: Hsieh 2013 J Urol 189:647. Low-dose HCG maintains ITT in testosterone-suppressed men (Coviello 2005, JCEM 90:2595).',
+      '[Speculation] TRT — mood/well-being: some men on TRT-only report flat or off feeling that resolves with HCG addition. Anecdotal but consistently reported.',
+    ],
+    dosing: {
+      typical: '[Speculation] TRT adjunct: 250-500 IU SC, 2-3x/week. [Verified — Phase III] HH therapy: 1,500-3,000 IU SC/IM 2x/week.',
+      range: 'TRT adjunct: 250-500 IU per injection. HH with HCG/HMG: 2,000-5,000 IU IM 2x/week (Liu 2016).',
+      frequency: '2-3x/week for TRT adjunct. 2x/week for HH. Biological effect persists 3-5 days per injection.',
+      route: ['subcutaneous injection', 'intramuscular injection (clinical trials)'],
+      cycle: 'TRT adjunct: continuous with TRT. HH fertility: 6-18+ months. Effects on testicular function reverse within months of stopping.',
+      notes: 'CRITICAL: HCG is dosed in International Units (IU), NOT milligrams. 5,000 IU + 5 mL BAC water = 1,000 IU/mL. For 250 IU dose: draw 0.25 mL = 25 units on U-100 syringe. STORAGE: Refrigerate immediately. Never freeze. Use within 30 days of reconstitution. MONITORING: Estradiol every 6-8 weeks — higher aromatization than gonadorelin. PREGNANCY TEST INTERFERENCE: home tests detect HCG — positive for 7-14 days post-injection. 2026 ACCESS NOTE: HCG availability limited following 2024-2025 FDA enforcement. Gonadorelin is the widely available alternative (100-300 mcg SC 2-3x/day).',
+    },
+    hcgVsGonadorelin: {
+      note: '[Speculation — Lemke 2026] Both preserve testicular function during TRT via different mechanisms.',
+      mechanism: 'HCG: direct LH receptor agonist on Leydig cells. Gonadorelin: synthetic GnRH → pituitary → endogenous LH/FSH release.',
+      injectionsPerWeek: 'HCG: 2-3. Gonadorelin: 14-21 (2-3x daily due to 2-10 min half-life).',
+      estrogenRisk: 'HCG: higher (direct Leydig overstimulation risk). Gonadorelin: lower (pulsatile, physiologic).',
+      intratesticularT: 'HCG: strong. Gonadorelin: modest.',
+      availability2026: 'HCG: limited/inconsistent. Gonadorelin: widely compounded.',
+      pregnancyTestInterference: 'HCG: yes (7-14 days). Gonadorelin: no.',
+    },
+    sideEffects: '[Verified] Well-tolerated at TRT-adjunct doses. No serious adverse events in Phase III trial (Nieschlag 2017). [Verified] Estradiol elevation: gynecomastia occurred in 7% (16/223) at HH clinical doses; 2 required surgical excision (Liu 2016). [Verified] Acne: 9% (20/223). [Verified] Pregnancy test cross-reactivity: positive for 7-14 days. [Unknown] Long-term TRT adjunct safety profile: no dedicated RCT. CONTRAINDICATIONS: Active prostate or breast cancer; primary hypogonadism — Klinefelter syndrome; prior bilateral cryptorchidism.',
+    keyReferences: [
+      'Lemke R. HCG for TRT: Doses, Forms & The 2026 Compounding Crisis. The Peptide Toolkit. May 3, 2026. [Speculation]',
+      'Delemarre-van de Waal HA. GnRH in hypogonadotropic hypogonadism. Eur J Endocrinol. 2004;151:U89-U94.',
+      'Liu Z et al. Gonadotropin treatment for male CHH: retrospective study of 223 patients. Medicine. 2016;95(9):e2867.',
+      'Hong BS & Ahn TY. Testosterone deficiency syndrome treatment trends. Int J Urol. 2007;14:981-985.',
+      'Nieschlag E et al. Corifollitropin alfa combined with hCG in hypogonadotropic hypogonadism. Reprod Biol Endocrinol. 2017;15:17. NCT01709331.',
+      'Coviello AD et al. Low-dose hCG maintains intratesticular testosterone. JCEM. 2005;90(5):2595-2602.',
+      'Hsieh TC et al. Concomitant hCG preserves spermatogenesis in men undergoing TRT. J Urol. 2013;189(2):647-650.',
+      'Bhasin S et al. Testosterone therapy in men with hypogonadism: Endocrine Society guideline. JCEM. 2018;103(5):1715-1744.',
+      'WADA. Prohibited List 2026, Section S2.',
+    ],
   },
 
-  hcgVsGonadorelin: {
-    note: '[Speculation — Lemke 2026] Both preserve testicular function during TRT via different mechanisms.',
-    mechanism: 'HCG: direct LH receptor agonist on Leydig cells. Gonadorelin: synthetic GnRH → pituitary → endogenous LH/FSH release.',
-    injectionsPerWeek: 'HCG: 2–3. Gonadorelin: 14–21 (2–3x daily due to 5–10 min half-life).',
-    estrogenRisk: 'HCG: higher (direct Leydig overstimulation risk). Gonadorelin: lower (pulsatile, physiologic).',
-    intratesticularT: 'HCG: strong. Gonadorelin: modest.',
-    availability2026: 'HCG: limited/inconsistent. Gonadorelin: widely compounded.',
-    pregnancyTestInterference: 'HCG: yes (7–14 days). Gonadorelin: no.',
-  },
-
-  sideEffects:
-    '[Verified] Well-tolerated at TRT-adjunct doses. No serious adverse events in Phase III clinical trial (Nieschlag 2017). No hepatorenal impairment in large cohort (Liu 2016). ' +
-    '[Verified] Estradiol elevation: stimulates ITT → aromatization → E2 rise. Symptoms: nipple sensitivity, gynecomastia risk, water retention, mood changes. Gynecomastia occurred in 7% (16/223) at HH clinical doses; 2 required surgical excision (Liu 2016). ' +
-    '[Verified] Acne: 9% (20/223) at HH doses — testosterone-mediated. Reduced HCG dose resolved it. ' +
-    '[Verified] One patient discontinued Phase III trial (Nieschlag 2017) due to testosterone 1,528 ng/dL — reversed on discontinuation. ' +
-    '[Speculation] Water retention: indirect aldosterone elevation. Face/ankle puffiness in first weeks. Usually resolves. ' +
-    '[Verified] Pregnancy test cross-reactivity: positive home test for 7–14 days post-injection. Not harmful but important awareness. ' +
-    '[Unknown] Long-term TRT adjunct safety profile: no dedicated RCT. Extrapolated from HH clinical trials and long-standing clinical practice. ' +
-    'CONTRAINDICATIONS: Active prostate or breast cancer (HCG stimulates testosterone production). Primary hypogonadism — Klinefelter syndrome (absent Leydig cells; HCG cannot overcome). Prior bilateral cryptorchidism (reduced Leydig cell reserve). Known hypersensitivity to HCG components.',
-
-  keyReferences: [
-    'Lemke R. HCG for TRT: Doses, Forms & The 2026 Compounding Crisis. The Peptide Toolkit. May 3, 2026. [Speculation — educational guide]',
-    'Delemarre-van de Waal HA. Application of GnRH in hypogonadotropic hypogonadism — diagnostic and therapeutic aspects. Eur J Endocrinol. 2004;151:U89-U94.',
-    'Liu Z et al. Efficacy and outcome predictors of gonadotropin treatment for male congenital hypogonadotropic hypogonadism: retrospective study of 223 patients. Medicine. 2016;95(9):e2867. DOI 10.1097/MD.0000000000002867.',
-    'Hong BS & Ahn TY. Recent trends in the treatment of testosterone deficiency syndrome. Int J Urol. 2007;14:981-985.',
-    'Nieschlag E et al. Efficacy and safety of corifollitropin alfa combined with hCG in adult men with hypogonadotropic hypogonadism. Reprod Biol Endocrinol. 2017;15:17. NCT01709331.',
-    'Coviello AD et al. Low-dose hCG maintains intratesticular testosterone in men with testosterone-induced gonadotropin suppression. J Clin Endocrinol Metab. 2005;90(5):2595-2602.',
-    'Hsieh TC et al. Concomitant intramuscular hCG preserves spermatogenesis in men undergoing TRT. J Urol. 2013;189(2):647-650.',
-    'Bhasin S et al. Testosterone therapy in men with hypogonadism: Endocrine Society guideline. J Clin Endocrinol Metab. 2018;103(5):1715-1744.',
-    'U.S. FDA. Pregnyl and Novarel prescribing information. DailyMed.',
-    'WADA. Prohibited List 2026, Section S2 (hCG prohibited in male athletes).',
-  ],
-},
   // ─── MOTS-c ───────────────────────────────────────────────────────────────────
   // Updated May 2026 — 12 peer-reviewed sources
   {
@@ -843,8 +784,8 @@ Lemke R. Tesamorelin (Egrifta): FDA-Approved Visceral Fat Reduction. The Peptide
     goals: ['mitochondrial', 'metabolic_health', 'longevity', 'fatigue', 'muscle_mass', 'recovery', 'inflammation'],
     regulatoryStatus: 'Included in February 27, 2026 FDA Category 1 reclassification batch (compoundable with prescription). First mitochondrial-encoded peptide in clinical trials (NCT03998514 ongoing).',
     researchLevel: 'moderate',
-    summary: 'MOTS-c is a 16-amino-acid mitochondrial-derived peptide encoded in the 12S rRNA open reading frame of mitochondrial DNA. Plasma MOTS-c declines with age (-11% middle-aged, -21% older vs young; p<0.001) and in disease states including T1DM, T2DM, gestational diabetes (-18%, p<0.01), and obesity. Exercise-induced — rising 11.9-fold in skeletal muscle and 1.5-fold in plasma after high-intensity cycling. Serum levels correlate positively with lower-body muscle strength (R²=0.53, p=0.016) and muscle mass. As the first mitochondrial-encoded peptide to enter clinical trials, it is a high-priority longevity and metabolic therapeutic candidate. [Verified — 12 peer-reviewed sources]',
-    mechanism: 'PRIMARY (skeletal muscle): Folate cycle inhibition → AICAR accumulation → AMPK activation → GLUT4 translocation → enhanced glucose uptake. STRESS RESPONSE: AMPK-dependent nuclear translocation → Nrf2/ARE antioxidant regulation → ATF1-mediated stress resistance. IMMUNE/T1DM: Alpha-helical domain binds Raptor → mTORC1 suppression → Foxp3+ Treg differentiation → reduced pancreatic islet infiltration. CARDIAC: AMPK → mitochondrial biogenesis (citrate synthase above baseline) → restored OXPHOS; Nrf2 → SOD/catalase/GPX4 upregulation; reduced ATP synthase reversal during anoxia. LONGEVITY: Mitohormesis — transient H2O2 bursts trigger adaptive antioxidant upregulation. m.1382A>C SNP in MOTS-c ORF associated with exceptional longevity in Japanese centenarians.',
+    summary: 'MOTS-c is a 16-amino-acid mitochondrial-derived peptide encoded in the 12S rRNA open reading frame of mitochondrial DNA. Plasma MOTS-c declines with age (-11% middle-aged, -21% older vs young; p<0.001) and in disease states including T1DM, T2DM, gestational diabetes (-18%, p<0.01), and obesity. Exercise-induced — rising 11.9-fold in skeletal muscle and 1.5-fold in plasma after high-intensity cycling. Serum levels correlate positively with lower-body muscle strength (R2=0.53, p=0.016). As the first mitochondrial-encoded peptide to enter clinical trials, it is a high-priority longevity and metabolic therapeutic candidate. [Verified — 12 peer-reviewed sources]',
+    mechanism: 'PRIMARY (skeletal muscle): Folate cycle inhibition → AICAR accumulation → AMPK activation → GLUT4 translocation → enhanced glucose uptake. STRESS RESPONSE: AMPK-dependent nuclear translocation → Nrf2/ARE antioxidant regulation → ATF1-mediated stress resistance. IMMUNE/T1DM: Alpha-helical domain binds Raptor → mTORC1 suppression → Foxp3+ Treg differentiation → reduced pancreatic islet infiltration. CARDIAC: AMPK → mitochondrial biogenesis → restored OXPHOS; Nrf2 → SOD/catalase/GPX4 upregulation. LONGEVITY: Mitohormesis — transient H2O2 bursts trigger adaptive antioxidant upregulation. m.1382A>C SNP in MOTS-c ORF associated with exceptional longevity in Japanese centenarians.',
     benefits: [
       '[Verified] Insulin resistance reduction via GLUT4/AMPK/AICAR in skeletal muscle — validated in HFD, T2DM, and GDM mouse models',
       '[Verified] T2DM: Serum MOTS-c inversely correlated with HbA1c severity (n=225); lowest in poorly controlled T2DM (HbA1c >7%)',
@@ -852,8 +793,8 @@ Lemke R. Tesamorelin (Egrifta): FDA-Approved Visceral Fat Reduction. The Peptide
       '[Verified] Diabetic cardiomyopathy: Restored cardiac OXPHOS respiration to control levels in T2D rat model (Pham 2025)',
       '[Verified] Cardiac hypertrophy reversal: LV wall thickness -8% (3.71→3.40 mm, p<0.05) in T2D rats',
       '[Verified] Exercise-induced: 11.9-fold muscle MOTS-c increase post high-intensity cycling (p=0.0098)',
-      '[Verified] Muscle strength: Serum MOTS-c correlates with lower-body max force (R²=0.53, p=0.016) and average power (R²=0.50)',
-      '[Verified] VO2max: Zero correlation (R²=-0.011, p=0.96) — strength not endurance marker',
+      '[Verified] Muscle strength: Serum MOTS-c correlates with lower-body max force (R2=0.53, p=0.016) and average power (R2=0.50)',
+      '[Verified] VO2max: Zero correlation (R2=-0.011, p=0.96) — strength not endurance marker',
       '[Verified] Longevity: Late-life intermittent MOTS-c 3x/week increased healthy lifespan in mice; 22-month-old mice doubled treadmill time on 2-week protocol',
       '[Verified] Genetic longevity: m.1382A>C SNP in MOTS-c ORF associated with exceptional longevity in Asian centenarians',
     ],
@@ -865,7 +806,7 @@ Lemke R. Tesamorelin (Egrifta): FDA-Approved Visceral Fat Reduction. The Peptide
       cycle: '[Speculation] 4-8 weeks on, reassess. No validated human off-cycle protocol.',
       notes: 'No human exogenous administration RCT completed. Phase I trial (NCT03998514) ongoing. Exercise synergy documented — additive PGC-1alpha effects.',
     },
-    humanEvidence: '5 human observational studies (no exogenous RCT): Reynolds 2021 (n=10, exercise-induced); D\'Souza 2020 (n=78, age paradox); Yin 2022 (n=40, GDM); Kong 2023 (n=225 T2DM cross-sectional); Domin 2023 (n=20, strength correlation). Phase I trial NCT03998514 pending.',
+    humanEvidence: '5 human observational studies (no exogenous RCT): Reynolds 2021 (n=10, exercise-induced); DSouza 2020 (n=78, age paradox); Yin 2022 (n=40, GDM); Kong 2023 (n=225 T2DM cross-sectional); Domin 2023 (n=20, strength correlation). Phase I trial NCT03998514 pending.',
     sideEffects: '[Verified — animal] Injection site reactions at higher doses. 15 mg/kg/day x 3 weeks well-tolerated in T2D rats — no organ morphology changes (Pham 2025). [Unknown] Long-term human safety. Phase I trial will provide first human dataset.',
     keyReferences: [
       'Reynolds JC et al. (2021). MOTS-c is an exercise-induced mitochondrial-encoded regulator. Nat Commun 12:470.',
@@ -882,7 +823,7 @@ Lemke R. Tesamorelin (Egrifta): FDA-Approved Visceral Fat Reduction. The Peptide
     id: 'ss31',
     name: 'SS-31',
     fullName: 'Elamipretide (SS-31)',
-    aliases: ['MTP-131', 'Bendavia', 'D-Arg-2\'6\'-Dmt-Lys-Phe-NH2'],
+    aliases: ['MTP-131', 'Bendavia', "D-Arg-2'6'-Dmt-Lys-Phe-NH2"],
     category: 'Mitochondrial',
     categoryTag: 'mitochondrial',
     goals: ['mitochondrial', 'longevity', 'fatigue', 'recovery'],
@@ -906,6 +847,231 @@ Lemke R. Tesamorelin (Egrifta): FDA-Approved Visceral Fat Reduction. The Peptide
     },
     sideEffects: 'Well-tolerated in trials. Injection site reactions. No serious adverse effects.',
     keyReferences: ['Szeto HH. (2017). Mitochondria-targeted peptide antioxidants. FASEB J.'],
+  },
+
+  // ─── GLUTATHIONE — NEW May 2026 ──────────────────────────────────────────────
+  // Sources: Lemke/Peptide Toolkit May 2026; Pizzorno 2014; Sechi 1996 (Parkinson);
+  // Allen & Bradley 2011 (oral oxidative stress); Sinha et al. 2018 (liposomal GSH);
+  // Honda et al. 2017 (NAFLD pilot)
+  {
+    id: 'glutathione',
+    name: 'Glutathione',
+    fullName: 'Glutathione (GSH, gamma-Glutamyl-Cysteinyl-Glycine)',
+    aliases: ['GSH', 'Reduced Glutathione', 'L-Glutathione', 'gamma-GSH'],
+    category: 'Antioxidant / Detox',
+    categoryTag: 'longevity',
+    goals: ['longevity', 'inflammation', 'mitochondrial', 'fatigue', 'recovery'],
+    regulatoryStatus: 'Injectable glutathione is NOT FDA-approved for any indication in the US. Available only through 503A compounding pharmacies with a physician prescription. Oral glutathione supplements are widely sold as dietary supplements (DSHEA-regulated). Plasma half-life IV: approximately 10 minutes. Intracellular effects persist longer because regenerated GSH is recycled via glutathione reductase/NADPH system.',
+    researchLevel: 'moderate',
+    summary: 'Glutathione (GSH) is a small tripeptide (gamma-Glutamyl-Cysteinyl-Glycine) produced endogenously in every cell. It is the body's most abundant and central antioxidant. Unlike most peptides in this KB, glutathione is not a signaling molecule — it is a substrate consumed in antioxidant chemistry and Phase II hepatic detoxification. Its benefits from supplementation are most pronounced in people under oxidative stress: illness, alcohol exposure, aging, and intense training. CRITICAL CLINICAL REALITY: oral glutathione capsules are largely placebo for systemic effect (<5% bioavailability; degraded in stomach). Injectable routes — IV or SC — reliably elevate circulating and tissue GSH. Liposomal oral forms (15-30% bioavailability) are the best non-injectable option. STABILITY WARNING: unlike most lyophilized peptides stable for 30 days post-reconstitution, glutathione is sensitive to oxidation. Use within 24 hours of reconstitution for full potency.',
+    mechanism: 'PRIMARY — Redox defense: GSH donates an electron to neutralize reactive oxygen species → becomes oxidized glutathione (GSSG). Glutathione reductase regenerates GSSG → GSH using NADPH (the GSH/GSSG redox cycle). PHASE II HEPATIC DETOXIFICATION: Conjugates to toxins and drug metabolites (glutathione-S-transferase, GST) → enables biliary and renal excretion. N-acetylcysteine (a GSH precursor) is the standard ER treatment for acetaminophen overdose because it replenishes GSH to neutralize the toxic metabolite NAPQI. TYROSINASE INHIBITION: Blocks tyrosinase, the enzyme that produces melanin → reduces skin pigmentation. This is the mechanism of the controversial off-label skin-lightening use. IMMUNE FUNCTION: GSH status influences lymphocyte proliferation and cytokine production. NEUROLOGICAL: IV glutathione improved motor function in early Parkinson's disease patients (Sechi 1996).',
+    benefits: [
+      '[Verified — Moderate] Antioxidant defense: supplementation reliably raises blood and tissue GSH via injectable routes. Oral liposomal form raises body stores (Sinha et al. Eur J Clin Nutr. 2018;72(1):105-111 — 6-month study showing elevated whole-blood GSH and immune markers).',
+      '[Verified — Moderate] NAFLD/liver function: Oral GSH 300 mg/day x 4 months (Honda Y et al. BMC Gastroenterol. 2017;17(1):96 — open-label multicenter pilot, n=29) reduced ALT, triglycerides, and markers of hepatic fat.',
+      '[Verified — Low] Parkinson's disease motor function: IV glutathione improved motor scores in early PD patients (Sechi G et al. Prog Neuropsychopharmacol Biol Psychiatry. 1996;20(7):1159-1170). Small study, short-term.',
+      '[Verified — Low] Oral GSH biomarker effects: Allen & Bradley (J Altern Complement Med. 2011;17(9):827-833) — oral GSH supplementation reduced systemic oxidative stress biomarkers in healthy volunteers at 1,000 mg/day. Modest effects consistent with poor-but-nonzero oral bioavailability.',
+      '[Speculation] Post-illness / Long COVID recovery: included in long COVID clinic protocols; evidence mostly anecdotal but safety profile is good and oxidative stress is documented in long COVID.',
+      '[Speculation] Skin lightening: tyrosinase inhibition → melanin reduction. Popular off-label at 600-2,000 mg IV 1-3x/week. FDA has not evaluated this use. Effects appear after 6-12 weeks; reverse without maintenance.',
+    ],
+    dosing: {
+      typical: 'SC: 200-600 mg, 1-3x/week. IV: 600-1,200 mg per session, 1-3x/week.',
+      range: '200 mg SC (maintenance) to 2,000 mg IV (skin lightening, off-label)',
+      frequency: '1-3x/week depending on indication and route',
+      route: ['intravenous injection', 'subcutaneous injection', 'intramuscular injection', 'intranasal', 'liposomal oral'],
+      byGoal: {
+        antioxidantMaintenance: '200-600 mg SC, 1-3x/week OR 1,000 mg liposomal oral daily',
+        intensiveDetoxPostIllness: '1,200 mg IV, 2x/week x 4 weeks, then taper; often paired with Vitamin C 5-25g IV',
+        hangoverAcuteAlcohol: '600-1,200 mg IV single session',
+        skinLightening: '600-2,000 mg IV, 1-3x/week x 8-12 weeks [off-label, controversial]',
+      },
+      cycle: 'No standard cycle. Continuous for longevity protocols; on-demand for acute indications.',
+      reconstitution: 'CRITICAL: Glutathione is uniquely sensitive to oxidation. USE WITHIN 24 HOURS of reconstitution for full potency. Do not stockpile pre-mixed. 1,200 mg vial + 10 mL BAC water = 120 mg/mL. For 600 mg dose: draw 5 mL. For 200 mg dose: draw 1.67 mL (use tuberculin syringe — too large for insulin syringe). For IV: sterile saline preferred (handled at clinic). IV push over 5-15 minutes minimum — fast push → transient hypotension. Do NOT mix with NAD+ in same syringe (inject separately or as separate IV pushes).',
+      notes: 'ROUTE HIERARCHY for systemic effect: IV > IM > SC > liposomal oral >> standard oral (functionally placebo). STACKING — canonical longevity stack: NAD+ (complementary mechanisms: redox vs energy — inject separately); Vitamin C high-dose (regenerates GSSG → GSH, most important cofactor); Alpha-Lipoic Acid (ALA) oral (recycling cofactor); B-complex methylated (supports methylation cycle for GSH precursor synthesis).',
+      cost2026: 'Compounded 1,200 mg vial: $50-150. IV clinic session: $125-350 (often bundled with Vitamin C and B-complex). Liposomal oral (high-quality 1-month supply): $40-80.',
+    },
+    sideEffects: '[Verified — High] One of the better-tolerated injectable compounds. Most users have no notable side effects. [Verified — Moderate] Mild injection site stinging (some compounded formulations have low pH). [Verified — Low] Headache: rare. [Verified — Moderate] Transient lightheadedness with fast IV push: managed by slowing push rate to 5-15 minutes. [Verified — Low] Sulfur-like taste or smell with sublingual or nasal forms. [Speculation] Skin lightening over time with chronic high-dose IV. No serious adverse events at standard doses (<2,000 mg IV) with proper sterile technique. Main risks: infection from poor sterile technique, very rare allergic reactions. CONTRAINDICATIONS: Known hypersensitivity to GSH or formulation components.',
+    keyReferences: [
+      'Pizzorno J. Glutathione! Integr Med (Encinitas). 2014;13(1):8-12. PMID 26770075.',
+      'Sechi G, Deledda MG et al. Reduced intravenous glutathione in the treatment of early Parkinson's disease. Prog Neuropsychopharmacol Biol Psychiatry. 1996;20(7):1159-1170. PMID 8938817.',
+      'Allen J, Bradley RD. Effects of oral glutathione supplementation on systemic oxidative stress biomarkers in human volunteers. J Altern Complement Med. 2011;17(9):827-833. PMID 21875351.',
+      'Sinha R, Sinha I et al. Oral supplementation with liposomal glutathione elevates body stores of glutathione and markers of immune function. Eur J Clin Nutr. 2018;72(1):105-111. PMID 28853742.',
+      'Honda Y, Kessoku T et al. Efficacy of glutathione for the treatment of NAFLD: open-label, single-arm, multicenter pilot. BMC Gastroenterol. 2017;17(1):96. PMID 28756777.',
+      'Lemke R. Glutathione Injection: Doses, Forms, and What It Actually Does. The Peptide Toolkit. May 3, 2026. [Speculation — educational guide]',
+    ],
+  },
+
+  // ─── NAD+ — NEW May 2026 ─────────────────────────────────────────────────────
+  // Sources: Lemke/Peptide Toolkit Apr 2026; Verdin 2015 Science;
+  // Imai & Guarente 2014 Trends Cell Biol; Trammell 2016 Nat Commun;
+  // Yoshino 2018 Cell Metab; Martens 2018 Nat Commun; Massudi 2012 PLoS One;
+  // Mehmel 2020 Nutrients
+  {
+    id: 'nad_plus',
+    name: 'NAD+',
+    fullName: 'Nicotinamide Adenine Dinucleotide (NAD+)',
+    aliases: ['NAD', 'NAD+', 'Beta-NAD', 'Coenzyme I'],
+    category: 'Longevity / Mitochondrial',
+    categoryTag: 'mitochondrial',
+    goals: ['longevity', 'mitochondrial', 'fatigue', 'mental_clarity', 'metabolic_health', 'anti_aging'],
+    regulatoryStatus: 'Injectable NAD+ is NOT FDA-approved for any indication. Available via 503A compounding pharmacies with physician prescription. Not a traditional peptide — it is a coenzyme (dinucleotide). Oral NAD+ capsules are widely sold as dietary supplements but have near-zero systemic bioavailability (degraded in gut). NMN precursor: regulatory gray zone post-2022 FDA scrutiny. NR precursor: sold as dietary supplement, FDA-recognized.',
+    researchLevel: 'moderate',
+    summary: 'NAD+ (nicotinamide adenine dinucleotide) is a coenzyme found in every living cell. It exists in two interconverting forms: oxidized (NAD+) and reduced (NADH). Cellular NAD+ falls roughly 50% by middle age (Massudi et al. PLoS One. 2012 — human skin biopsies across lifespan), tracking closely with metabolic dysfunction associated with aging. When NAD+ is low: sirtuins go quiet, PARP-driven DNA repair slows, CD38 continues hydrolyzing what little NAD+ remains, and mitochondrial machinery operates at reduced redox capacity. NAD+ supplementation via injection reliably raises circulating and tissue NAD+ levels. Whether this extends lifespan in humans is unknown — no human longevity RCT exists. It is a plausible bet, not a proven one. [Verified — Lemke 2026]',
+    mechanism: 'NAD+ is a substrate consumed by several major enzyme families: (1) SIRTUINS (SIRT1-SIRT7): NAD+-dependent protein deacetylases. SIRT1 regulates metabolic gene expression and stress response. SIRT3 governs mitochondrial protein acetylation. Sirtuin activity scales directly with available NAD+ (Imai & Guarente 2014). (2) PARP ENZYMES: Consume NAD+ aggressively when DNA damage accumulates. Chronic low-grade DNA damage from aging keeps PARPs active, depleting the NAD+ pool sirtuins also need. (3) CD38: Surface ectoenzyme that hydrolyzes NAD+. Expression rises with age and inflammation — many researchers argue it is a primary driver of the age-related NAD+ drop. (4) REDOX COFACTOR: Glycolysis, TCA cycle, beta-oxidation, and the electron transport chain all depend on the NAD+/NADH cycle.',
+    benefits: [
+      '[Verified — Moderate] Age-related NAD+ decline confirmed in humans: Massudi et al. PLoS One. 2012;7(7):e42357 — roughly 50% reduction by middle age in human skin biopsies.',
+      '[Verified — Moderate] NR precursor raises blood NAD+ in healthy older adults: Martens CR et al. Nat Commun. 2018;9(1):1286 — chronic NR supplementation significantly elevated whole-blood NAD+ and was well-tolerated.',
+      '[Verified — Moderate] NMN precursor — muscle insulin sensitivity: Yoshino M et al. Science. 2021 — NMN increased muscle insulin sensitivity in prediabetic postmenopausal women. Biomarker improvement, not a longevity endpoint.',
+      '[Verified — Low] Injectable NAD+ raises circulating NAD+ effectively: Mehmel M et al. Nutrients. 2020;12(6):1616 — injection routes required for meaningful systemic NAD+ elevation when the parent molecule is the goal.',
+      '[Verified — Low] Sirtuin-NAD+ axis in aging: Imai S, Guarente L. Trends Cell Biol. 2014;24(8):464-471 — SIRT1 and SIRT3 activity scales with NAD+ availability; decline drives metabolic aging.',
+      '[Verified — Low] NAD+ in neurodegeneration: Verdin E. Science. 2015;350(6265):1208-1213 — mechanistic case for NAD+ restoration in aging and neurodegeneration.',
+      '[Speculation] Human longevity and healthy aging: no RCT has shown NAD+ supplementation extends lifespan or reduces age-related disease incidence in humans. Treat as a plausible bet, not a proven one.',
+      '[Speculation] Energy and cognitive clarity: most commonly reported subjective effect post-IV drip — clarity or energy lift lasting 1-2 days. Mechanism unclear.',
+    ],
+    dosing: {
+      typical: 'SC: 50-100 mg/day or 100-200 mg 3x/week. IV: 250-1,000 mg per session.',
+      range: '50 mg SC daily (conservative) to 1,000 mg IV per session (clinic)',
+      frequency: 'SC: daily or 3x/week. IV: 1-3x/week loading, then monthly maintenance.',
+      route: ['intravenous injection', 'subcutaneous injection', 'intramuscular injection'],
+      protocols: {
+        scDaily: '50-100 mg SC daily — steady-state elevation, lower side-effect burden, best for longevity-focused home use',
+        sc3xWeek: '100-200 mg SC Monday/Wednesday/Friday — cost management protocol',
+        ivClinic: '250-1,000 mg slow IV drip over 1-3 hours, 1-3x/week loading, then monthly maintenance',
+      },
+      reconstitution: '500 mg vial + 5 mL BAC water = 100 mg/mL (100 mg dose = 1 mL = 100 units on U-100 syringe). 500 mg vial + 2.5 mL BAC water = 200 mg/mL (100 mg dose = 0.5 mL). For IV use: sterile saline preferred (at clinic). For SC/IM: BAC water. NAD+ solutions are mildly acidic — some sting at injection site expected. Refrigerate reconstituted vial, use within 30 days.',
+      notes: 'THE NAD+ FLUSH: Most reported subjective effect, particularly with IV. Feels like niacin flush: facial warmth, redness, sometimes chest pressure, occasionally mild anxiety. Rate-dependent, NOT dose-total dependent. Slowing the drip almost always resolves it. SC injection produces almost no flushing — absorption curve too gradual. METHYL DONOR DEPLETION — most important clinical concern: NAD+ catabolism consumes methyl groups via conversion of nicotinamide to methylnicotinamide (NNMT enzyme). Chronic high-dose NAD+ can pull down SAMe. Clinical presentation: depressive or anxious tail 2-4 days after high-dose IV. Management: TMG (trimethylglycine/betaine) 500-1,000 mg daily is the standard answer. Some users also add methylated B vitamins. COST REALITY: SC home use runs approximately $1,000-1,500/year. Weekly clinic IVs run $15,000-35,000/year. IV produces higher acute peak; SC provides steady elevation at one-tenth the cost. STACKING: NAD+ + Glutathione (inject separately); NAD+ + MOTS-c (mitochondrial biogenesis complement); NAD+ + Epitalon (telomerase/pineal axis); NAD+ + TMG (mandatory methyl donor support).',
+      cost2026: 'Compounded 500 mg vial: $50-150. Clinic IV 500 mg: $300-500/session. Clinic IV 1,000 mg: $500-700/session.',
+    },
+    sideEffects: '[Verified — Moderate] Flushing: common with rapid IV, rare with SC. [Verified — Moderate] Nausea: rate-dependent for IV. Slow the drip. [Verified — Moderate] Chest pressure: reported with fast IV push — stop or slow. [Verified — Moderate] Anxiety or low mood 2-4 days post-IV: most plausible mechanism is methyl donor depletion via NNMT pathway. Manage with TMG 500-1,000 mg daily. [Verified — Low] Injection site reactions: mild redness or sting. [Unknown] Long-term safety at supraphysiologic injectable doses: not established. Two specific concerns: (1) methyl donor depletion — manage with TMG; (2) theoretical: boosting NAD+ might support survival of pre-malignant cells via PARP and sirtuin pathways. No human cancer signal in available data, but dataset is shallow. CONTRAINDICATIONS: Active malignancy (theoretical). Caution with strong family history of cancer.',
+    keyReferences: [
+      'Verdin E. NAD+ in aging, metabolism, and neurodegeneration. Science. 2015;350(6265):1208-1213. PMID 26785480.',
+      'Imai S, Guarente L. NAD+ and sirtuins in aging and disease. Trends Cell Biol. 2014;24(8):464-471. PMID 24786309.',
+      'Massudi H, Grant R et al. Age-associated changes in oxidative stress and NAD+ metabolism in human tissue. PLoS One. 2012;7(7):e42357. PMID 22848760. [50% NAD+ decline by middle age — human skin biopsies]',
+      'Martens CR, Denman BA et al. Chronic nicotinamide riboside supplementation is well-tolerated and elevates NAD+ in healthy middle-aged and older adults. Nat Commun. 2018;9(1):1286. PMID 29599478.',
+      'Yoshino M et al. Nicotinamide mononucleotide increases muscle insulin sensitivity in prediabetic women. Science. 2021. [NMN precursor human RCT]',
+      'Mehmel M, Jovanovic N, Spitz U. Nicotinamide riboside — current state of research and therapeutic uses. Nutrients. 2020;12(6):1616. PMID 32545405.',
+      'Trammell SA et al. Nicotinamide riboside is uniquely and orally bioavailable in mice and humans. Nat Commun. 2016;7:12948. PMID 27721479.',
+      'Lemke R. NAD+ Peptide Guide: Injectable Dosing, IV vs SC, and 2026 Cost Reality. The Peptide Toolkit. April 28, 2026. [Speculation — educational guide]',
+    ],
+  },
+
+  // ─── GONADORELIN — NEW May 2026 ──────────────────────────────────────────────
+  // Sources: Lemke/Peptide Toolkit May 2026; FDA Factrel/Lutrepulse historical labeling;
+  // Bhasin et al. Endocrine Society guideline JCEM 2018;
+  // Hsieh 2013 J Urol; Coviello 2005 JCEM; WADA 2026
+  {
+    id: 'gonadorelin',
+    name: 'Gonadorelin',
+    fullName: 'Gonadorelin (Synthetic GnRH)',
+    aliases: ['GnRH', 'Gonadotropin-Releasing Hormone', 'Factrel', 'Lutrepulse', 'gonadorelin acetate', 'gonadorelin hydrochloride'],
+    category: 'Hormonal / Fertility',
+    categoryTag: 'fertility',
+    goals: ['fertility', 'sexual_function', 'muscle_mass'],
+    regulatoryStatus: 'Originally FDA-approved as Factrel (HCl) and Lutrepulse (acetate for injection) — both brand names now discontinued. Current TRT-adjunct use is off-label via 503A compounding pharmacies. Primary alternative to HCG since the 2024 FDA enforcement actions against bulk-compounding pharmacies. Gonadorelin was less affected; many compounding pharmacies pivoted to producing it specifically because of HCG availability collapse. As of 2026, significantly easier to source than HCG. WADA Prohibited List 2026: gonadorelin tested for on WADA-compliant sports anti-doping panels. Standard employment drug tests do not detect it.',
+    researchLevel: 'moderate',
+    summary: 'Gonadorelin is a synthetic 10-amino-acid peptide identical to endogenous Gonadotropin-Releasing Hormone (GnRH), the upstream hormonal signal in the hypothalamic-pituitary-gonadal (HPG) axis. In a healthy man, the hypothalamus pulses GnRH every 60-90 minutes, prompting the pituitary to release LH and FSH, which then stimulate the testicles. Gonadorelin injected subcutaneously sends the same signal the pituitary would normally receive from the hypothalamus. This is fundamentally different from HCG: HCG bypasses the pituitary entirely and binds directly to LH receptors in the testicles. Gonadorelin works further upstream. The half-life of gonadorelin is 2-10 minutes — the molecule clears within an hour. Continuous GnRH actually DOWNREGULATES pituitary response (the mechanism of chemical castration drugs like leuprolide). This is why gonadorelin requires multiple small injections per day, not one weekly injection. As of 2026, most TRT clinics have adopted gonadorelin as their default testicular-function-preservation agent for new patients. [Verified — Lemke 2026]',
+    mechanism: 'UPSTREAM HPG AXIS STIMULATION: Gonadorelin binds GnRH receptors on pituitary gonadotroph cells. Activates adenylyl cyclase → cAMP → LH and FSH synthesis and release. LH → Leydig cell → intratesticular testosterone (ITT). FSH → Sertoli cell → spermatogenesis support. PULSATILE REQUIREMENT: Half-life 2-10 minutes. Pulsatile delivery required to mimic natural GnRH pulses (60-90 minute intervals). Continuous GnRH → receptor downregulation → pituitary desensitization. 2-3 injections per day is the standard approach. DIFFERENCE FROM HCG: HCG acts directly on testicular LH receptors (bypasses pituitary). Gonadorelin stimulates the pituitary to produce endogenous LH and FSH. Results: (a) Lower estrogen conversion — more modest ITT stimulation → less aromatization → lower E2 → many users do not need an aromatase inhibitor on gonadorelin where they would on HCG. (b) No pregnancy test cross-reactivity — HCG is what home pregnancy tests detect; gonadorelin does not trigger this. (c) More injections required — cost of upstream physiological signaling.',
+    benefits: [
+      '[Verified — Moderate] Testicular function preservation during TRT: Hsieh TC et al. J Urol. 2013;189(2):647-650 — concomitant HCG preserves spermatogenesis in men on TRT (downstream equivalent; gonadorelin achieves same via upstream mechanism). Coviello AD et al. JCEM. 2005;90(5):2595-2602 — low-dose HCG maintains ITT in men with testosterone-induced gonadotropin suppression.',
+      '[Verified — Moderate] Endocrine Society guideline supports HPG-axis-preserving agents in men on TRT who want to maintain fertility (Bhasin S et al. JCEM. 2018;103(5):1715-1744).',
+      '[Verified — Low] Lower estrogen conversion vs HCG: mechanistically expected from more modest ITT stimulation. Consistently reported in clinical practice — many users do not require anastrozole on gonadorelin.',
+      '[Verified — Low] No pregnancy test cross-reactivity: gonadorelin does not contain the HCG beta subunit that home pregnancy tests detect. Practically relevant for couples tracking fertility.',
+      '[Speculation] Mood and well-being preservation during TRT: some men report flat or off feeling on TRT alone resolves with HPG-axis support. Anecdotal but consistently reported.',
+    ],
+    hcgVsGonadorelinComparison: {
+      note: '[Speculation — Lemke 2026] Practical 2026 comparison.',
+      mechanism: { hcg: 'Direct LH receptor agonist on Leydig cells', gonadorelin: 'Pituitary GnRH stimulation → endogenous LH/FSH' },
+      halfLife: { hcg: '24-36 hours', gonadorelin: '2-10 minutes' },
+      injectionFrequency: { hcg: '2-3x weekly', gonadorelin: '2-3x daily' },
+      injectionsPerWeek: { hcg: '2-3', gonadorelin: '14-21' },
+      costCompoundedVial: { hcg: '$80-200', gonadorelin: '$80-200' },
+      availability2026: { hcg: 'Limited/inconsistent', gonadorelin: 'Strong' },
+      estrogenConversion: { hcg: 'Higher', gonadorelin: 'Lower' },
+      intratesticularTEffect: { hcg: 'Strong', gonadorelin: 'Modest' },
+      pregnancyTestCrossReactivity: { hcg: 'Yes (7-14 days post-injection)', gonadorelin: 'No' },
+      reconstitutedShelfLife: { hcg: '~30 days refrigerated', gonadorelin: '~30 days refrigerated' },
+      bottomLine: 'If you can tolerate multiple daily injections, gonadorelin is the practical 2026 choice. Better availability, lower estrogen elevation, no pregnancy test interference. HCG remains a strong option with stronger ITT effect if sourceable and injection frequency is acceptable. For active fertility goals: some switch to HCG for stronger ITT.',
+    },
+    dosing: {
+      typical: '100-300 mcg SC, 2-3 times daily',
+      range: '100 mcg (conservative) to 300 mcg per injection; higher for fertility protocols',
+      frequency: '2-3x daily. 4x daily for some fertility-focused protocols. Less than 2x daily is insufficient given 2-10 minute half-life.',
+      route: ['subcutaneous injection'],
+      protocols: {
+        trtAdjunctStandard: '200 mcg SC twice daily (morning and evening)',
+        trtAdjunctFull: '200 mcg SC three times daily (morning, midday, evening)',
+        fertilityFocused: '300+ mcg SC, 3-4x daily — supervised by reproductive specialist',
+        diagnostic: '100 mcg single bolus IV — historical use for pituitary responsiveness testing only',
+      },
+      reconstitution: '10 mg vial + 2 mL BAC water = 5 mg/mL = 5,000 mcg/mL. For 200 mcg dose: 200 / 5,000 = 0.04 mL = 4 units on U-100 insulin syringe. A 10 mg vial = 50 doses at 200 mcg. At 2x daily: 25 days per vial. At 3x daily: 16.7 days per vial. CRITICAL: doses are small (4 units). Accurate measurement matters more than with most peptides. Use U-100, 29-31 gauge, 0.5-inch insulin syringes. Refrigerate immediately after reconstitution. Never freeze. Use within 30 days (some sources: 14 days for research-grade).',
+      notes: 'SWITCHING FROM HCG: Most TRT clinicians can transition via 1-2 week overlap or direct switch. Recheck bloodwork 6-8 weeks after switching to confirm protocol is dialed. MISSED DOSE: Skip and resume. Do not double up — short half-life means a single missed pulse has minimal long-term effect. FERTILITY ACTIVE TRYING: For men actively trying to conceive, some switch back to HCG for stronger ITT effect or add FSH under reproductive specialist supervision.',
+      cost2026: 'Compounded 10 mg vial: $80-200. Monthly cost at 200 mcg 3x/day: $50-120 from typical TRT clinics.',
+    },
+    sideEffects: '[Verified — Moderate] Well-tolerated at TRT-adjunct doses — one of the better-tolerated peptides. [Verified — Low] Mild flushing at injection time: transient, resolves within minutes. [Verified — Low] Headache: rare. [Verified — Low] Injection site reaction: uncommon with insulin syringes. [Verified — Low] Rarely: nausea or transient lightheadedness. [Verified — Moderate] Less estrogen-related side effects than HCG: less water retention, less gynecomastia risk, less anastrozole requirement. [Unknown] Long-term safety profile of SC gonadorelin for TRT adjunct: no dedicated RCT. Well-characterized pharmacology from decades of diagnostic and fertility clinical use. CONTRAINDICATIONS: Pituitary dysfunction (requires intact pituitary to work). Primary hypogonadism (absent or damaged Leydig cells). Hypersensitivity. Competitive athletes under WADA jurisdiction.',
+    keyReferences: [
+      'U.S. FDA. Lutrepulse (gonadorelin acetate for injection) historical labeling. Drugs@FDA.',
+      'U.S. FDA. Factrel (gonadorelin hydrochloride) historical labeling. Drugs@FDA.',
+      'Bhasin S, Brito JP, Cunningham GR et al. Testosterone therapy in men with hypogonadism: Endocrine Society clinical practice guideline. JCEM. 2018;103(5):1715-1744. PMID 29562364.',
+      'Hsieh TC, Pastuszak AW et al. Concomitant intramuscular hCG preserves spermatogenesis in men undergoing TRT. J Urol. 2013;189(2):647-650. PMID 23260547.',
+      'Coviello AD, Matsumoto AM et al. Low-dose hCG maintains intratesticular testosterone. JCEM. 2005;90(5):2595-2602. PMID 15687323.',
+      'WADA. Prohibited List 2026, Section S2.',
+      'Lemke R. Gonadorelin: The HCG Alternative for TRT in 2026. The Peptide Toolkit. May 3, 2026. [Speculation — educational guide]',
+    ],
+  },
+
+  // ─── MK-677 (IBUTAMOREN) — NEW May 2026 ─────────────────────────────────────
+  // Sources: Lemke/Peptide Toolkit Apr 2026; Patchett 1995 PNAS (original characterization);
+  // Nass R et al. Ann Intern Med 2008 (primary 12-month RCT);
+  // Adunsky A et al. Arch Gerontol Geriatr 2011 (halted hip-fracture trial);
+  // Murphy MG et al. J Bone Miner Res 1999; Sevigny JJ et al. Neurology 2008;
+  // Smith RG et al. Endocr Rev 1997; WADA 2026
+  {
+    id: 'mk677',
+    name: 'MK-677',
+    fullName: 'MK-677 (Ibutamoren Mesylate)',
+    aliases: ['Ibutamoren', 'MK-0677', 'L-163,191', 'Nutrobal'],
+    category: 'GH Axis / Oral Secretagogue',
+    categoryTag: 'gh_axis',
+    goals: ['muscle_mass', 'sleep', 'anti_aging', 'fatigue', 'recovery'],
+    regulatoryStatus: 'Investigational and NOT FDA-approved for any indication. Developed by Merck as MK-0677. Some 503A compounding pharmacies dispense MK-677 capsules for off-label use under physician prescription — varies by state. After 2024-2026 FDA reclassification activity, legal status has tightened in some states. Verify current FDA Section 503A/503B status and state-level controls before purchase or use. WADA Prohibited List 2026, Section S2 — banned for competitive athletes. NOT a peptide: MK-677 is a small-molecule non-peptide spiroindoline (oral GHS-R1a agonist). Grouped with GH secretagogues in clinical practice.',
+    researchLevel: 'moderate',
+    summary: 'MK-677 (Ibutamoren) is the only major orally bioavailable growth hormone secretagogue in widespread use. Every other major GH secretagogue (Sermorelin, CJC-1295, Tesamorelin, Ipamorelin, GHRP-2, GHRP-6) requires subcutaneous injection. MK-677 is a capsule taken once daily — a hard barrier it uniquely bypasses. Plasma half-life ~4-6 hours; biological effect on the GH/IGF-1 axis lasts approximately 24 hours. The pivotal evidence: Nass R et al. Ann Intern Med. 2008;149(9):601-611 — randomized elderly subjects to 25 mg MK-677 daily vs placebo for 12 months. IGF-1 increased 1.5-2x, sustained throughout without tachyphylaxis. Fat-free mass: +3 kg at 12 months. HbA1c: +0.3%. The critical safety signal: a clinical trial in elderly hip-fracture patients was halted in 2007 due to an imbalance in congestive heart failure events in the MK-677 arm. This does not extrapolate to healthy younger users, but is a meaningful caution against MK-677 use in anyone with cardiovascular disease.',
+    mechanism: 'MK-677 binds the GHS-R1a (ghrelin receptor) on pituitary somatotrophs and hypothalamic neurons, mimicking endogenous ghrelin. Activation produces: (1) Pulsatile GH secretion — does not suppress the pituitary (no meaningful pituitary suppression documented in 12-month Nass trial). (2) IGF-1 elevation: 1.5-2x baseline at 25 mg/day, sustained without tachyphylaxis at 12 months. IGF-1 normalizes 2-4 weeks after stopping. (3) Increased appetite: ghrelin's most reliable orexigenic effect. (4) Slow-wave sleep duration increase in some users. CORTISOL: MK-677 does not directly stimulate cortisol via HPA axis. Modest ACTH and prolactin elevation via hypothalamic cross-talk — much less than GHRP-6 or Hexarelin. WATER RETENTION MECHANISM: GH/IGF-1-induced renal sodium/water retention + ghrelin-receptor-mediated fluid retention. Water retention is the #1 reason users cycle off.',
+    benefits: [
+      '[Verified — High] IGF-1 elevation — 12-month sustained: Nass R et al. Ann Intern Med. 2008;149(9):601-611 — 25 mg daily, elderly subjects. IGF-1 1.5-2x baseline, sustained throughout without tachyphylaxis. Primary pivotal clinical evidence.',
+      '[Verified — High] Fat-free mass gain in elderly: Nass 2008 — approximately 3 kg fat-free mass increase over 12 months in elderly subjects. Meaningful for older adults; not transformative for healthy younger users.',
+      '[Verified — Moderate] Bone turnover markers: Murphy MG et al. J Bone Miner Res. 1999;14(7):1182-1188 — oral MK-677 increased markers of bone turnover in healthy and functionally impaired elderly adults.',
+      '[Verified — Moderate] Oral bioavailability — unique advantage: only oral GH secretagogue. Survives GI digestion. No injection, no reconstitution. Verified pharmacologic property driving real-world use.',
+      '[Verified — Low] No meaningful pituitary suppression at 12 months: Nass 2008 data. IGF-1 returns to baseline within 2-4 weeks of stopping.',
+      '[Speculation] Sleep quality improvement: commonly reported; pre-bed dosing aligns with slow-wave-sleep GH window. No dedicated sleep RCT.',
+      '[Speculation] Body composition (younger healthy users): sustained IGF-1 elevation supports lean-mass accrual. Expectations should be calibrated vs the elderly population in Nass 2008.',
+    ],
+    dosing: {
+      typical: '15-25 mg once daily orally',
+      range: '10 mg/day (conservative starter) to 25 mg/day (validated trial dose). 50 mg: diminishing IGF-1 returns, larger side effects.',
+      frequency: 'Once daily. Biological effect lasts ~24 hours.',
+      route: ['oral capsule'],
+      protocols: {
+        conservativeStarter: '10 mg once daily x 2-4 weeks to assess water retention and appetite',
+        standardCommunity: '15-25 mg once daily',
+        clinicalTrialDose: '25 mg once daily — Nass 2008 12-month validated dose',
+        aggressive: '50 mg — not recommended; side effects rise sharply, IGF-1 response diminishing returns',
+      },
+      timing: 'PRE-BED (most common): aligns largest GH pulse with natural slow-wave-sleep window; may improve sleep quality; some report morning grogginess. MORNING: avoids appetite-stimulating effect interfering with bedtime fasting; better for users prone to MK-677 insomnia. Fasted-state requirement less strict than injectable GH peptides (24-hour biological effect blunts impact of any single postprandial insulin pulse).',
+      cycle: 'Standard: 8-16 weeks on, 4-8 weeks off. Conservative: 8 weeks on, 4 weeks off. Continuous use: some users; quarterly lab monitoring essential due to glycemic and cardiac concerns. Off-period minimum: 4 weeks — allows water retention and glucose changes to normalize. GHS-R1a does not exhibit rapid tachyphylaxis seen with Hexarelin; cycle rationale is side-effect management (water, glucose) not receptor desensitization.',
+      notes: 'LAB MONITORING: IGF-1 (baseline, 6 weeks, every 3 months); fasting glucose and HbA1c (baseline, 3 months); blood pressure (baseline, monthly); body weight (weekly during titration); comprehensive metabolic panel (baseline and 3 months). WATER RETENTION MANAGEMENT: reduce dietary sodium; lower dose to 10-15 mg if significant edema; cycle more aggressively. Persistent severe edema: discontinue. IGF-1 AND CANCER: Epidemiologic studies (Pollak M, Nat Rev Cancer, 2008) link sustained high-normal IGF-1 to modestly increased risk of colon, prostate, breast cancers. MK-677 elevates IGF-1 1.5-2x. Anyone with active malignancy or strong family history: do not use without specialist consultation. COMPARISON TO CJC + IPAMORELIN: MK-677 — oral, convenient, more water retention, more glucose-tolerance impact, less pulsatile signaling. CJC + Ipa — injection required, cleaner pulses, less water retention, more flexible to titrate. Similar IGF-1 elevations at standard doses. AVOID STACKING WITH: IGF-1 LR3 (cumulative IGF-1 risk); high-dose CJC + Ipa (redundant goals, additive side effects); other ghrelin agonists (GHRP-2, GHRP-6 — receptor competition).',
+      cost2026: 'Compounded MK-677 capsules (telehealth): $40-90/month. Research-chemical liquid (gray market — not recommended): $25-60. Telehealth Rx + lab panel: +$75-200.',
+    },
+    sideEffects: '[Verified — High] Increased appetite: very common — ghrelin's most reliable orexigenic effect. Plan caloric intake deliberately. [Verified — High] Water retention/edema: common — onset 1-3 weeks; mild-moderate (puffy face, mild ankle swelling, 2-5 lb scale increase). [Verified — High] Lethargy/morning grogginess: common — particularly with pre-bed dosing. Switch to morning dosing if problematic. [Verified — High] Vivid dreams: common — GH/sleep architecture effect. [Verified — High] Increased fasting glucose and HbA1c: reliable — Nass 2008 documented HbA1c +0.3% at 25 mg/day over 12 months. Monitor labs. [Verified — Moderate] Numbness/paresthesias (carpal tunnel-like): possible at higher doses or longer cycles; IGF-1-mediated. Reduce dose if persistent. [Verified — Moderate] Modest ACTH/prolactin elevation: documented but usually subclinical; much less than GHRP-6 or Hexarelin. [Verified — Moderate] Mild blood pressure increase: possible; monitor particularly in older users. [Verified — High — CRITICAL SAFETY SIGNAL] CHF/cardiac concerns in elderly: Adunsky A et al. Arch Gerontol Geriatr. 2011;53(2):183-189 — clinical trial in elderly hip-fracture patients HALTED IN 2007 due to imbalance in CHF events in MK-677 arm. Mechanism: fluid retention + cardiac stress of supraphysiologic IGF-1 in patients with compromised cardiac reserve. Does NOT appear to extrapolate to healthy younger users but IS a meaningful contraindication in cardiovascular disease. CONTRAINDICATIONS: Cardiovascular disease (CHF, significant coronary disease); active malignancy; active diabetes or poorly controlled blood glucose; strong family history of hormone-sensitive cancers; competitive athletes (WADA banned). Avoid in patients >65 without specific clinical justification and monitoring.',
+    keyReferences: [
+      'Nass R, Pezzoli SS et al. Effects of an oral ghrelin mimetic on body composition and clinical outcomes in healthy older adults. Ann Intern Med. 2008;149(9):601-611. PMID 18981485. [Primary 12-month RCT — pivotal efficacy and safety reference]',
+      'Adunsky A, Chandler J et al. MK-0677 (ibutamoren mesylate) for patients recovering from hip fracture: multicenter, randomized, placebo-controlled phase IIb study. Arch Gerontol Geriatr. 2011;53(2):183-189. PMID 20950876. [Halted hip-fracture trial — cardiac safety signal]',
+      'Patchett AA et al. Design and biological activities of L-163,191 (MK-0677): a potent, orally active growth hormone secretagogue. Proc Natl Acad Sci USA. 1995;92(15):7001-7005. PMID 7624363. [Original characterization]',
+      'Murphy MG, Bach MA et al. Oral administration of MK-677 increases markers of bone turnover in healthy and functionally impaired elderly adults. J Bone Miner Res. 1999;14(7):1182-1188. PMID 10404021.',
+      'Sevigny JJ, Ryan JM et al. Growth hormone secretagogue MK-677: no clinical effect on AD progression in randomized trial. Neurology. 2008;71(21):1702-1708. PMID 19015484.',
+      'Smith RG, Van der Ploeg LH et al. Peptidomimetic regulation of growth hormone secretion. Endocr Rev. 1997;18(5):621-645. PMID 9331545.',
+      'WADA. Prohibited List 2026, Section S2 (peptide hormones, growth factors).',
+      'Lemke R. MK-677 (Ibutamoren): The Oral GH Secretagogue Guide. The Peptide Toolkit. April 27, 2026. [Speculation — educational guide]',
+    ],
   },
 
 ];
