@@ -246,7 +246,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx)}
 .lib-del{background:none;border:none;cursor:pointer;color:var(--mu);display:flex;align-items:center;margin-left:auto;padding:0}
 .src-count{display:inline-flex;align-items:center;justify-content:center;min-width:16px;height:16px;border-radius:8px;background:var(--g9);color:#fff;font-size:9px;font-weight:700;padding:0 4px;margin-left:2px}
 .spin{display:inline-block;animation:sp 1s linear infinite}@keyframes sp{to{transform:rotate(360deg)}}
-.toast{position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#1B4332;color:#fff;padding:10px 20px;border-radius:20px;font-size:13px;font-weight:500;white-space:nowrap;z-index:1000;box-shadow:0 4px 16px rgba(0,0,0,.2)}
+.toast{position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#1C3D5A;color:#fff;padding:10px 20px;border-radius:20px;font-size:13px;font-weight:500;white-space:nowrap;z-index:1000;box-shadow:0 4px 16px rgba(0,0,0,.2)}
 .toast.err{background:#DC2626}
 .msg{max-width:80%}.msg.u{align-self:flex-end}.msg.a{align-self:flex-start}
 .mrole{font-size:10.5px;color:var(--mu);margin-bottom:4px;font-weight:500;letter-spacing:.3px}
@@ -467,14 +467,14 @@ function generatePDF(content, question) {
   @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap');
   *{box-sizing:border-box;margin:0;padding:0}
   body{font-family:'DM Sans',sans-serif;font-size:12.5px;color:#111827;background:#fff;padding:48px 56px;max-width:800px;margin:0 auto;line-height:1.55}
-  .pdf-header{display:flex;justify-content:space-between;align-items:flex-start;padding-bottom:16px;margin-bottom:22px;border-bottom:2.5px solid #1B4332}
-  .pdf-brand{font-family:'Playfair Display',serif;font-size:26px;font-weight:700;color:#1B4332}
+  .pdf-header{display:flex;justify-content:space-between;align-items:flex-start;padding-bottom:16px;margin-bottom:22px;border-bottom:2.5px solid #1C3D5A}
+  .pdf-brand{font-family:'Playfair Display',serif;font-size:26px;font-weight:700;color:#1C3D5A}
   .pdf-brand-sub{font-size:10.5px;color:#6B7280;margin-top:4px;letter-spacing:.3px}
-  .pdf-meta-label{font-size:9.5px;font-weight:700;color:#1B4332;text-transform:uppercase;letter-spacing:.9px;margin-bottom:3px;text-align:right}
+  .pdf-meta-label{font-size:9.5px;font-weight:700;color:#1C3D5A;text-transform:uppercase;letter-spacing:.9px;margin-bottom:3px;text-align:right}
   .pdf-meta-date{font-size:11px;color:#6B7280;text-align:right}
   .pdf-query-label{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#6B7280;margin-bottom:7px}
-  .pdf-query-box{background:#F8FFF8;border-left:3px solid #52B788;padding:11px 15px;border-radius:0 7px 7px 0;font-size:12.5px;color:#1B4332;font-style:italic;line-height:1.55;margin-bottom:22px}
-  .pdf-section-head{font-family:'Playfair Display',serif;font-size:13.5px;font-weight:600;color:#1B4332;margin:20px 0 8px;padding-bottom:5px;border-bottom:1px solid #E5E1D8}
+  .pdf-query-box{background:#EEF5FB;border-left:3px solid #6B9EC8;padding:11px 15px;border-radius:0 7px 7px 0;font-size:12.5px;color:#1C3D5A;font-style:italic;line-height:1.55;margin-bottom:22px}
+  .pdf-section-head{font-family:'Playfair Display',serif;font-size:13.5px;font-weight:600;color:#1C3D5A;margin:20px 0 8px;padding-bottom:5px;border-bottom:1px solid #E5E1D8}
   .pdf-body{font-size:12.5px;color:#1F2937;line-height:1.6;margin-bottom:6px}
   .pdf-list{margin:5px 0 5px 18px}
   .pdf-list li{font-size:12.5px;color:#1F2937;line-height:1.55;margin-bottom:4px;padding-left:4px}
@@ -483,7 +483,7 @@ function generatePDF(content, question) {
   .pdf-disclaimer-inline{font-size:11.5px;color:#1E40AF;background:#EFF6FF;border:1px solid #BFDBFE;border-radius:7px;padding:9px 12px;margin:12px 0;line-height:1.55}
   .pdf-footer{margin-top:40px;padding-top:14px;border-top:1px solid #E5E1D8;display:flex;justify-content:space-between;align-items:flex-end;gap:20px}
   .pdf-footer-disclaimer{font-size:10px;color:#9CA3AF;line-height:1.65;flex:1}
-  .pdf-footer-brand{font-size:11px;font-weight:600;color:#2D6A4F;margin-top:5px}
+  .pdf-footer-brand{font-size:11px;font-weight:600;color:#2D5F8A;margin-top:5px}
   .pdf-footer-date{font-size:10px;color:#9CA3AF;white-space:nowrap;text-align:right}
   @media print{body{padding:32px 40px}.pdf-section-head{page-break-after:avoid}}
   </style></head><body>
@@ -700,17 +700,17 @@ function Setup({ onDone }) {
 
   return (
     <div style={{minHeight:'100vh',background:'#F8FAF8',display:'flex',flexDirection:'column',overflowY:'auto'}}>
-      <div style={{background:'#1B4332',color:'#fff',padding:'48px 24px 40px',textAlign:'center',position:'relative',overflow:'hidden'}}>
+      <div style={{background:'#1C3D5A',color:'#fff',padding:'48px 24px 40px',textAlign:'center',position:'relative',overflow:'hidden'}}>
         <div style={{position:'absolute',inset:0,backgroundImage:'radial-gradient(circle at 20% 50%, rgba(82,183,136,.18) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(212,160,23,.10) 0%, transparent 50%)'}}/>
         <div style={{position:'relative',maxWidth:560,margin:'0 auto'}}>
           <div style={{display:'inline-flex',alignItems:'center',gap:8,marginBottom:16}}>
-            <Heart size={22} fill="#52B788" color="#52B788"/>
+            <Heart size={22} fill="#6B9EC8" color="#6B9EC8"/>
             <span style={{fontSize:22,fontWeight:800,letterSpacing:'-.3px'}}>Katalys Health</span>
             <span style={{fontSize:11,color:'rgba(255,255,255,.45)',borderLeft:'1px solid rgba(255,255,255,.2)',paddingLeft:10,marginLeft:4}}>by Bio Precision Aging</span>
           </div>
           <h1 style={{fontSize:32,fontWeight:800,lineHeight:1.15,margin:'0 0 14px',letterSpacing:'-.4px'}}>
             The World's First<br/>
-            <span style={{color:'#52B788'}}>Clinical-Grade AI Consultant</span>
+            <span style={{color:'#6B9EC8'}}>Clinical-Grade AI Consultant</span>
           </h1>
           <p style={{fontSize:14,lineHeight:1.7,color:'rgba(255,255,255,.75)',margin:'0 auto',maxWidth:480}}>
             Katalys is not a chatbot. It is a precision medicine platform built on peer-reviewed clinical research, a proprietary peptide formulary, and a GRADE-graded evidence framework — with the world's first dedicated AI Peptide and Hormone Consultants.
@@ -728,36 +728,36 @@ function Setup({ onDone }) {
           ))}
         </div>
         <div style={{background:'#fff',border:'0.5px solid #E0EEE5',borderRadius:16,padding:'24px',marginBottom:20}}>
-          <div style={{fontSize:16,fontWeight:700,color:'#1B4332',marginBottom:4,fontFamily:"'Playfair Display',Georgia,serif"}}>Get started — no account needed</div>
+          <div style={{fontSize:16,fontWeight:700,color:'#1C3D5A',marginBottom:4,fontFamily:"'Playfair Display',Georgia,serif"}}>Get started — no account needed</div>
           <div style={{fontSize:13,color:'#5A7A65',marginBottom:20,lineHeight:1.5}}>Enter your details so Katalys can personalize your experience.</div>
           <div style={{marginBottom:16}}>
             <label style={{display:'block',fontSize:11,fontWeight:700,letterSpacing:'0.08em',color:'#1A2E22',marginBottom:6,textTransform:'uppercase'}}>Your Age</label>
             <input value={age} onChange={e=>setAge(e.target.value.replace(/\D/g,''))} placeholder="e.g. 52" maxLength={3} inputMode="numeric"
               onKeyDown={e=>e.key==='Enter'&&ready&&onDone(`${sex}, Age ${age}`)}
               style={{width:'100%',padding:'12px 14px',fontSize:15,border:'1.5px solid #E0EEE5',borderRadius:10,outline:'none',boxSizing:'border-box',color:'#111827',background:'#F8FAF8',fontFamily:'inherit',transition:'border-color .15s'}}
-              onFocus={e=>e.target.style.borderColor='#52B788'} onBlur={e=>e.target.style.borderColor='#E0EEE5'}/>
+              onFocus={e=>e.target.style.borderColor='#6B9EC8'} onBlur={e=>e.target.style.borderColor='#E0EEE5'}/>
           </div>
           <div style={{marginBottom:20}}>
             <label style={{display:'block',fontSize:11,fontWeight:700,letterSpacing:'0.08em',color:'#1A2E22',marginBottom:10,textTransform:'uppercase'}}>Biological Sex</label>
             <div style={{display:'flex',gap:10}}>
               {['Male','Female'].map(s=>(
                 <button key={s} onClick={()=>setSex(s)}
-                  style={{flex:1,padding:'13px',fontSize:15,fontWeight:600,border:`2px solid ${sex===s?'#2D6A4F':'#E0EEE5'}`,borderRadius:10,cursor:'pointer',background:sex===s?'#1B4332':'#fff',color:sex===s?'#fff':'#374151',transition:'all 0.15s',fontFamily:'inherit'}}>
+                  style={{flex:1,padding:'13px',fontSize:15,fontWeight:600,border:`2px solid ${sex===s?'#2D5F8A':'#E0EEE5'}`,borderRadius:10,cursor:'pointer',background:sex===s?'#1C3D5A':'#fff',color:sex===s?'#fff':'#374151',transition:'all 0.15s',fontFamily:'inherit'}}>
                   {s==='Male'?'♂ Male':'♀ Female'}
                 </button>
               ))}
             </div>
           </div>
           <button onClick={()=>ready&&onDone(`${sex}, Age ${age}`)} disabled={!ready}
-            style={{width:'100%',padding:'14px',fontSize:15,fontWeight:700,color:'#fff',background:ready?'#1B4332':'#9CA3AF',border:'none',borderRadius:10,cursor:ready?'pointer':'not-allowed',transition:'background 0.2s',fontFamily:'inherit',letterSpacing:'.1px'}}
-            onMouseEnter={e=>{if(ready)e.target.style.background='#2D6A4F';}} onMouseLeave={e=>{if(ready)e.target.style.background='#1B4332';}}>
+            style={{width:'100%',padding:'14px',fontSize:15,fontWeight:700,color:'#fff',background:ready?'#1C3D5A':'#9CA3AF',border:'none',borderRadius:10,cursor:ready?'pointer':'not-allowed',transition:'background 0.2s',fontFamily:'inherit',letterSpacing:'.1px'}}
+            onMouseEnter={e=>{if(ready)e.target.style.background='#2D5F8A';}} onMouseLeave={e=>{if(ready)e.target.style.background='#1C3D5A';}}>
             Use Katalys AI →
           </button>
           <p style={{fontSize:11,color:'#9CA3AF',marginTop:12,textAlign:'center',lineHeight:1.6}}>Your data stays in your browser session only. Nothing is stored on any server.</p>
         </div>
         <div style={{textAlign:'center',paddingBottom:32}}>
           <p style={{fontSize:11,color:'#9CA3AF',margin:'0 0 3px'}}>Powered by</p>
-          <p style={{fontSize:13,fontWeight:600,color:'#1B4332',margin:0,fontFamily:"'Playfair Display',Georgia,serif"}}>Bio Precision Aging</p>
+          <p style={{fontSize:13,fontWeight:600,color:'#1C3D5A',margin:0,fontFamily:"'Playfair Display',Georgia,serif"}}>Bio Precision Aging</p>
         </div>
       </div>
     </div>
@@ -782,8 +782,8 @@ function HomeContent({name, allRecs, flagCount, uploads, setPage, isMobile}) {
         ))}
       </div>
       <div style={{background:'#F0FDF4',border:'1px solid #D1FAE5',borderRadius:'var(--rd)',padding:'16px',marginBottom:isMobile?24:0}}>
-        <div style={{fontFamily:"'Playfair Display',serif",fontSize:15,fontWeight:600,color:'#1B4332',marginBottom:8}}>Upload a Medical Record</div>
-        <div style={{fontSize:13,color:'#2D6A4F',lineHeight:1.55,marginBottom:12}}>Add any lab result, imaging report, or medical document. Claude AI reads and categorizes it automatically.</div>
+        <div style={{fontFamily:"'Playfair Display',serif",fontSize:15,fontWeight:600,color:'#1C3D5A',marginBottom:8}}>Upload a Medical Record</div>
+        <div style={{fontSize:13,color:'#2D5F8A',lineHeight:1.55,marginBottom:12}}>Add any lab result, imaging report, or medical document. Claude AI reads and categorizes it automatically.</div>
         <button className="btn btnP" style={{fontSize:13,padding:'8px 16px'}} onClick={()=>setPage('records')}><Upload size={13}/>Go to Records</button>
       </div>
     </div>
@@ -864,8 +864,8 @@ function ChatContent({msgs, busy, input, setInput, send, QUICK_QS, endRef, isMob
 function ProfileContent({name, initials, setName, uploads, setPage}) {
   return (
     <div style={{maxWidth:560}}>
-      <div style={{display:'flex',alignItems:'center',gap:14,padding:'20px',background:'linear-gradient(135deg,#1B4332,#2D6A4F)',borderRadius:'var(--rd)',marginBottom:16,color:'#fff'}}>
-        <div style={{width:52,height:52,borderRadius:'50%',background:'#52B788',display:'flex',alignItems:'center',justifyContent:'center',fontSize:18,fontWeight:700,flexShrink:0}}>{initials}</div>
+      <div style={{display:'flex',alignItems:'center',gap:14,padding:'20px',background:'linear-gradient(135deg,#1C3D5A,#2D5F8A)',borderRadius:'var(--rd)',marginBottom:16,color:'#fff'}}>
+        <div style={{width:52,height:52,borderRadius:'50%',background:'#6B9EC8',display:'flex',alignItems:'center',justifyContent:'center',fontSize:18,fontWeight:700,flexShrink:0}}>{initials}</div>
         <div style={{flex:1}}><div style={{fontFamily:"'Playfair Display',serif",fontSize:20,fontWeight:600}}>{name}</div><div style={{marginTop:6,display:'inline-flex',alignItems:'center',gap:3,padding:'2px 9px',background:'rgba(82,183,136,.2)',borderRadius:20,fontSize:10,color:'#95D5B2',letterSpacing:.4}}><Lock size={9}/>No account needed</div></div>
         <button onClick={()=>setName(null)} style={{background:'rgba(255,255,255,.15)',border:'none',color:'#fff',padding:'7px 13px',borderRadius:8,fontSize:12,cursor:'pointer',fontFamily:'DM Sans,sans-serif'}}>Edit name</button>
       </div>
@@ -1023,7 +1023,7 @@ export default function KatalysHealth() {
             <div className="modal-hd"><div className="modal-title">Upgrade to continue</div><button className="modal-close" onClick={()=>setShowUpgrade(false)}><X size={14}/></button></div>
             <div className="modal-body">
               <div style={{textAlign:'center',padding:'8px 0 16px'}}>
-                <div style={{width:52,height:52,borderRadius:'50%',background:'#D1FAE5',display:'flex',alignItems:'center',justifyContent:'center',margin:'0 auto 14px'}}><Heart size={22} color="#1B4332" fill="#52B788"/></div>
+                <div style={{width:52,height:52,borderRadius:'50%',background:'#D1FAE5',display:'flex',alignItems:'center',justifyContent:'center',margin:'0 auto 14px'}}><Heart size={22} color="#1C3D5A" fill="#6B9EC8"/></div>
                 <div style={{fontFamily:"'Playfair Display',serif",fontSize:18,fontWeight:600,color:'var(--tx)',marginBottom:8}}>You've used your 3 free inquiries</div>
                 <div style={{fontSize:13,color:'var(--mu)',lineHeight:1.65,marginBottom:20}}>Upgrade to Essential for $9/month — 50 inquiries, record uploads, voice input, and PDF export. Or go Clinical for full Opus deep reasoning.</div>
                 <button className="btn btnP btnfull" style={{marginBottom:8}} onClick={()=>{setShowUpgrade(false);setPage('plans');}}><CreditCard size={14}/>See plans &amp; pricing</button>
@@ -1040,12 +1040,12 @@ export default function KatalysHealth() {
         <div className="phone">
           <div className="mob-hd">
             {page==='home'
-              ?<div className="logo"><Heart size={15} fill="#52B788" color="#52B788"/>Katalys Health<span style={{fontSize:11,fontWeight:400,color:'var(--mu)',borderLeft:'1px solid var(--bd)',paddingLeft:8,marginLeft:2}}><a href="https://www.bioprecisionaging.com" target="_blank" rel="noopener noreferrer" style={{color:'var(--mu)',textDecoration:'none'}}>Bio Precision Aging</a></span></div>
+              ?<div className="logo"><Heart size={15} fill="#6B9EC8" color="#6B9EC8"/>Katalys Health<span style={{fontSize:11,fontWeight:400,color:'var(--mu)',borderLeft:'1px solid var(--bd)',paddingLeft:8,marginLeft:2}}><a href="https://www.bioprecisionaging.com" target="_blank" rel="noopener noreferrer" style={{color:'var(--mu)',textDecoration:'none'}}>Bio Precision Aging</a></span></div>
               :<div><div className="ptitle">{{records:'My Records',ai:'AI Consultant',peptide:'Peptide Consultant',hormone:'Hormone Consultant',profile:'Profile'}[page]}</div>
               <div className="psub">{{records:'Labs, imaging & notes',ai:uploads.length>0?`Seeing ${uploads.length} record${uploads.length!==1?'s':''}` :'Upload records for full context',peptide:'Bio Precision Peptide AI',hormone:'Hormone Optimization',info:'About the platform',plans:'Explorer, Essential, Clinical',profile:name}[page]}</div></div>}
             <div style={{display:'flex',gap:7,alignItems:'center'}}>
               {page==='records'&&<button className="btn btnP btnsm" onClick={()=>!analyzing&&fileRef.current?.click()} disabled={analyzing}>{analyzing?<span className="spin"><Loader size={12}/></span>:<Upload size={12}/>}{analyzing?'Analyzing…':'Upload'}</button>}
-              <div style={{width:34,height:34,borderRadius:8,background:'#F0FDF4',border:'1px solid #D1FAE5',display:'flex',alignItems:'center',justifyContent:'center',cursor:'pointer'}}><Bell size={14} color="#2D6A4F"/></div>
+              <div style={{width:34,height:34,borderRadius:8,background:'#F0FDF4',border:'1px solid #D1FAE5',display:'flex',alignItems:'center',justifyContent:'center',cursor:'pointer'}}><Bell size={14} color="#2D5F8A"/></div>
             </div>
           </div>
           <div className="mob-content">
@@ -1061,7 +1061,7 @@ export default function KatalysHealth() {
           <nav className="bnav">
             {NAV.map(({id,lbl,I})=>{const on=page===id;return(
               <button key={id} className={`bni ${on?'on':''}`} onClick={()=>setPage(id)}>
-                <I size={21} color={on?'#1B4332':'#9CA3AF'} strokeWidth={on?2.5:1.8}/>
+                <I size={21} color={on?'#1C3D5A':'#9CA3AF'} strokeWidth={on?2.5:1.8}/>
                 <span className="bnlbl">{lbl}</span>
                 {on&&<div className="bnd"/>}
               </button>
@@ -1074,7 +1074,7 @@ export default function KatalysHealth() {
       <div className="desk-app">
         <aside className="desk-side">
           <div className="desk-brand">
-            <Heart size={18} fill="#52B788" color="#52B788"/>
+            <Heart size={18} fill="#6B9EC8" color="#6B9EC8"/>
             <div><span className="desk-brand-name">Katalys Health</span><div style={{fontSize:10,color:'rgba(255,255,255,.5)',marginTop:2,letterSpacing:'.2px'}}>Powered by <a href="https://www.bioprecisionaging.com" target="_blank" rel="noopener noreferrer" style={{color:'rgba(255,255,255,.7)',textDecoration:'none',fontWeight:500}}>Bio Precision Aging</a></div></div>
           </div>
           <nav className="desk-nav">
