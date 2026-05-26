@@ -125,7 +125,7 @@ export default function KatalysInfoPage({ onLaunch }) {
 
       {/* ── HERO ── */}
       <section style={{ background: C.emerald, color: C.white, padding: '72px 24px 64px', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
-        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'radial-gradient(circle at 20% 50%, rgba(82,183,136,.18) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(212,160,23,.10) 0%, transparent 50%)' }}/>
+        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'radial-gradient(circle at 20% 50%, rgba(107,158,200,.18) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(212,160,23,.10) 0%, transparent 50%)' }}/>
         <div style={{ position: 'relative', maxWidth: 740, margin: '0 auto' }}>
 
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, marginBottom: 22 }}>
@@ -153,7 +153,7 @@ export default function KatalysInfoPage({ onLaunch }) {
 
           <div style={{ display: 'flex', justifyContent: 'center', gap: 10, marginBottom: 36, flexWrap: 'wrap' }}>
             {['Evidence-Based Only', 'GRADE Framework', 'Zero Consumer Web', 'Proprietary KB', 'Peptide Specialist', 'Hormone Specialist'].map(t => (
-              <span key={t} style={{ ...pill('rgba(255,255,255,.12)', C.emeraldLt, 'rgba(82,183,136,.3)'), fontSize: 12 }}>
+              <span key={t} style={{ ...pill('rgba(255,255,255,.12)', C.emeraldLt, 'rgba(107,158,200,.3)'), fontSize: 12 }}>
                 <CheckCircle2 size={11} /> {t}
               </span>
             ))}
