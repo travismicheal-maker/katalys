@@ -172,8 +172,8 @@ const CSS = `
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap');
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#F7F5F1;--surf:#fff;--g9:#1B4332;--g7:#2D6A4F;--g5:#52B788;--g1:#D1FAE5;--g0:#F0FDF4;
-  --tx:#111827;--mu:#6B7280;--bd:#E5E1D8;--wbg:#FFF7ED;--wbd:#FED7AA;--wtx:#9A3412;
+  --bg:#F2F4F7;--surf:#fff;--g9:#1C3D5A;--g7:#2D5F8A;--g5:#6B9EC8;--g1:#C8DFF0;--g0:#EEF5FB;
+  --tx:#111827;--mu:#6B7280;--bd:#DDE3EB;--wbg:#EEF5FB;--wbd:#C8DFF0;--wtx:#1C3D5A;
   --rd:12px;--rds:8px;--sh:0 1px 8px rgba(0,0,0,.07);--sidebar:240px
 }
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx)}
