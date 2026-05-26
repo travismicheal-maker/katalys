@@ -13,19 +13,19 @@ import {
 } from "lucide-react";
 
 const C = {
-  emerald:    '#1B4332',
-  emeraldMid: '#2D6A4F',
-  emeraldLt:  '#52B788',
-  mint:       '#D8F3DC',
-  mintDark:   '#B7E4C7',
+  emerald:    '#1C3D5A',
+  emeraldMid: '#2D5F8A',
+  emeraldLt:  '#6B9EC8',
+  mint:       '#D6E9F5',
+  mintDark:   '#C8DFF0',
   gold:       '#D4A017',
   red:        '#C0392B',
   redLt:      '#FDECEA',
   white:      '#FFFFFF',
-  offWhite:   '#F8FAF8',
-  border:     '#E0EEE5',
-  text:       '#1A2E22',
-  muted:      '#5A7A65',
+  offWhite:   '#F2F4F7',
+  border:     '#DDE3EB',
+  text:       '#1A2A3E',
+  muted:      '#5A7A8A',
 };
 
 const pill = (bg, color, border) => ({
