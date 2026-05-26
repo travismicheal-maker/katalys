@@ -58,8 +58,8 @@ const PLANS = [
     id: 'clinical',
     name: 'Clinical',
     badge: 'Full access',
-    badgeBg: '#D1FAE5',
-    badgeTx: '#065F46',
+    badgeBg: '#C8DFF0',
+    badgeTx: '#0C447C',
     price: '$29',
     period: '/ month',
     priceSub: 'Billed monthly, cancel anytime',
@@ -132,11 +132,11 @@ export default function PricingPage({ onSelectPlan, currentTier = 'explorer' }) 
     <div style={{ fontFamily: "'DM Sans', sans-serif", color: 'var(--tx)', maxWidth: 900, margin: '0 auto', padding: '0 0 60px' }}>
 
       {/* ── Hero header ── */}
-      <div style={{ background: 'linear-gradient(140deg,#1B4332,#2D6A4F 55%,#40916C)', borderRadius: 'var(--rd)', padding: '32px 28px', color: '#fff', marginBottom: 28, position: 'relative', overflow: 'hidden' }}>
-        <div style={{ position: 'absolute', width: 200, height: 200, background: 'rgba(82,183,136,.12)', borderRadius: '50%', top: -60, right: -40, pointerEvents: 'none' }} />
+      <div style={{ background: 'linear-gradient(140deg,#1C3D5A,#2D5F8A 55%,#3D7BAA)', borderRadius: 'var(--rd)', padding: '32px 28px', color: '#fff', marginBottom: 28, position: 'relative', overflow: 'hidden' }}>
+        <div style={{ position: 'absolute', width: 200, height: 200, background: 'rgba(107,158,200,.12)', borderRadius: '50%', top: -60, right: -40, pointerEvents: 'none' }} />
         <div style={{ position: 'relative' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
-            <Heart size={16} fill="#52B788" color="#52B788" />
+            <Heart size={16} fill="#6B9EC8" color="#6B9EC8" />
             <span style={{ fontSize: 12, color: 'rgba(255,255,255,.6)', letterSpacing: '.3px' }}>Katalys Health · Bio Precision Aging</span>
           </div>
           <div style={{ fontFamily: "'Playfair Display', serif", fontSize: 28, fontWeight: 700, lineHeight: 1.2, marginBottom: 10 }}>Choose your plan</div>
@@ -166,7 +166,7 @@ export default function PricingPage({ onSelectPlan, currentTier = 'explorer' }) 
           }}>
             {/* Current plan indicator */}
             {plan.id === currentTier && (
-              <div style={{ position: 'absolute', top: -1, right: 16, background: '#52B788', color: '#fff', fontSize: 10, fontWeight: 700, padding: '3px 10px', borderRadius: '0 0 8px 8px', letterSpacing: '.3px' }}>CURRENT PLAN</div>
+              <div style={{ position: 'absolute', top: -1, right: 16, background: '#6B9EC8', color: '#fff', fontSize: 10, fontWeight: 700, padding: '3px 10px', borderRadius: '0 0 8px 8px', letterSpacing: '.3px' }}>CURRENT PLAN</div>
             )}
 
             <div style={{ fontSize: 10, fontWeight: 700, padding: '3px 9px', borderRadius: 20, background: plan.badgeBg, color: plan.badgeTx, display: 'inline-flex', alignItems: 'center', gap: 4, marginBottom: 10, alignSelf: 'flex-start', letterSpacing: '.2px' }}>
@@ -191,7 +191,7 @@ export default function PricingPage({ onSelectPlan, currentTier = 'explorer' }) 
                 <div key={i} style={{ display: 'flex', gap: 8, alignItems: 'flex-start', fontSize: 13 }}>
                   <span style={{ flexShrink: 0, marginTop: 1 }}>
                     {f.ok
-                      ? <CheckCircle2 size={15} color="#52B788" />
+                      ? <CheckCircle2 size={15} color="#6B9EC8" />
                       : <XCircle size={15} color="#D1D5DB" />}
                   </span>
                   <span style={{ color: f.ok ? 'var(--tx)' : 'var(--mu)', lineHeight: 1.45 }}>{f.text}</span>
@@ -229,19 +229,19 @@ export default function PricingPage({ onSelectPlan, currentTier = 'explorer' }) 
       </div>
 
       {/* ── Feature comparison callout ── */}
-      <div style={{ background: '#F0FDF4', border: '1px solid #D1FAE5', borderRadius: 'var(--rd)', padding: '20px 24px', marginBottom: 28, display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(180px,1fr))', gap: 16 }}>
+      <div style={{ background: '#EEF5FB', border: '1px solid #C8DFF0', borderRadius: 'var(--rd)', padding: '20px 24px', marginBottom: 28, display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(180px,1fr))', gap: 16 }}>
         {[
-          { icon: <Dna size={18} color="#2D6A4F" />, title: 'Peptide Consultant', sub: 'All tiers', body: '21+ peptides, full dosing protocols, stacking strategies, GRADE evidence' },
-          { icon: <Brain size={18} color="#2D6A4F" />, title: 'Hormone Consultant', sub: 'All tiers', body: 'TRT, HCG, estradiol, progesterone, DHEA, thyroid — men and women' },
-          { icon: <Zap size={18} color="#2D6A4F" />, title: 'AI Medical Consultant', sub: 'All tiers', body: 'Lab interpretation, clinical guidelines, differential reasoning, GRADE labels' },
-          { icon: <Star size={18} color="#2D6A4F" />, title: 'Opus deep reasoning', sub: 'Clinical only', body: 'Complex multi-system queries routed to Claude Opus with extended thinking' },
+          { icon: <Dna size={18} color="#2D5F8A" />, title: 'Peptide Consultant', sub: 'All tiers', body: '21+ peptides, full dosing protocols, stacking strategies, GRADE evidence' },
+          { icon: <Brain size={18} color="#2D5F8A" />, title: 'Hormone Consultant', sub: 'All tiers', body: 'TRT, HCG, estradiol, progesterone, DHEA, thyroid — men and women' },
+          { icon: <Zap size={18} color="#2D5F8A" />, title: 'AI Medical Consultant', sub: 'All tiers', body: 'Lab interpretation, clinical guidelines, differential reasoning, GRADE labels' },
+          { icon: <Star size={18} color="#2D5F8A" />, title: 'Opus deep reasoning', sub: 'Clinical only', body: 'Complex multi-system queries routed to Claude Opus with extended thinking' },
         ].map(f => (
           <div key={f.title} style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
-            <div style={{ width: 36, height: 36, borderRadius: 9, background: '#D1FAE5', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>{f.icon}</div>
+            <div style={{ width: 36, height: 36, borderRadius: 9, background: '#C8DFF0', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>{f.icon}</div>
             <div>
               <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--g9)', marginBottom: 1 }}>{f.title}</div>
-              <div style={{ fontSize: 10, fontWeight: 700, color: '#2D6A4F', opacity: .65, letterSpacing: '.3px', marginBottom: 4, textTransform: 'uppercase' }}>{f.sub}</div>
-              <div style={{ fontSize: 12, color: '#2D6A4F', opacity: .8, lineHeight: 1.55 }}>{f.body}</div>
+              <div style={{ fontSize: 10, fontWeight: 700, color: '#2D5F8A', opacity: .65, letterSpacing: '.3px', marginBottom: 4, textTransform: 'uppercase' }}>{f.sub}</div>
+              <div style={{ fontSize: 12, color: '#2D5F8A', opacity: .8, lineHeight: 1.55 }}>{f.body}</div>
             </div>
           </div>
         ))}
