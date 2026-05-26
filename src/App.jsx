@@ -182,8 +182,8 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx)}
 .btnS{background:var(--g5);color:#fff}
 .btnO{background:transparent;color:var(--g9);border:1.5px solid var(--g9)}.btnO:hover{background:var(--g9);color:#fff}
 .btnsm{padding:6px 12px;font-size:12px}.btnfull{width:100%;justify-content:center}
-.hero{background:linear-gradient(140deg,#1B4332,#2D6A4F 55%,#40916C);border-radius:var(--rd);padding:24px;color:#fff;position:relative;overflow:hidden;margin-bottom:16px}
-.hero::after{content:'';position:absolute;width:200px;height:200px;background:rgba(82,183,136,.15);border-radius:50%;top:-60px;right:-60px;pointer-events:none}
+.hero{background:linear-gradient(140deg,#1C3D5A,#2D5F8A 55%,#3D7BAA);border-radius:var(--rd);padding:24px;color:#fff;position:relative;overflow:hidden;margin-bottom:16px}
+.hero::after{content:'';position:absolute;width:200px;height:200px;background:rgba(107,158,200,.15);border-radius:50%;top:-60px;right:-60px;pointer-events:none}
 .hlbl{font-size:10px;opacity:.65;text-transform:uppercase;letter-spacing:1px}
 .hname{font-family:'Playfair Display',serif;font-size:26px;font-weight:600;margin-top:3px}
 .hmsg{font-size:13px;opacity:.78;margin-top:8px;line-height:1.5;position:relative;z-index:1}
@@ -321,7 +321,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx)}
 @keyframes pulse-rec{0%,100%{box-shadow:0 0 0 0 rgba(220,38,38,.3)}50%{box-shadow:0 0 0 6px rgba(220,38,38,0)}}
 .model-badge{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:20px;font-size:10px;font-weight:600;margin-bottom:4px}
 .badge-opus{background:#EDE9FE;color:#5B21B6}
-.badge-sonnet{background:var(--g1);color:#065F46}
+.badge-sonnet{background:var(--g1);color:#0C447C}
 .voice-hint{font-size:11px;color:var(--g7);text-align:center;padding:4px 0;animation:fU .2s ease}
 .transcript-preview{background:var(--g0);border:1px solid var(--g1);border-radius:var(--rds);padding:8px 12px;font-size:12.5px;color:var(--g9);margin-bottom:6px;line-height:1.5;animation:fU .15s ease}
 .disc{font-size:11px;color:#1D4ED8;background:#EFF6FF;border:1px solid #BFDBFE;border-radius:6px;padding:7px 11px;margin-top:8px;line-height:1.55}
