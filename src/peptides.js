@@ -1478,7 +1478,7 @@ export const OPTIMIZATION_GOALS = PEPTIDE_GOALS_DATA;
 export const PEPTIDE_CONTEXT = PEPTIDE_KNOWLEDGE_BASE.map(p => `
 PEPTIDE: ${p.name} (${p.fullName})
 Category: ${p.category}
-Goals: ${p.goals.join(', ')}
+Goals: ${(p.goals || []).join(', ')}
 Summary: ${p.summary}
 Mechanism: ${p.mechanism}
 Benefits: ${Array.isArray(p.benefits) ? p.benefits.join(' | ') : p.benefits}
