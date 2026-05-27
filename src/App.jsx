@@ -1074,7 +1074,7 @@ export default function KatalysHealth() {
       <div className="desk-app">
         <aside className="desk-side">
           <div className="desk-brand">
-            <img src={katalysLogo} alt="Katalys" style={{height:28,width:'auto'}}/>
+            <img src="/katalys-logo.PNG" alt="Katalys" style={{height:28,width:'auto'}}/>
             <div><span className="desk-brand-name">Katalys Health</span><div style={{fontSize:10,color:'rgba(255,255,255,.5)',marginTop:2,letterSpacing:'.2px'}}>Powered by <a href="https://www.bioprecisionaging.com" target="_blank" rel="noopener noreferrer" style={{color:'rgba(255,255,255,.7)',textDecoration:'none',fontWeight:500}}>Bio Precision Aging</a></div></div>
           </div>
           <nav className="desk-nav">
