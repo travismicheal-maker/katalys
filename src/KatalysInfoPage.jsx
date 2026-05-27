@@ -5,6 +5,7 @@
 //               In App.jsx pass: onLaunch={() => setPage('home')}
 
 import { useState } from "react";
+import katalysLogo from './katalys-logo.png';
 import {
   Heart, Brain, Dna, Lock, Search,
   BookOpen, Zap, ChevronDown, ChevronUp, CheckCircle2,
@@ -129,7 +130,7 @@ export default function KatalysInfoPage({ onLaunch }) {
         <div style={{ position: 'relative', maxWidth: 740, margin: '0 auto' }}>
 
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, marginBottom: 22 }}>
-            <Heart size={22} fill={C.emeraldLt} color={C.emeraldLt}/>
+            <img src={katalysLogo} alt="Katalys" style={{height:32,width:'auto'}}/>
             <span style={{ fontSize: 22, fontWeight: 800, letterSpacing: '-.3px' }}>Katalys Health</span>
             <span style={{ fontSize: 12, color: 'rgba(255,255,255,.5)', borderLeft: '1px solid rgba(255,255,255,.2)', paddingLeft: 10, marginLeft: 4 }}>by Bio Precision Aging</span>
           </div>
@@ -403,7 +404,7 @@ export default function KatalysInfoPage({ onLaunch }) {
       {/* ── FOOTER ── */}
       <footer style={{ background: C.emerald, padding: '32px 24px', textAlign: 'center' }}>
         <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
-          <Heart size={16} fill={C.emeraldLt} color={C.emeraldLt}/>
+          <img src={katalysLogo} alt="Katalys" style={{height:22,width:'auto'}}/>
           <span style={{ fontSize: 16, fontWeight: 700, color: C.white }}>Katalys Health</span>
         </div>
         <p style={{ fontSize: 12, color: 'rgba(255,255,255,.5)', margin: '0 auto', maxWidth: 520, lineHeight: 1.65 }}>
