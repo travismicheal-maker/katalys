@@ -27,6 +27,7 @@ const C = {
   text:       '#1A2A3E',
   muted:      '#5A7A8A',
 };
+
 const pill = (bg, color, border) => ({
   display: 'inline-flex', alignItems: 'center', gap: 5,
   padding: '3px 10px', borderRadius: 20, fontSize: 11, fontWeight: 600,
