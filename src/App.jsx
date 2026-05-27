@@ -7,6 +7,8 @@ import PeptideOverview from './PeptideOverview';
 import katalysLogo from './katalys-logo.png';
 import { Home, FolderOpen, MessageSquare, User, FlaskConical, ScanLine, ClipboardList, Pill, Send, AlertTriangle, CheckCircle2, XCircle, Heart, Upload, Bell, Lock, ExternalLink, ChevronRight, FileText, X, Loader, Mic, MicOff, Brain, Zap, ClipboardPaste, ChevronDown, Dna, RotateCcw, CreditCard, Info } from "lucide-react";
 import { PEPTIDE_CONTEXT, OPTIMIZATION_GOALS as PEPTIDE_GOALS_DATA, PEPTIDE_KNOWLEDGE_BASE } from './peptides.js';
+import { useUser, UserButton } from '@clerk/clerk-react';
+import AuthGate from './AuthGate.jsx';
 
 const makeChatPrompt = (name, records) => {
   const ctx = records && records.length > 0
@@ -914,6 +916,8 @@ function ProfileContent({name, initials, setName, uploads, setPage}) {
 
 // ── Main App ──────────────────────────────────────────────────────────────────
 export default function KatalysHealth() {
+  const { user } = useUser();
+  const userTier = user?.publicMetadata?.tier || 'explorer';
   const [name,setName]=useState(null);const [page,setPage]=useState('home');const [filter,setFilter]=useState('All');
   const [msgs,setMsgs]=useState(null);const [input,setInput]=useState('');const [busy,setBusy]=useState(false);
   const [uploads,setUploads]=useState([]);const [analyzing,setAnalyzing]=useState(false);const [toast,setToast]=useState(null);
@@ -1017,8 +1021,7 @@ export default function KatalysHealth() {
 
   const send=async(text)=>{
     const m=(text||input).trim();if(!m||busy)return;
-    // Free tier gate — 3 inquiries max
-    const userTier=localStorage.getItem('katalys_tier')||'explorer';
+    // Free tier gate — 3 inquiries max (tier from Clerk metadata)
     if(userTier==='explorer'&&freeCount>=3){setShowUpgrade(true);return;}
     if(userTier==='explorer'){const next=freeCount+1;setFreeCount(next);localStorage.setItem('katalys_free',next);}
     const h=[...(msgs||[]),{role:'user',content:m}];setMsgs(h);setInput('');setBusy(true);
@@ -1043,6 +1046,7 @@ export default function KatalysHealth() {
   const sharedProps={uploads,setUploads,analyzing,setAnalyzing,filter,setFilter,allRecs,filtered,setPage,setInput,fileRef,toast2,drag,setDrag,msgs,busy,input,send,endRef,name,initials,setName,flagCount,recording,toggleVoice,voiceHint,lastModel,setShowPaste,sources,setSources,library,setLibrary,showSrcMenu,setShowSrcMenu,libraryFileRef,addToLibrary};
 
   return (
+    <AuthGate>
     <>
       <style>{CSS}</style>
       <input ref={fileRef} type="file" accept=".pdf,image/*" style={{display:'none'}} onChange={e=>{const f=e.target.files?.[0];if(f)analyze(f);}}/>
@@ -1115,7 +1119,8 @@ export default function KatalysHealth() {
           <div className="desk-user">
             <div style={{display:'flex',alignItems:'center',gap:10}}>
               <div className="desk-avatar">{initials}</div>
-              <div style={{flex:1,minWidth:0}}><div style={{fontSize:13,fontWeight:600,color:'#fff',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{name}</div><div style={{fontSize:11,color:'rgba(255,255,255,.5)',marginTop:1}}>Health AI session</div></div>
+              <div style={{flex:1,minWidth:0}}><div style={{fontSize:13,fontWeight:600,color:'#fff',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{name}</div><div style={{fontSize:11,color:'rgba(255,255,255,.5)',marginTop:1}}>{userTier==='explorer'?'Free plan':userTier==='essential'?'Essential':'Clinical'}</div></div>
+              <UserButton afterSignOutUrl='/' appearance={{elements:{avatarBox:{width:28,height:28}}}}/>
             </div>
           </div>
         </aside>
@@ -1138,5 +1143,6 @@ export default function KatalysHealth() {
         </main>
       </div>
     </>
+    </AuthGate>
   );
 }
