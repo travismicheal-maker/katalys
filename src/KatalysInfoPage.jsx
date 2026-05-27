@@ -18,13 +18,15 @@ const C = {
   emeraldLt:  '#6B9EC8',
   mint:       '#D6E9F5',
   mintDark:   '#C8DFF0',
-  ...
+  gold:       '#D4A017',
+  red:        '#C0392B',
+  redLt:      '#FDECEA',
+  white:      '#FFFFFF',
   offWhite:   '#F2F4F7',
   border:     '#DDE3EB',
   text:       '#1A2A3E',
   muted:      '#5A7A8A',
 };
-
 const pill = (bg, color, border) => ({
   display: 'inline-flex', alignItems: 'center', gap: 5,
   padding: '3px 10px', borderRadius: 20, fontSize: 11, fontWeight: 600,
