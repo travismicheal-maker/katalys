@@ -711,7 +711,7 @@ function Setup({ onDone }) {
           </div>
           <h1 style={{fontSize:32,fontWeight:800,lineHeight:1.15,margin:'0 0 14px',letterSpacing:'-.4px'}}>
             The World's First<br/>
-            <span style={{color:'#52B788'}}>Clinical-Grade AI Consultant</span>
+            <span style={{color:'#93C5E8'}}>Clinical-Grade AI Consultant</span>
           </h1>
           <p style={{fontSize:14,lineHeight:1.7,color:'rgba(255,255,255,.75)',margin:'0 auto',maxWidth:480}}>
             Katalys is not a chatbot. It is a precision medicine platform built on peer-reviewed clinical research, a proprietary peptide formulary, and a GRADE-graded evidence framework — with the world's first dedicated AI Peptide and Hormone Consultants.
