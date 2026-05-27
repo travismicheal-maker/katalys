@@ -916,7 +916,8 @@ function ProfileContent({name, initials, setName, uploads, setPage}) {
 
 // ── Main App ──────────────────────────────────────────────────────────────────
 export default function KatalysHealth() {
-  const { user } = useUser();
+  const { user, isLoaded } = useUser();
+  if (!isLoaded) return <div style={{minHeight:'100vh',background:'#F2F4F7'}}/>;
   const userTier = user?.publicMetadata?.tier || 'explorer';
   const [name,setName]=useState(null);const [page,setPage]=useState('home');const [filter,setFilter]=useState('All');
   const [msgs,setMsgs]=useState(null);const [input,setInput]=useState('');const [busy,setBusy]=useState(false);
