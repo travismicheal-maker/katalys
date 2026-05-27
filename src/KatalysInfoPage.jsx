@@ -129,7 +129,7 @@ export default function KatalysInfoPage({ onLaunch }) {
         <div style={{ position: 'relative', maxWidth: 740, margin: '0 auto' }}>
 
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, marginBottom: 22 }}>
-            <Heart size={22} fill={C.emeraldLt} color={C.emeraldLt}/>
+            <img src="/katalys-logo.PNG" alt="Katalys" style={{height:32,width:'auto'}}/>
             <span style={{ fontSize: 22, fontWeight: 800, letterSpacing: '-.3px' }}>Katalys Health</span>
             <span style={{ fontSize: 12, color: 'rgba(255,255,255,.5)', borderLeft: '1px solid rgba(255,255,255,.2)', paddingLeft: 10, marginLeft: 4 }}>by Bio Precision Aging</span>
           </div>
