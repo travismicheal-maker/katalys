@@ -137,7 +137,7 @@ export default function KatalysInfoPage({ onLaunch }) {
 
           <h1 style={{ fontSize: 40, fontWeight: 800, lineHeight: 1.15, margin: '0 0 22px', letterSpacing: '-.5px' }}>
             The World's First<br/>
-            <span style={{ color: C.emeraldLt }}>Clinical-Grade AI Consultant</span>
+            <span style={{ color: '#93C5E8' }}>Clinical-Grade AI Consultant</span>
           </h1>
 
           <p style={{ fontSize: 16, lineHeight: 1.75, color: 'rgba(255,255,255,.82)', margin: '0 auto 14px', maxWidth: 620 }}>
