@@ -18,10 +18,7 @@ const C = {
   emeraldLt:  '#6B9EC8',
   mint:       '#D6E9F5',
   mintDark:   '#C8DFF0',
-  gold:       '#D4A017',
-  red:        '#C0392B',
-  redLt:      '#FDECEA',
-  white:      '#FFFFFF',
+  ...
   offWhite:   '#F2F4F7',
   border:     '#DDE3EB',
   text:       '#1A2A3E',
