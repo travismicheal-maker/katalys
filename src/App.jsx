@@ -4,7 +4,7 @@ import KatalysInfoPage from './KatalysInfoPage';
 import PricingPage from './PricingPage';
 import { useState, useRef, useEffect } from "react";
 import PeptideOverview from './PeptideOverview';
-import katalysLogo from './katalys-logo.png';
+import katalysLogo from './katalys-logo.PNG';
 import { Home, FolderOpen, MessageSquare, User, FlaskConical, ScanLine, ClipboardList, Pill, Send, AlertTriangle, CheckCircle2, XCircle, Heart, Upload, Bell, Lock, ExternalLink, ChevronRight, FileText, X, Loader, Mic, MicOff, Brain, Zap, ClipboardPaste, ChevronDown, Dna, RotateCcw, CreditCard, Info } from "lucide-react";
 import { PEPTIDE_CONTEXT, OPTIMIZATION_GOALS as PEPTIDE_GOALS_DATA, PEPTIDE_KNOWLEDGE_BASE } from './peptides.js';
 
