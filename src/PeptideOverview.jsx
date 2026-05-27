@@ -2,14 +2,14 @@ import { useState, useRef, useEffect } from "react";
 import { PEPTIDE_CONTEXT } from './peptides';
 // ── Site color palette (matches Vitae) ──────────────────────────────────────
 const C = {
-  bg:        '#f9fafb',
+  bg:        '#F2F4F7',
   card:      '#ffffff',
-  border:    '#E5E7EB',
-  borderGrn: '#D1FAE5',
-  green1:    '#1B4332',
-  green2:    '#2D6A4F',
-  green3:    '#52B788',
-  greenLt:   '#F0FDF4',
+  border:    '#DDE3EB',
+  borderGrn: '#C8DFF0',
+  green1:    '#1C3D5A',
+  green2:    '#2D5F8A',
+  green3:    '#6B9EC8',
+  greenLt:   '#EEF5FB',
   text:      '#111827',
   textMd:    '#374151',
   textSm:    '#6B7280',
@@ -25,7 +25,7 @@ const C = {
 
 // ── Category config ─────────────────────────────────────────────────────────
 const CAT = {
-  healing:         { accent: '#2D6A4F', bg: '#F0FDF4', border: '#D1FAE5', label: 'Healing' },
+  healing:         { accent: '#2D5F8A', bg: '#EEF5FB', border: '#C8DFF0', label: 'Healing' },
   metabolic:       { accent: '#0369A1', bg: '#F0F9FF', border: '#BAE6FD', label: 'Metabolic' },
   gh_axis:         { accent: '#6D28D9', bg: '#F5F3FF', border: '#DDD6FE', label: 'GH Axis' },
   sexual:          { accent: '#BE185D', bg: '#FDF2F8', border: '#FBCFE8', label: 'Sexual Health' },
@@ -35,8 +35,8 @@ const CAT = {
   immune:          { accent: '#0E7490', bg: '#ECFEFF', border: '#A5F3FC', label: 'Immune' },
   mitochondrial:   { accent: '#B45309', bg: '#FFFBEB', border: '#FDE68A', label: 'Mitochondrial' },
   anti_aging:      { accent: '#B45309', bg: '#FFF7ED', border: '#FED7AA', label: 'Anti-Aging' },
-  fertility:       { accent: '#065F46', bg: '#ECFDF5', border: '#A7F3D0', label: 'Fertility' },
-  gut:             { accent: '#065F46', bg: '#ECFDF5', border: '#A7F3D0', label: 'GI Health' },
+  fertility:       { accent: '#2D5F8A', bg: '#EEF5FB', border: '#C8DFF0', label: 'Fertility' },
+  gut:             { accent: '#2D5F8A', bg: '#EEF5FB', border: '#C8DFF0', label: 'GI Health' },
 };
 
 const RESEARCH_BADGE = {
@@ -470,7 +470,7 @@ export default function PeptideOverview() {
   if (view === 'chat') return <PeptideAIChat onBack={() => setView('home')} />;
 
   if (view === 'detail' && selected) return (
-    <div style={{ background: C.bg, minHeight: '100vh', fontFamily: 'system-ui, sans-serif' }}>
+    <div style={{ background: 'transparent', minHeight: '100%', fontFamily: "'DM Sans', system-ui, sans-serif" }}>
       <div style={{ maxWidth: 760, margin: '0 auto', padding: '28px 20px' }}>
         <div style={{ display: 'flex', gap: 10, marginBottom: 24 }}>
           <button onClick={() => { setSelected(null); setView('library'); }} style={{ background: C.card, border: `1px solid ${C.border}`, borderRadius: 8, padding: '7px 14px', cursor: 'pointer', fontSize: 13, color: C.textMd }}>← Library</button>
@@ -548,7 +548,7 @@ export default function PeptideOverview() {
   );
 
   if (view === 'library') return (
-    <div style={{ background: C.bg, minHeight: '100vh', fontFamily: 'system-ui, sans-serif' }}>
+    <div style={{ background: 'transparent', minHeight: '100%', fontFamily: "'DM Sans', system-ui, sans-serif" }}>
       <div style={{ maxWidth: 1100, margin: '0 auto', padding: '28px 20px' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 20, flexWrap: 'wrap' }}>
           <button onClick={() => setView('home')} style={{ background: C.card, border: `1px solid ${C.border}`, borderRadius: 8, padding: '7px 14px', cursor: 'pointer', fontSize: 13, color: C.textMd }}>← Back</button>
@@ -618,17 +618,17 @@ export default function PeptideOverview() {
   );
 
   return (
-    <div style={{ background: C.bg, minHeight: '100vh', fontFamily: 'system-ui, sans-serif' }}>
-      <div style={{ maxWidth: 680, margin: '0 auto', padding: '40px 20px' }}>
+    <div style={{ background: 'transparent', minHeight: '100%', fontFamily: "'DM Sans', system-ui, sans-serif" }}>
+      <div style={{ padding: '28px 32px', maxWidth: 900, width: '100%' }}>
         <div style={{ marginBottom: 24 }}>
-          <div style={{ fontSize: 11, letterSpacing: 3, color: C.textXs, fontWeight: 700, marginBottom: 10, textTransform: 'uppercase' }}>Vitae · Bio Precision Aging</div>
+          <div style={{ fontSize: 11, letterSpacing: 3, color: C.textXs, fontWeight: 700, marginBottom: 10, textTransform: 'uppercase' }}>Katalys · Bio Precision Aging</div>
           <h1 style={{ fontSize: 28, fontWeight: 800, color: C.green1, margin: '0 0 8px' }}>Peptide Consultant</h1>
           <p style={{ color: C.textSm, fontSize: 14.5, margin: 0, lineHeight: 1.6 }}>AI-assisted guidance for evidence-based peptide therapy. Explore the library, filter by goal, or chat with our AI consultant.</p>
         </div>
         <PeptideDisclaimer />
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 24 }}>
           <button onClick={() => goToLibrary('all')} style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '18px 16px', background: C.greenLt, border: `1.5px solid ${C.borderGrn}`, borderRadius: 14, cursor: 'pointer', textAlign: 'left', transition: 'all 0.15s' }}
-            onMouseEnter={e => { e.currentTarget.style.background = '#D1FAE5'; e.currentTarget.style.borderColor = C.green3; e.currentTarget.style.boxShadow = '0 4px 12px rgba(52,183,120,0.15)'; }}
+            onMouseEnter={e => { e.currentTarget.style.background = '#C8DFF0'; e.currentTarget.style.borderColor = C.green3; e.currentTarget.style.boxShadow = '0 4px 12px rgba(107,158,200,0.18)'; }}
             onMouseLeave={e => { e.currentTarget.style.background = C.greenLt; e.currentTarget.style.borderColor = C.borderGrn; e.currentTarget.style.boxShadow = 'none'; }}
           >
             <div style={{ width: 42, height: 42, borderRadius: 10, background: C.green2, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, flexShrink: 0 }}>🧬</div>
