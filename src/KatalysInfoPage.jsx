@@ -15,7 +15,7 @@ import {
 const C = {
   emerald:    '#1C3D5A',
   emeraldMid: '#2D5F8A',
-  emeraldLt:  '#6B9EC8',
+  emeraldLt:  '#93C5E8',
   mint:       '#D6E9F5',
   mintDark:   '#C8DFF0',
   gold:       '#D4A017',
