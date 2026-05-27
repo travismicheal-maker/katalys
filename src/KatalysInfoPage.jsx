@@ -5,6 +5,7 @@
 //               In App.jsx pass: onLaunch={() => setPage('home')}
 
 import { useState } from "react";
+import katalysLogo from './katalys-logo.png';
 import {
   Heart, Brain, Dna, Lock, Search,
   BookOpen, Zap, ChevronDown, ChevronUp, CheckCircle2,
@@ -13,19 +14,19 @@ import {
 } from "lucide-react";
 
 const C = {
-  emerald:    '#1C3D5A',
-  emeraldMid: '#2D5F8A',
-  emeraldLt:  '#6B9EC8',
-  mint:       '#D6E9F5',
-  mintDark:   '#C8DFF0',
+  emerald:    '#1B4332',
+  emeraldMid: '#2D6A4F',
+  emeraldLt:  '#52B788',
+  mint:       '#D8F3DC',
+  mintDark:   '#B7E4C7',
   gold:       '#D4A017',
   red:        '#C0392B',
   redLt:      '#FDECEA',
   white:      '#FFFFFF',
-  offWhite:   '#F2F4F7',
-  border:     '#DDE3EB',
-  text:       '#1A2A3E',
-  muted:      '#5A7A8A',
+  offWhite:   '#F8FAF8',
+  border:     '#E0EEE5',
+  text:       '#1A2E22',
+  muted:      '#5A7A65',
 };
 
 const pill = (bg, color, border) => ({
@@ -125,11 +126,11 @@ export default function KatalysInfoPage({ onLaunch }) {
 
       {/* ── HERO ── */}
       <section style={{ background: C.emerald, color: C.white, padding: '72px 24px 64px', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
-        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'radial-gradient(circle at 20% 50%, rgba(107,158,200,.18) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(212,160,23,.10) 0%, transparent 50%)' }}/>
+        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'radial-gradient(circle at 20% 50%, rgba(82,183,136,.18) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(212,160,23,.10) 0%, transparent 50%)' }}/>
         <div style={{ position: 'relative', maxWidth: 740, margin: '0 auto' }}>
 
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, marginBottom: 22 }}>
-            <img src="/katalys-logo.PNG" alt="Katalys" style={{height:32,width:'auto'}}/>
+            <img src={katalysLogo} alt="Katalys" style={{height:32,width:'auto'}}/>
             <span style={{ fontSize: 22, fontWeight: 800, letterSpacing: '-.3px' }}>Katalys Health</span>
             <span style={{ fontSize: 12, color: 'rgba(255,255,255,.5)', borderLeft: '1px solid rgba(255,255,255,.2)', paddingLeft: 10, marginLeft: 4 }}>by Bio Precision Aging</span>
           </div>
@@ -153,7 +154,7 @@ export default function KatalysInfoPage({ onLaunch }) {
 
           <div style={{ display: 'flex', justifyContent: 'center', gap: 10, marginBottom: 36, flexWrap: 'wrap' }}>
             {['Evidence-Based Only', 'GRADE Framework', 'Zero Consumer Web', 'Proprietary KB', 'Peptide Specialist', 'Hormone Specialist'].map(t => (
-              <span key={t} style={{ ...pill('rgba(255,255,255,.12)', C.emeraldLt, 'rgba(107,158,200,.3)'), fontSize: 12 }}>
+              <span key={t} style={{ ...pill('rgba(255,255,255,.12)', C.emeraldLt, 'rgba(82,183,136,.3)'), fontSize: 12 }}>
                 <CheckCircle2 size={11} /> {t}
               </span>
             ))}
@@ -195,7 +196,7 @@ export default function KatalysInfoPage({ onLaunch }) {
           <div style={{ ...card({ padding: 0 }), overflow: 'hidden', marginBottom: 28 }}>
             <div style={{ display: 'grid', gridTemplateColumns: '1.6fr 1fr 1fr 1fr', padding: '12px 16px', background: C.emerald, gap: 8 }}>
               <span style={{ fontSize: 12, fontWeight: 700, color: 'rgba(255,255,255,.6)', textTransform: 'uppercase', letterSpacing: '.4px' }}>Capability</span>
-              <span style={{ fontSize: 12, fontWeight: 700, color: C.emeraldLt, textTransform: 'uppercase', letterSpacing: '.4px', display: 'flex', alignItems: 'center', gap: 5 }}><img src={katalysLogo} alt="Katalys" style={{height:32,width:'auto'}}/>Katalys</span>
+              <span style={{ fontSize: 12, fontWeight: 700, color: C.emeraldLt, textTransform: 'uppercase', letterSpacing: '.4px', display: 'flex', alignItems: 'center', gap: 5 }}><img src={katalysLogo} alt="Katalys" style={{height:16,width:'auto'}}/>Katalys</span>
               <span style={{ fontSize: 12, fontWeight: 700, color: 'rgba(255,255,255,.5)', textTransform: 'uppercase', letterSpacing: '.4px' }}>ChatGPT</span>
               <span style={{ fontSize: 12, fontWeight: 700, color: 'rgba(255,255,255,.5)', textTransform: 'uppercase', letterSpacing: '.4px' }}>Generic Claude</span>
             </div>
@@ -403,7 +404,7 @@ export default function KatalysInfoPage({ onLaunch }) {
       {/* ── FOOTER ── */}
       <footer style={{ background: C.emerald, padding: '32px 24px', textAlign: 'center' }}>
         <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
-          <Heart size={16} fill={C.emeraldLt} color={C.emeraldLt}/>
+          <img src={katalysLogo} alt="Katalys" style={{height:22,width:'auto'}}/>
           <span style={{ fontSize: 16, fontWeight: 700, color: C.white }}>Katalys Health</span>
         </div>
         <p style={{ fontSize: 12, color: 'rgba(255,255,255,.5)', margin: '0 auto', maxWidth: 520, lineHeight: 1.65 }}>
