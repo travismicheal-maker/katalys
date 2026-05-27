@@ -2,14 +2,14 @@ import { useState, useRef, useEffect } from "react";
 import { PEPTIDE_CONTEXT } from './peptides';
 // ── Site color palette (matches Vitae) ──────────────────────────────────────
 const C = {
-  bg:        '#F2F4F7',
+  bg:        '#f9fafb',
   card:      '#ffffff',
-  border:    '#DDE3EB',
-  borderGrn: '#C8DFF0',
-  green1:    '#1C3D5A',
-  green2:    '#2D5F8A',
-  green3:    '#6B9EC8',
-  greenLt:   '#EEF5FB',
+  border:    '#E5E7EB',
+  borderGrn: '#D1FAE5',
+  green1:    '#1B4332',
+  green2:    '#2D6A4F',
+  green3:    '#52B788',
+  greenLt:   '#F0FDF4',
   text:      '#111827',
   textMd:    '#374151',
   textSm:    '#6B7280',
@@ -25,7 +25,7 @@ const C = {
 
 // ── Category config ─────────────────────────────────────────────────────────
 const CAT = {
-  healing:         { accent: '#2D5F8A', bg: '#EEF5FB', border: '#C8DFF0', label: 'Healing' },
+  healing:         { accent: '#2D6A4F', bg: '#F0FDF4', border: '#D1FAE5', label: 'Healing' },
   metabolic:       { accent: '#0369A1', bg: '#F0F9FF', border: '#BAE6FD', label: 'Metabolic' },
   gh_axis:         { accent: '#6D28D9', bg: '#F5F3FF', border: '#DDD6FE', label: 'GH Axis' },
   sexual:          { accent: '#BE185D', bg: '#FDF2F8', border: '#FBCFE8', label: 'Sexual Health' },
@@ -35,8 +35,8 @@ const CAT = {
   immune:          { accent: '#0E7490', bg: '#ECFEFF', border: '#A5F3FC', label: 'Immune' },
   mitochondrial:   { accent: '#B45309', bg: '#FFFBEB', border: '#FDE68A', label: 'Mitochondrial' },
   anti_aging:      { accent: '#B45309', bg: '#FFF7ED', border: '#FED7AA', label: 'Anti-Aging' },
-  fertility:       { accent: '#2D5F8A', bg: '#EEF5FB', border: '#C8DFF0', label: 'Fertility' },
-  gut:             { accent: '#2D5F8A', bg: '#EEF5FB', border: '#C8DFF0', label: 'GI Health' },
+  fertility:       { accent: '#065F46', bg: '#ECFDF5', border: '#A7F3D0', label: 'Fertility' },
+  gut:             { accent: '#065F46', bg: '#ECFDF5', border: '#A7F3D0', label: 'GI Health' },
 };
 
 const RESEARCH_BADGE = {
@@ -259,52 +259,65 @@ function MsgContent({ text, isUser }) {
 
 // ── AI Chat Component ────────────────────────────────────────────────────────
 function PeptideAIChat({ onBack }) {
-  const [msgs, setMsgs]   = useState([{ role: 'assistant', content: 'Hello! I am your Peptide AI Consultant. Ask me anything about peptide therapy — mechanisms, dosing protocols, stacking strategies, safety considerations, or which peptides may support your goals. How can I help you today?' }]);
+  const [msgs, setMsgs]   = useState([{ role: 'assistant', content: 'Hello! I am your Peptide AI Consultant — powered by Bio Precision Aging\'s proprietary clinical formulary.\n\nAsk me anything: mechanisms, dosing protocols, stacking strategies, evidence grades, or which peptides fit your goals.' }]);
   const [input, setInput] = useState('');
   const [busy, setBusy]   = useState(false);
-  const endRef            = useRef(null);
+  const [sources, setSources] = useState({ clinicalWeb: true, literature: true, peptideKB: true });
+  const [showLibMenu, setShowLibMenu] = useState(false);
+  const [myLibrary, setMyLibrary] = useState([]);
+  const libInputRef = useRef(null);
+  const endRef = useRef(null);
 
   useEffect(() => { endRef.current?.scrollIntoView({ behavior: 'smooth' }); }, [msgs, busy]);
 
-  const send = async () => {
-    const text = input.trim();
-    if (!text || busy) return;
+  useEffect(() => {
+    if (!showLibMenu) return;
+    const close = (e) => { if (!e.target.closest('.p-src-bar') && !e.target.closest('.p-lib-menu')) setShowLibMenu(false); };
+    document.addEventListener('mousedown', close);
+    return () => document.removeEventListener('mousedown', close);
+  }, [showLibMenu]);
 
-    // Build full history for display (UI shows all messages)
+  const addToLibrary = (file) => {
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      if (file.type === 'text/plain') {
+        setMyLibrary(prev => [...prev, { name: file.name, text: e.target.result.slice(0, 12000) }]);
+      } else {
+        setMyLibrary(prev => [...prev, { name: file.name, b64: e.target.result.split(',')[1], type: file.type }]);
+      }
+    };
+    if (file.type === 'text/plain') reader.readAsText(file); else reader.readAsDataURL(file);
+    if (libInputRef.current) libInputRef.current.value = '';
+  };
+
+  const send = async (quickQ) => {
+    const text = (quickQ || input).trim();
+    if (!text || busy) return;
     const fullHistory = [...msgs, { role: 'user', content: text }];
     setMsgs(fullHistory);
-
-    // Cap what gets sent to the API at last 8 messages (4 exchanges).
-    // Prevents conversation history from growing unbounded and doubling
-    // input tokens after long sessions — saves ~$400-700/mo at scale.
     const history = fullHistory.slice(-8);
-
     setInput('');
     setBusy(true);
     try {
+      const libText = myLibrary.map(d => `[Library: ${d.name}]\n${d.text || ''}`).join('\n\n') || null;
       const systemPrompt = `You are a Peptide Medicine Consultant with deep expertise in peptide therapeutics, longevity medicine, sports medicine, and regenerative medicine. You provide evidence-based guidance grounded in peer-reviewed literature.
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 STEP 1 — ANSWER FROM THIS KNOWLEDGE BASE FIRST
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 The following is your curated peptide formulary. Always check here first before searching any external source. If the answer is fully contained here, do NOT search — answer directly and cite the relevant peptide entry.
 
 ${PEPTIDE_CONTEXT}
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+${libText ? `\nCLINICIAN LIBRARY DOCUMENTS:\n${libText}\n` : ''}
+
 STEP 2 — USE PUBMED SEARCH ONLY WHEN NEEDED
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Search PubMed or literature sources ONLY if:
 - The question involves a peptide not in the knowledge base above
 - The user asks for a specific study, trial, or citation not included above
 - The question asks for the very latest data that may post-date this formulary
 - The question requires comparative evidence across multiple peptides
 
-When you search, cite the source (PMID or journal) and note whether it confirms or adds to the local knowledge base.
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 CLINICAL RULES (always follow)
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 - Always recommend physician supervision and 503A compounding pharmacy sourcing
 - Clearly distinguish: FDA-approved vs compoundable vs research-only
 - Label evidence quality: [Verified] for established data, [Emerging] for limited data, [Theoretical] for proposed mechanisms
@@ -313,32 +326,17 @@ CLINICAL RULES (always follow)
 - Flag research-only peptides and advise against unregulated online sources
 - End every clinical response with: "Always consult a licensed physician before starting any peptide protocol."`;
 
-      // ── CORRECTED FETCH CALL ──────────────────────────────────────────────
-      // Changes from original:
-      //   1. max_tokens: 800  (was 1000/2000 — 800 covers 95% of responses)
-      //   2. system: array with cache_control  (prompt caching — saves ~85% on input cost)
-      //   3. messages: history  (already trimmed to last 8 above)
       const response = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           model: 'claude-sonnet-4-6',
-          max_tokens: 800,
-          system: [
-            {
-              type: 'text',
-              text: systemPrompt,
-              cache_control: { type: 'ephemeral' },
-            }
-          ],
+          max_tokens: 1500,
+          system: [{ type: 'text', text: systemPrompt, cache_control: { type: 'ephemeral' } }],
           messages: history,
-          _sources: {
-            clinicalWeb: false,
-            literature: true,
-          },
+          _sources: { clinicalWeb: sources.clinicalWeb, literature: sources.literature },
         }),
       });
-
       const data = await response.json();
       const reply = data.mergedText || data.content?.[0]?.text || 'Sorry, I could not get a response. Please try again.';
       setMsgs(prev => [...prev, { role: 'assistant', content: reply }]);
@@ -349,56 +347,128 @@ CLINICAL RULES (always follow)
     }
   };
 
-  return (
-    <div style={{ background: C.bg, minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
-      {/* Header */}
-      <div style={{ background: C.card, borderBottom: `1px solid ${C.border}`, padding: '16px 20px', display: 'flex', alignItems: 'center', gap: 14 }}>
-        <button onClick={onBack} style={{ background: 'transparent', border: `1px solid ${C.border}`, borderRadius: 8, padding: '6px 12px', cursor: 'pointer', fontSize: 13, color: C.textSm, display: 'flex', alignItems: 'center', gap: 6 }}>← Back</button>
-        <div style={{ width: 36, height: 36, borderRadius: 10, background: C.greenLt, border: `1px solid ${C.borderGrn}`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}>🧬</div>
-        <div>
-          <div style={{ fontSize: 15, fontWeight: 700, color: C.green1 }}>Peptide AI Consultant</div>
-          <div style={{ fontSize: 12, color: C.textSm }}>Ask anything about peptide therapy</div>
-        </div>
-      </div>
+  const quickQs = ['Best peptides for healing & recovery?','BPC-157 vs TB-500 — key differences?','CJC-1295 + Ipamorelin dosing protocol','How do I stack peptides safely?','What labs should I monitor on peptides?','Semaglutide vs Tirzepatide comparison'];
 
-      {/* Messages */}
-      <div style={{ flex: 1, overflowY: 'auto', padding: '16px', display: 'flex', flexDirection: 'column', gap: 8, maxWidth: 720, width: '100%', margin: '0 auto' }}>
+  const srcBtnStyle = (on) => ({
+    display: 'inline-flex', alignItems: 'center', gap: 5, padding: '5px 11px',
+    borderRadius: 20, fontSize: 12, border: `1.5px solid ${on ? C.green1 : C.border}`,
+    background: on ? C.greenLt : C.card, color: on ? C.green1 : C.textSm,
+    cursor: 'pointer', fontFamily: 'inherit', transition: 'all .15s', whiteSpace: 'nowrap',
+  });
+
+  const toggleStyle = (on) => ({
+    width: 36, height: 20, borderRadius: 10,
+    background: on ? C.green1 : C.border,
+    position: 'relative', cursor: 'pointer', transition: 'all .2s',
+    flexShrink: 0, border: 'none', outline: 'none', display: 'inline-block',
+  });
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', height: '100%', background: 'transparent', fontFamily: "'DM Sans', system-ui, sans-serif" }}>
+      <input ref={libInputRef} type="file" accept=".pdf,.txt,.md" style={{ display: 'none' }} onChange={e => { const f = e.target.files?.[0]; if (f) addToLibrary(f); e.target.value = ''; }} />
+
+      {/* Messages — left aligned, no max-width centering */}
+      <div style={{ flex: 1, overflowY: 'auto', padding: '20px 32px', display: 'flex', flexDirection: 'column', gap: 12 }}>
         {msgs.map((m, i) => (
-          <div key={i} style={{ display: 'flex', justifyContent: m.role === 'user' ? 'flex-end' : 'flex-start' }}>
+          <div key={i} style={{ maxWidth: '88%', alignSelf: m.role === 'user' ? 'flex-end' : 'flex-start' }}>
+            <div style={{ fontSize: 10.5, color: C.textSm, marginBottom: 4, fontWeight: 500, letterSpacing: '.3px' }}>
+              {m.role === 'user' ? 'You' : 'Peptide Consultant'}
+              {m.role === 'assistant' && <span style={{ marginLeft: 6, background: '#EDE9FE', color: '#5B21B6', fontSize: 9, padding: '2px 7px', borderRadius: 20, fontWeight: 600 }}>🧬 Bio Precision AI</span>}
+            </div>
             <div style={{
-              maxWidth: '82%', padding: '10px 14px', borderRadius: 14,
-              background: m.role === 'user' ? C.green2 : C.card,
+              padding: '12px 15px', borderRadius: 14, fontSize: 14, lineHeight: 1.5,
+              background: m.role === 'user' ? C.green1 : C.card,
               color: m.role === 'user' ? '#fff' : C.text,
               border: m.role === 'user' ? 'none' : `1px solid ${C.border}`,
+              boxShadow: m.role === 'assistant' ? '0 1px 8px rgba(0,0,0,.07)' : 'none',
             }}>
               <MsgContent text={m.content} isUser={m.role === 'user'} />
             </div>
           </div>
         ))}
         {busy && (
-          <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
-            <div style={{ background: C.card, border: `1px solid ${C.border}`, borderRadius: 14, padding: '10px 14px', color: C.textSm, fontSize: 13 }}>Thinking...</div>
+          <div style={{ alignSelf: 'flex-start' }}>
+            <div style={{ fontSize: 10.5, color: C.textSm, marginBottom: 4, fontWeight: 500 }}>Peptide Consultant <span style={{ background: '#EDE9FE', color: '#5B21B6', fontSize: 9, padding: '2px 7px', borderRadius: 20, fontWeight: 600 }}>Analyzing…</span></div>
+            <div style={{ background: C.card, border: `1px solid ${C.border}`, borderRadius: 14, padding: '11px 14px', display: 'inline-flex', gap: 4 }}>
+              {[0,200,400].map(d => <span key={d} style={{ width: 5, height: 5, borderRadius: '50%', background: C.textSm, display: 'inline-block', animation: `bl 1.2s ${d}ms infinite` }}/>)}
+            </div>
           </div>
         )}
         <div ref={endRef} />
       </div>
 
-      {/* Input */}
-      <div style={{ background: C.card, borderTop: `1px solid ${C.border}`, padding: '14px 16px', display: 'flex', gap: 10, maxWidth: 720, width: '100%', margin: '0 auto', boxSizing: 'border-box' }}>
-        <input
-          value={input}
-          onChange={e => setInput(e.target.value)}
-          onKeyDown={e => e.key === 'Enter' && !e.shiftKey && send()}
-          placeholder="Ask about peptides, dosing, stacking, or your goals..."
-          style={{ flex: 1, padding: '11px 14px', border: `1.5px solid ${C.border}`, borderRadius: 10, fontSize: 14, outline: 'none', color: C.text, background: C.bg, fontFamily: 'inherit' }}
-          onFocus={e => e.target.style.borderColor = C.green3}
-          onBlur={e => e.target.style.borderColor = C.border}
-        />
-        <button
-          onClick={send}
-          disabled={busy || !input.trim()}
-          style={{ padding: '11px 20px', background: input.trim() && !busy ? C.green2 : C.textXs, color: '#fff', border: 'none', borderRadius: 10, cursor: input.trim() && !busy ? 'pointer' : 'not-allowed', fontSize: 14, fontWeight: 600, fontFamily: 'inherit' }}
-        >Send</button>
+      {/* Bottom bar — always visible */}
+      <div style={{ background: C.card, borderTop: `1px solid ${C.border}`, padding: '12px 32px 16px' }}>
+        {/* Quick questions */}
+        <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', paddingBottom: 8, marginBottom: 8 }}>
+          {quickQs.map(q => (
+            <button key={q} onClick={() => send(q)} style={{ padding: '6px 13px', background: 'var(--bg, #F2F4F7)', border: `1px solid ${C.border}`, borderRadius: 20, fontSize: 12, color: C.green1, cursor: 'pointer', fontFamily: 'inherit', whiteSpace: 'nowrap', transition: 'all .15s' }}
+              onMouseEnter={e => e.currentTarget.style.background = C.greenLt}
+              onMouseLeave={e => e.currentTarget.style.background = 'var(--bg, #F2F4F7)'}
+            >{q}</button>
+          ))}
+          <button onClick={onBack} style={{ padding: '6px 13px', background: 'none', border: `1px dashed ${C.border}`, borderRadius: 20, fontSize: 12, color: C.textSm, cursor: 'pointer', fontFamily: 'inherit' }}>← Overview</button>
+        </div>
+
+        {/* Source toggles */}
+        <div className="p-src-bar" style={{ display: 'flex', alignItems: 'center', gap: 6, paddingBottom: 8, borderBottom: `1px solid ${C.border}`, marginBottom: 8, flexWrap: 'wrap', position: 'relative' }}>
+          <span style={{ fontSize: 11, color: C.textSm, fontWeight: 500, marginRight: 2 }}>Sources</span>
+          <button style={srcBtnStyle(sources.clinicalWeb)} onClick={() => setSources(s => ({ ...s, clinicalWeb: !s.clinicalWeb }))}>
+            🌐 Clinical web
+            <span style={toggleStyle(sources.clinicalWeb)} onClick={e => { e.stopPropagation(); setSources(s => ({ ...s, clinicalWeb: !s.clinicalWeb })); }}>
+              <span style={{ position: 'absolute', width: 16, height: 16, borderRadius: '50%', background: '#fff', top: 2, left: sources.clinicalWeb ? 18 : 2, transition: 'all .2s', boxShadow: '0 1px 3px rgba(0,0,0,.2)' }}/>
+            </span>
+          </button>
+          <button style={srcBtnStyle(sources.literature)} onClick={() => setSources(s => ({ ...s, literature: !s.literature }))}>
+            📚 Literature &amp; guidelines
+            <span style={toggleStyle(sources.literature)} onClick={e => { e.stopPropagation(); setSources(s => ({ ...s, literature: !s.literature })); }}>
+              <span style={{ position: 'absolute', width: 16, height: 16, borderRadius: '50%', background: '#fff', top: 2, left: sources.literature ? 18 : 2, transition: 'all .2s', boxShadow: '0 1px 3px rgba(0,0,0,.2)' }}/>
+            </span>
+          </button>
+          <button style={{ ...srcBtnStyle(true), cursor: 'default' }}>
+            🧬 Katalys Peptide Library
+            <span style={{ ...toggleStyle(true), cursor: 'default' }}>
+              <span style={{ position: 'absolute', width: 16, height: 16, borderRadius: '50%', background: '#fff', top: 2, left: 18, transition: 'all .2s', boxShadow: '0 1px 3px rgba(0,0,0,.2)' }}/>
+            </span>
+          </button>
+          <button style={srcBtnStyle(myLibrary.length > 0)} onClick={() => setShowLibMenu(v => !v)}>
+            🗂 My library{myLibrary.length > 0 && <span style={{ minWidth: 16, height: 16, borderRadius: 8, background: C.green1, color: '#fff', fontSize: 9, fontWeight: 700, padding: '0 4px', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', marginLeft: 2 }}>{myLibrary.length}</span>}
+          </button>
+          {showLibMenu && (
+            <div className="p-lib-menu" style={{ position: 'absolute', bottom: 'calc(100% + 6px)', left: 0, right: 0, background: C.card, border: `1px solid ${C.border}`, borderRadius: 12, boxShadow: '0 8px 32px rgba(0,0,0,.14)', zIndex: 50, overflow: 'hidden', padding: '14px 16px' }}>
+              <div style={{ fontSize: 13.5, fontWeight: 500, color: C.text, marginBottom: 4 }}>My Library</div>
+              <div style={{ fontSize: 11.5, color: C.textSm, marginBottom: 10, lineHeight: 1.4 }}>Upload PDFs or text files to reference in peptide consultations.</div>
+              <label style={{ display: 'inline-flex', alignItems: 'center', gap: 5, padding: '6px 12px', background: C.green1, color: '#fff', borderRadius: 8, fontSize: 11.5, cursor: 'pointer', fontFamily: 'inherit', marginBottom: 8 }}>
+                + Add document<input type="file" accept=".pdf,.txt,.md" style={{ position: 'absolute', opacity: 0, width: 0, height: 0 }} onChange={e => { const f = e.target.files?.[0]; if (f) addToLibrary(f); e.target.value = ''; }} />
+              </label>
+              {myLibrary.map((doc, i) => (
+                <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '7px 10px', background: C.greenLt, borderRadius: 7, fontSize: 12, color: C.green1, border: `1px solid ${C.borderGrn}`, marginBottom: 4 }}>
+                  📄 <span style={{ flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{doc.name}</span>
+                  <button onClick={() => setMyLibrary(prev => prev.filter((_, j) => j !== i))} style={{ background: 'none', border: 'none', cursor: 'pointer', color: C.textSm, display: 'flex', alignItems: 'center' }}>✕</button>
+                </div>
+              ))}
+              {myLibrary.length === 0 && <div style={{ fontSize: 12, color: C.textSm, fontStyle: 'italic' }}>No documents yet — add one above</div>}
+            </div>
+          )}
+        </div>
+
+        {/* Input row */}
+        <div style={{ display: 'flex', gap: 8, alignItems: 'flex-end' }}>
+          <textarea
+            value={input}
+            onChange={e => setInput(e.target.value)}
+            onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(); } }}
+            placeholder="Ask about peptides, dosing, stacking, mechanisms…"
+            rows={1}
+            style={{ flex: 1, padding: '11px 14px', border: `1.5px solid ${C.border}`, borderRadius: 8, fontSize: 14, outline: 'none', color: C.text, background: '#F2F4F7', fontFamily: 'inherit', resize: 'none', lineHeight: 1.5, minHeight: 44, maxHeight: 100 }}
+            onFocus={e => e.target.style.borderColor = C.green3}
+            onBlur={e => e.target.style.borderColor = C.border}
+          />
+          <button onClick={() => send()} disabled={busy || !input.trim()} style={{ width: 44, height: 44, borderRadius: 8, background: input.trim() && !busy ? C.green1 : C.textXs, color: '#fff', border: 'none', cursor: input.trim() && !busy ? 'pointer' : 'not-allowed', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, transition: 'all .15s' }}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          </button>
+        </div>
+        <div style={{ fontSize: 11, color: '#1D4ED8', background: '#EFF6FF', border: '1px solid #BFDBFE', borderRadius: 6, padding: '7px 11px', marginTop: 8, lineHeight: 1.55 }}>⚕ For clinical decision-support only. Peptide therapy requires clinician supervision.</div>
       </div>
     </div>
   );
@@ -470,7 +540,7 @@ export default function PeptideOverview() {
   if (view === 'chat') return <PeptideAIChat onBack={() => setView('home')} />;
 
   if (view === 'detail' && selected) return (
-    <div style={{ background: 'transparent', minHeight: '100%', fontFamily: "'DM Sans', system-ui, sans-serif" }}>
+    <div style={{ background: C.bg, minHeight: '100vh', fontFamily: 'system-ui, sans-serif' }}>
       <div style={{ maxWidth: 760, margin: '0 auto', padding: '28px 20px' }}>
         <div style={{ display: 'flex', gap: 10, marginBottom: 24 }}>
           <button onClick={() => { setSelected(null); setView('library'); }} style={{ background: C.card, border: `1px solid ${C.border}`, borderRadius: 8, padding: '7px 14px', cursor: 'pointer', fontSize: 13, color: C.textMd }}>← Library</button>
@@ -548,7 +618,7 @@ export default function PeptideOverview() {
   );
 
   if (view === 'library') return (
-    <div style={{ background: 'transparent', minHeight: '100%', fontFamily: "'DM Sans', system-ui, sans-serif" }}>
+    <div style={{ background: C.bg, minHeight: '100vh', fontFamily: 'system-ui, sans-serif' }}>
       <div style={{ maxWidth: 1100, margin: '0 auto', padding: '28px 20px' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 20, flexWrap: 'wrap' }}>
           <button onClick={() => setView('home')} style={{ background: C.card, border: `1px solid ${C.border}`, borderRadius: 8, padding: '7px 14px', cursor: 'pointer', fontSize: 13, color: C.textMd }}>← Back</button>
@@ -618,17 +688,17 @@ export default function PeptideOverview() {
   );
 
   return (
-    <div style={{ background: 'transparent', minHeight: '100%', fontFamily: "'DM Sans', system-ui, sans-serif" }}>
-      <div style={{ padding: '28px 32px', maxWidth: 900, width: '100%' }}>
+    <div style={{ background: C.bg, minHeight: '100vh', fontFamily: 'system-ui, sans-serif' }}>
+      <div style={{ maxWidth: 680, margin: '0 auto', padding: '40px 20px' }}>
         <div style={{ marginBottom: 24 }}>
-          <div style={{ fontSize: 11, letterSpacing: 3, color: C.textXs, fontWeight: 700, marginBottom: 10, textTransform: 'uppercase' }}>Katalys · Bio Precision Aging</div>
+          <div style={{ fontSize: 11, letterSpacing: 3, color: C.textXs, fontWeight: 700, marginBottom: 10, textTransform: 'uppercase' }}>Vitae · Bio Precision Aging</div>
           <h1 style={{ fontSize: 28, fontWeight: 800, color: C.green1, margin: '0 0 8px' }}>Peptide Consultant</h1>
           <p style={{ color: C.textSm, fontSize: 14.5, margin: 0, lineHeight: 1.6 }}>AI-assisted guidance for evidence-based peptide therapy. Explore the library, filter by goal, or chat with our AI consultant.</p>
         </div>
         <PeptideDisclaimer />
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 24 }}>
           <button onClick={() => goToLibrary('all')} style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '18px 16px', background: C.greenLt, border: `1.5px solid ${C.borderGrn}`, borderRadius: 14, cursor: 'pointer', textAlign: 'left', transition: 'all 0.15s' }}
-            onMouseEnter={e => { e.currentTarget.style.background = '#C8DFF0'; e.currentTarget.style.borderColor = C.green3; e.currentTarget.style.boxShadow = '0 4px 12px rgba(107,158,200,0.18)'; }}
+            onMouseEnter={e => { e.currentTarget.style.background = '#D1FAE5'; e.currentTarget.style.borderColor = C.green3; e.currentTarget.style.boxShadow = '0 4px 12px rgba(52,183,120,0.15)'; }}
             onMouseLeave={e => { e.currentTarget.style.background = C.greenLt; e.currentTarget.style.borderColor = C.borderGrn; e.currentTarget.style.boxShadow = 'none'; }}
           >
             <div style={{ width: 42, height: 42, borderRadius: 10, background: C.green2, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, flexShrink: 0 }}>🧬</div>
