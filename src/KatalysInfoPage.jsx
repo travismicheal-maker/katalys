@@ -195,7 +195,7 @@ export default function KatalysInfoPage({ onLaunch }) {
           <div style={{ ...card({ padding: 0 }), overflow: 'hidden', marginBottom: 28 }}>
             <div style={{ display: 'grid', gridTemplateColumns: '1.6fr 1fr 1fr 1fr', padding: '12px 16px', background: C.emerald, gap: 8 }}>
               <span style={{ fontSize: 12, fontWeight: 700, color: 'rgba(255,255,255,.6)', textTransform: 'uppercase', letterSpacing: '.4px' }}>Capability</span>
-              <span style={{ fontSize: 12, fontWeight: 700, color: C.emeraldLt, textTransform: 'uppercase', letterSpacing: '.4px', display: 'flex', alignItems: 'center', gap: 5 }}><Heart size={12} fill={C.emeraldLt}/>Katalys</span>
+              <span style={{ fontSize: 12, fontWeight: 700, color: C.emeraldLt, textTransform: 'uppercase', letterSpacing: '.4px', display: 'flex', alignItems: 'center', gap: 5 }}><img src={katalysLogo} alt="Katalys" style={{height:32,width:'auto'}}/>Katalys</span>
               <span style={{ fontSize: 12, fontWeight: 700, color: 'rgba(255,255,255,.5)', textTransform: 'uppercase', letterSpacing: '.4px' }}>ChatGPT</span>
               <span style={{ fontSize: 12, fontWeight: 700, color: 'rgba(255,255,255,.5)', textTransform: 'uppercase', letterSpacing: '.4px' }}>Generic Claude</span>
             </div>
