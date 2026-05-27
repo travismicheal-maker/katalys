@@ -1040,7 +1040,7 @@ export default function KatalysHealth() {
         <div className="phone">
           <div className="mob-hd">
             {page==='home'
-              ?<div className="logo"><img src="/katalys-logo.PNG" alt="Katalys" style={{height:22,width:'auto'}}/>Katalys Health<span style={{fontSize:11,fontWeight:400,color:'var(--mu)',borderLeft:'1px solid var(--bd)',paddingLeft:8,marginLeft:2}}><a href="https://www.bioprecisionaging.com" target="_blank" rel="noopener noreferrer" style={{color:'var(--mu)',textDecoration:'none'}}>Bio Precision Aging</a></span></div>
+              ?<div className="logo"><img src="./katalys-logo.PNG" alt="Katalys" style={{height:22,width:'auto'}}/>Katalys Health<span style={{fontSize:11,fontWeight:400,color:'var(--mu)',borderLeft:'1px solid var(--bd)',paddingLeft:8,marginLeft:2}}><a href="https://www.bioprecisionaging.com" target="_blank" rel="noopener noreferrer" style={{color:'var(--mu)',textDecoration:'none'}}>Bio Precision Aging</a></span></div>
               :<div><div className="ptitle">{{records:'My Records',ai:'AI Consultant',peptide:'Peptide Consultant',hormone:'Hormone Consultant',profile:'Profile'}[page]}</div>
               <div className="psub">{{records:'Labs, imaging & notes',ai:uploads.length>0?`Seeing ${uploads.length} record${uploads.length!==1?'s':''}` :'Upload records for full context',peptide:'Bio Precision Peptide AI',hormone:'Hormone Optimization',info:'About the platform',plans:'Explorer, Essential, Clinical',profile:name}[page]}</div></div>}
             <div style={{display:'flex',gap:7,alignItems:'center'}}>
@@ -1074,7 +1074,7 @@ export default function KatalysHealth() {
       <div className="desk-app">
         <aside className="desk-side">
           <div className="desk-brand">
-            <img src="/katalys-logo.PNG" alt="Katalys" style={{height:28,width:'auto'}}/>
+            <img src="./katalys-logo.PNG" alt="Katalys" style={{height:28,width:'auto'}}/>
             <div><span className="desk-brand-name">Katalys Health</span><div style={{fontSize:10,color:'rgba(255,255,255,.5)',marginTop:2,letterSpacing:'.2px'}}>Powered by <a href="https://www.bioprecisionaging.com" target="_blank" rel="noopener noreferrer" style={{color:'rgba(255,255,255,.7)',textDecoration:'none',fontWeight:500}}>Bio Precision Aging</a></div></div>
           </div>
           <nav className="desk-nav">
