@@ -4,6 +4,7 @@ import KatalysInfoPage from './KatalysInfoPage';
 import PricingPage from './PricingPage';
 import { useState, useRef, useEffect } from "react";
 import PeptideOverview from './PeptideOverview';
+import katalysLogo from './katalys-logo.png';
 import { Home, FolderOpen, MessageSquare, User, FlaskConical, ScanLine, ClipboardList, Pill, Send, AlertTriangle, CheckCircle2, XCircle, Heart, Upload, Bell, Lock, ExternalLink, ChevronRight, FileText, X, Loader, Mic, MicOff, Brain, Zap, ClipboardPaste, ChevronDown, Dna, RotateCcw, CreditCard, Info } from "lucide-react";
 import { PEPTIDE_CONTEXT, OPTIMIZATION_GOALS as PEPTIDE_GOALS_DATA, PEPTIDE_KNOWLEDGE_BASE } from './peptides.js';
 
@@ -704,7 +705,7 @@ function Setup({ onDone }) {
         <div style={{position:'absolute',inset:0,backgroundImage:'radial-gradient(circle at 20% 50%, rgba(107,158,200,.18) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(212,160,23,.10) 0%, transparent 50%)'}}/>
         <div style={{position:'relative',maxWidth:560,margin:'0 auto'}}>
           <div style={{display:'inline-flex',alignItems:'center',gap:8,marginBottom:16}}>
-            <Heart size={22} fill="#52B788" color="#52B788"/>
+            <img src={katalysLogo} alt="Katalys" style={{height:32,width:'auto'}}/>
             <span style={{fontSize:22,fontWeight:800,letterSpacing:'-.3px'}}>Katalys Health</span>
             <span style={{fontSize:11,color:'rgba(255,255,255,.45)',borderLeft:'1px solid rgba(255,255,255,.2)',paddingLeft:10,marginLeft:4}}>by Bio Precision Aging</span>
           </div>
@@ -1023,7 +1024,7 @@ export default function KatalysHealth() {
             <div className="modal-hd"><div className="modal-title">Upgrade to continue</div><button className="modal-close" onClick={()=>setShowUpgrade(false)}><X size={14}/></button></div>
             <div className="modal-body">
               <div style={{textAlign:'center',padding:'8px 0 16px'}}>
-                <div style={{width:52,height:52,borderRadius:'50%',background:'#C8DFF0',display:'flex',alignItems:'center',justifyContent:'center',margin:'0 auto 14px'}}><Heart size={22} color="#1C3D5A" fill="#6B9EC8"/></div>
+                <div style={{width:52,height:52,borderRadius:'50%',background:'#C8DFF0',display:'flex',alignItems:'center',justifyContent:'center',margin:'0 auto 14px'}}><img src={katalysLogo} alt="Katalys" style={{height:28,width:'auto'}}/></div>
                 <div style={{fontFamily:"'Playfair Display',serif",fontSize:18,fontWeight:600,color:'var(--tx)',marginBottom:8}}>You've used your 3 free inquiries</div>
                 <div style={{fontSize:13,color:'var(--mu)',lineHeight:1.65,marginBottom:20}}>Upgrade to Essential for $9/month — 50 inquiries, record uploads, voice input, and PDF export. Or go Clinical for full Opus deep reasoning.</div>
                 <button className="btn btnP btnfull" style={{marginBottom:8}} onClick={()=>{setShowUpgrade(false);setPage('plans');}}><CreditCard size={14}/>See plans &amp; pricing</button>
@@ -1040,7 +1041,7 @@ export default function KatalysHealth() {
         <div className="phone">
           <div className="mob-hd">
             {page==='home'
-              ?<div className="logo"><Heart size={15} fill="#52B788" color="#52B788"/>Katalys Health<span style={{fontSize:11,fontWeight:400,color:'var(--mu)',borderLeft:'1px solid var(--bd)',paddingLeft:8,marginLeft:2}}><a href="https://www.bioprecisionaging.com" target="_blank" rel="noopener noreferrer" style={{color:'var(--mu)',textDecoration:'none'}}>Bio Precision Aging</a></span></div>
+              ?<div className="logo"><img src={katalysLogo} alt="Katalys" style={{height:22,width:'auto'}}Katalys Health<span style={{fontSize:11,fontWeight:400,color:'var(--mu)',borderLeft:'1px solid var(--bd)',paddingLeft:8,marginLeft:2}}><a href="https://www.bioprecisionaging.com" target="_blank" rel="noopener noreferrer" style={{color:'var(--mu)',textDecoration:'none'}}>Bio Precision Aging</a></span></div>
               :<div><div className="ptitle">{{records:'My Records',ai:'AI Consultant',peptide:'Peptide Consultant',hormone:'Hormone Consultant',profile:'Profile'}[page]}</div>
               <div className="psub">{{records:'Labs, imaging & notes',ai:uploads.length>0?`Seeing ${uploads.length} record${uploads.length!==1?'s':''}` :'Upload records for full context',peptide:'Bio Precision Peptide AI',hormone:'Hormone Optimization',info:'About the platform',plans:'Explorer, Essential, Clinical',profile:name}[page]}</div></div>}
             <div style={{display:'flex',gap:7,alignItems:'center'}}>
@@ -1074,7 +1075,7 @@ export default function KatalysHealth() {
       <div className="desk-app">
         <aside className="desk-side">
           <div className="desk-brand">
-            <Heart size={18} fill="#52B788" color="#52B788"/>
+            <img src={katalysLogo} alt="Katalys" style={{height:28,width:'auto'}}/>
             <div><span className="desk-brand-name">Katalys Health</span><div style={{fontSize:10,color:'rgba(255,255,255,.5)',marginTop:2,letterSpacing:'.2px'}}>Powered by <a href="https://www.bioprecisionaging.com" target="_blank" rel="noopener noreferrer" style={{color:'rgba(255,255,255,.7)',textDecoration:'none',fontWeight:500}}>Bio Precision Aging</a></div></div>
           </div>
           <nav className="desk-nav">
