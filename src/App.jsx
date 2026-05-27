@@ -4,6 +4,7 @@ import KatalysInfoPage from './KatalysInfoPage';
 import PricingPage from './PricingPage';
 import { useState, useRef, useEffect } from "react";
 import PeptideOverview from './PeptideOverview';
+import katalysLogo from './katalys-logo.png';
 import { Home, FolderOpen, MessageSquare, User, FlaskConical, ScanLine, ClipboardList, Pill, Send, AlertTriangle, CheckCircle2, XCircle, Heart, Upload, Bell, Lock, ExternalLink, ChevronRight, FileText, X, Loader, Mic, MicOff, Brain, Zap, ClipboardPaste, ChevronDown, Dna, RotateCcw, CreditCard, Info } from "lucide-react";
 import { PEPTIDE_CONTEXT, OPTIMIZATION_GOALS as PEPTIDE_GOALS_DATA, PEPTIDE_KNOWLEDGE_BASE } from './peptides.js';
 
@@ -172,8 +173,8 @@ const CSS = `
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap');
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#F7F5F1;--surf:#fff;--g9:#1B4332;--g7:#2D6A4F;--g5:#52B788;--g1:#D1FAE5;--g0:#F0FDF4;
-  --tx:#111827;--mu:#6B7280;--bd:#E5E1D8;--wbg:#FFF7ED;--wbd:#FED7AA;--wtx:#9A3412;
+  --bg:#F2F4F7;--surf:#fff;--g9:#1C3D5A;--g7:#2D5F8A;--g5:#6B9EC8;--g1:#C8DFF0;--g0:#EEF5FB;
+  --tx:#111827;--mu:#6B7280;--bd:#DDE3EB;--wbg:#EEF5FB;--wbd:#C8DFF0;--wtx:#1C3D5A;
   --rd:12px;--rds:8px;--sh:0 1px 8px rgba(0,0,0,.07);--sidebar:240px
 }
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx)}
@@ -182,8 +183,8 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx)}
 .btnS{background:var(--g5);color:#fff}
 .btnO{background:transparent;color:var(--g9);border:1.5px solid var(--g9)}.btnO:hover{background:var(--g9);color:#fff}
 .btnsm{padding:6px 12px;font-size:12px}.btnfull{width:100%;justify-content:center}
-.hero{background:linear-gradient(140deg,#1B4332,#2D6A4F 55%,#40916C);border-radius:var(--rd);padding:24px;color:#fff;position:relative;overflow:hidden;margin-bottom:16px}
-.hero::after{content:'';position:absolute;width:200px;height:200px;background:rgba(82,183,136,.15);border-radius:50%;top:-60px;right:-60px;pointer-events:none}
+.hero{background:linear-gradient(140deg,#1C3D5A,#2D5F8A 55%,#3D7BAA);border-radius:var(--rd);padding:24px;color:#fff;position:relative;overflow:hidden;margin-bottom:16px}
+.hero::after{content:'';position:absolute;width:200px;height:200px;background:rgba(107,158,200,.15);border-radius:50%;top:-60px;right:-60px;pointer-events:none}
 .hlbl{font-size:10px;opacity:.65;text-transform:uppercase;letter-spacing:1px}
 .hname{font-family:'Playfair Display',serif;font-size:26px;font-weight:600;margin-top:3px}
 .hmsg{font-size:13px;opacity:.78;margin-top:8px;line-height:1.5;position:relative;z-index:1}
@@ -207,8 +208,8 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx)}
 .vc{padding:3px 9px;background:#F0ECE6;border-radius:20px;font-size:11.5px}
 .vc.w{background:var(--wbg);color:var(--wtx)}
 .bw{display:inline-flex;align-items:center;gap:2px;padding:2px 7px;border-radius:8px;background:#FEF3CD;color:#92400E;font-size:10px;font-weight:600}
-.bg2{display:inline-flex;align-items:center;gap:2px;padding:2px 7px;border-radius:8px;background:var(--g1);color:#065F46;font-size:10px;font-weight:600}
-.bnew{display:inline-flex;align-items:center;gap:2px;padding:2px 7px;border-radius:8px;background:#DCFCE7;color:#15803D;font-size:10px;font-weight:600;margin-top:4px}
+.bg2{display:inline-flex;align-items:center;gap:2px;padding:2px 7px;border-radius:8px;background:var(--g1);color:#0C447C;font-size:10px;font-weight:600}
+.bnew{display:inline-flex;align-items:center;gap:2px;padding:2px 7px;border-radius:8px;background:#D6E9F5;color:#0C447C;font-size:10px;font-weight:600;margin-top:4px}
 .del{position:absolute;top:11px;right:11px;width:24px;height:24px;border-radius:50%;background:#FEE2E2;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#DC2626}
 .upz{border:2px dashed var(--bd);border-radius:var(--rd);padding:32px;text-align:center;cursor:pointer;margin-bottom:16px;transition:all .15s}
 .upz:hover,.upz.drag{border-color:var(--g5);background:var(--g0)}.upz.busy{cursor:not-allowed;border-color:var(--g5);background:var(--g0)}
@@ -246,7 +247,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx)}
 .lib-del{background:none;border:none;cursor:pointer;color:var(--mu);display:flex;align-items:center;margin-left:auto;padding:0}
 .src-count{display:inline-flex;align-items:center;justify-content:center;min-width:16px;height:16px;border-radius:8px;background:var(--g9);color:#fff;font-size:9px;font-weight:700;padding:0 4px;margin-left:2px}
 .spin{display:inline-block;animation:sp 1s linear infinite}@keyframes sp{to{transform:rotate(360deg)}}
-.toast{position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#1B4332;color:#fff;padding:10px 20px;border-radius:20px;font-size:13px;font-weight:500;white-space:nowrap;z-index:1000;box-shadow:0 4px 16px rgba(0,0,0,.2)}
+.toast{position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#1C3D5A;color:#fff;padding:10px 20px;border-radius:20px;font-size:13px;font-weight:500;white-space:nowrap;z-index:1000;box-shadow:0 4px 16px rgba(0,0,0,.2)}
 .toast.err{background:#DC2626}
 .msg{max-width:80%}.msg.u{align-self:flex-end}.msg.a{align-self:flex-start}
 .mrole{font-size:10.5px;color:var(--mu);margin-bottom:4px;font-weight:500;letter-spacing:.3px}
@@ -321,7 +322,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx)}
 @keyframes pulse-rec{0%,100%{box-shadow:0 0 0 0 rgba(220,38,38,.3)}50%{box-shadow:0 0 0 6px rgba(220,38,38,0)}}
 .model-badge{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:20px;font-size:10px;font-weight:600;margin-bottom:4px}
 .badge-opus{background:#EDE9FE;color:#5B21B6}
-.badge-sonnet{background:var(--g1);color:#065F46}
+.badge-sonnet{background:var(--g1);color:#0C447C}
 .voice-hint{font-size:11px;color:var(--g7);text-align:center;padding:4px 0;animation:fU .2s ease}
 .transcript-preview{background:var(--g0);border:1px solid var(--g1);border-radius:var(--rds);padding:8px 12px;font-size:12.5px;color:var(--g9);margin-bottom:6px;line-height:1.5;animation:fU .15s ease}
 .disc{font-size:11px;color:#1D4ED8;background:#EFF6FF;border:1px solid #BFDBFE;border-radius:6px;padding:7px 11px;margin-top:8px;line-height:1.55}
@@ -467,14 +468,14 @@ function generatePDF(content, question) {
   @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap');
   *{box-sizing:border-box;margin:0;padding:0}
   body{font-family:'DM Sans',sans-serif;font-size:12.5px;color:#111827;background:#fff;padding:48px 56px;max-width:800px;margin:0 auto;line-height:1.55}
-  .pdf-header{display:flex;justify-content:space-between;align-items:flex-start;padding-bottom:16px;margin-bottom:22px;border-bottom:2.5px solid #1B4332}
-  .pdf-brand{font-family:'Playfair Display',serif;font-size:26px;font-weight:700;color:#1B4332}
+  .pdf-header{display:flex;justify-content:space-between;align-items:flex-start;padding-bottom:16px;margin-bottom:22px;border-bottom:2.5px solid #1C3D5A}
+  .pdf-brand{font-family:'Playfair Display',serif;font-size:26px;font-weight:700;color:#1C3D5A}
   .pdf-brand-sub{font-size:10.5px;color:#6B7280;margin-top:4px;letter-spacing:.3px}
-  .pdf-meta-label{font-size:9.5px;font-weight:700;color:#1B4332;text-transform:uppercase;letter-spacing:.9px;margin-bottom:3px;text-align:right}
+  .pdf-meta-label{font-size:9.5px;font-weight:700;color:#1C3D5A;text-transform:uppercase;letter-spacing:.9px;margin-bottom:3px;text-align:right}
   .pdf-meta-date{font-size:11px;color:#6B7280;text-align:right}
   .pdf-query-label{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#6B7280;margin-bottom:7px}
-  .pdf-query-box{background:#F8FFF8;border-left:3px solid #52B788;padding:11px 15px;border-radius:0 7px 7px 0;font-size:12.5px;color:#1B4332;font-style:italic;line-height:1.55;margin-bottom:22px}
-  .pdf-section-head{font-family:'Playfair Display',serif;font-size:13.5px;font-weight:600;color:#1B4332;margin:20px 0 8px;padding-bottom:5px;border-bottom:1px solid #E5E1D8}
+  .pdf-query-box{background:#EEF5FB;border-left:3px solid #6B9EC8;padding:11px 15px;border-radius:0 7px 7px 0;font-size:12.5px;color:#1C3D5A;font-style:italic;line-height:1.55;margin-bottom:22px}
+  .pdf-section-head{font-family:'Playfair Display',serif;font-size:13.5px;font-weight:600;color:#1C3D5A;margin:20px 0 8px;padding-bottom:5px;border-bottom:1px solid #E5E1D8}
   .pdf-body{font-size:12.5px;color:#1F2937;line-height:1.6;margin-bottom:6px}
   .pdf-list{margin:5px 0 5px 18px}
   .pdf-list li{font-size:12.5px;color:#1F2937;line-height:1.55;margin-bottom:4px;padding-left:4px}
@@ -483,7 +484,7 @@ function generatePDF(content, question) {
   .pdf-disclaimer-inline{font-size:11.5px;color:#1E40AF;background:#EFF6FF;border:1px solid #BFDBFE;border-radius:7px;padding:9px 12px;margin:12px 0;line-height:1.55}
   .pdf-footer{margin-top:40px;padding-top:14px;border-top:1px solid #E5E1D8;display:flex;justify-content:space-between;align-items:flex-end;gap:20px}
   .pdf-footer-disclaimer{font-size:10px;color:#9CA3AF;line-height:1.65;flex:1}
-  .pdf-footer-brand{font-size:11px;font-weight:600;color:#2D6A4F;margin-top:5px}
+  .pdf-footer-brand{font-size:11px;font-weight:600;color:#2D5F8A;margin-top:5px}
   .pdf-footer-date{font-size:10px;color:#9CA3AF;white-space:nowrap;text-align:right}
   @media print{body{padding:32px 40px}.pdf-section-head{page-break-after:avoid}}
   </style></head><body>
@@ -730,18 +731,18 @@ function Setup({ onDone }) {
   ];
 
   return (
-    <div style={{minHeight:'100vh',background:'#F8FAF8',display:'flex',flexDirection:'column',overflowY:'auto'}}>
-      <div style={{background:'#1B4332',color:'#fff',padding:'48px 24px 40px',textAlign:'center',position:'relative',overflow:'hidden'}}>
-        <div style={{position:'absolute',inset:0,backgroundImage:'radial-gradient(circle at 20% 50%, rgba(82,183,136,.18) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(212,160,23,.10) 0%, transparent 50%)'}}/>
+    <div style={{minHeight:'100vh',background:'#F2F4F7',display:'flex',flexDirection:'column',overflowY:'auto'}}>
+      <div style={{background:'#1C3D5A',color:'#fff',padding:'48px 24px 40px',textAlign:'center',position:'relative',overflow:'hidden'}}>
+        <div style={{position:'absolute',inset:0,backgroundImage:'radial-gradient(circle at 20% 50%, rgba(107,158,200,.18) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(212,160,23,.10) 0%, transparent 50%)'}}/>
         <div style={{position:'relative',maxWidth:560,margin:'0 auto'}}>
           <div style={{display:'inline-flex',alignItems:'center',gap:8,marginBottom:16}}>
-            <Heart size={22} fill="#52B788" color="#52B788"/>
+            <img src={katalysLogo} alt="Katalys" style={{height:32,width:'auto'}}/>
             <span style={{fontSize:22,fontWeight:800,letterSpacing:'-.3px'}}>Katalys Health</span>
             <span style={{fontSize:11,color:'rgba(255,255,255,.45)',borderLeft:'1px solid rgba(255,255,255,.2)',paddingLeft:10,marginLeft:4}}>by Bio Precision Aging</span>
           </div>
           <h1 style={{fontSize:32,fontWeight:800,lineHeight:1.15,margin:'0 0 14px',letterSpacing:'-.4px'}}>
             The World's First<br/>
-            <span style={{color:'#52B788'}}>Clinical-Grade AI Consultant</span>
+            <span style={{color:'#93C5E8'}}>Clinical-Grade AI Consultant</span>
           </h1>
           <p style={{fontSize:14,lineHeight:1.7,color:'rgba(255,255,255,.75)',margin:'0 auto',maxWidth:480}}>
             Katalys is not a chatbot. It is a precision medicine platform built on peer-reviewed clinical research, a proprietary peptide formulary, and a GRADE-graded evidence framework — with the world's first dedicated AI Peptide and Hormone Consultants.
@@ -751,44 +752,44 @@ function Setup({ onDone }) {
       <div style={{padding:'28px 20px 0',maxWidth:680,margin:'0 auto',width:'100%'}}>
         <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(180px,1fr))',gap:10,marginBottom:28}}>
           {features.map(f=>(
-            <div key={f.title} style={{background:'#fff',border:'0.5px solid #E0EEE5',borderRadius:12,padding:'14px 16px'}}>
+            <div key={f.title} style={{background:'#fff',border:'0.5px solid #DDE3EB',borderRadius:12,padding:'14px 16px'}}>
               <div style={{fontSize:20,marginBottom:8}}>{f.icon}</div>
-              <div style={{fontSize:13,fontWeight:700,color:'#1A2E22',marginBottom:4}}>{f.title}</div>
-              <div style={{fontSize:12,color:'#5A7A65',lineHeight:1.5}}>{f.sub}</div>
+              <div style={{fontSize:13,fontWeight:700,color:'#1A2A3E',marginBottom:4}}>{f.title}</div>
+              <div style={{fontSize:12,color:'#5A7A8A',lineHeight:1.5}}>{f.sub}</div>
             </div>
           ))}
         </div>
-        <div style={{background:'#fff',border:'0.5px solid #E0EEE5',borderRadius:16,padding:'24px',marginBottom:20}}>
-          <div style={{fontSize:16,fontWeight:700,color:'#1B4332',marginBottom:4,fontFamily:"'Playfair Display',Georgia,serif"}}>Get started — no account needed</div>
-          <div style={{fontSize:13,color:'#5A7A65',marginBottom:20,lineHeight:1.5}}>Enter your details so Katalys can personalize your experience.</div>
+        <div style={{background:'#fff',border:'0.5px solid #DDE3EB',borderRadius:16,padding:'24px',marginBottom:20}}>
+          <div style={{fontSize:16,fontWeight:700,color:'#1C3D5A',marginBottom:4,fontFamily:"'Playfair Display',Georgia,serif"}}>Get started — no account needed</div>
+          <div style={{fontSize:13,color:'#5A7A8A',marginBottom:20,lineHeight:1.5}}>Enter your details so Katalys can personalize your experience.</div>
           <div style={{marginBottom:16}}>
-            <label style={{display:'block',fontSize:11,fontWeight:700,letterSpacing:'0.08em',color:'#1A2E22',marginBottom:6,textTransform:'uppercase'}}>Your Age</label>
+            <label style={{display:'block',fontSize:11,fontWeight:700,letterSpacing:'0.08em',color:'#1A2A3E',marginBottom:6,textTransform:'uppercase'}}>Your Age</label>
             <input value={age} onChange={e=>setAge(e.target.value.replace(/\D/g,''))} placeholder="e.g. 52" maxLength={3} inputMode="numeric"
               onKeyDown={e=>e.key==='Enter'&&ready&&onDone(`${sex}, Age ${age}`)}
-              style={{width:'100%',padding:'12px 14px',fontSize:15,border:'1.5px solid #E0EEE5',borderRadius:10,outline:'none',boxSizing:'border-box',color:'#111827',background:'#F8FAF8',fontFamily:'inherit',transition:'border-color .15s'}}
-              onFocus={e=>e.target.style.borderColor='#52B788'} onBlur={e=>e.target.style.borderColor='#E0EEE5'}/>
+              style={{width:'100%',padding:'12px 14px',fontSize:15,border:'1.5px solid #DDE3EB',borderRadius:10,outline:'none',boxSizing:'border-box',color:'#111827',background:'#F2F4F7',fontFamily:'inherit',transition:'border-color .15s'}}
+              onFocus={e=>e.target.style.borderColor='#6B9EC8'} onBlur={e=>e.target.style.borderColor='#DDE3EB'}/>
           </div>
           <div style={{marginBottom:20}}>
-            <label style={{display:'block',fontSize:11,fontWeight:700,letterSpacing:'0.08em',color:'#1A2E22',marginBottom:10,textTransform:'uppercase'}}>Biological Sex</label>
+            <label style={{display:'block',fontSize:11,fontWeight:700,letterSpacing:'0.08em',color:'#1A2A3E',marginBottom:10,textTransform:'uppercase'}}>Biological Sex</label>
             <div style={{display:'flex',gap:10}}>
               {['Male','Female'].map(s=>(
                 <button key={s} onClick={()=>setSex(s)}
-                  style={{flex:1,padding:'13px',fontSize:15,fontWeight:600,border:`2px solid ${sex===s?'#2D6A4F':'#E0EEE5'}`,borderRadius:10,cursor:'pointer',background:sex===s?'#1B4332':'#fff',color:sex===s?'#fff':'#374151',transition:'all 0.15s',fontFamily:'inherit'}}>
+                  style={{flex:1,padding:'13px',fontSize:15,fontWeight:600,border:`2px solid ${sex===s?'#2D5F8A':'#DDE3EB'}`,borderRadius:10,cursor:'pointer',background:sex===s?'#1C3D5A':'#fff',color:sex===s?'#fff':'#374151',transition:'all 0.15s',fontFamily:'inherit'}}>
                   {s==='Male'?'♂ Male':'♀ Female'}
                 </button>
               ))}
             </div>
           </div>
           <button onClick={()=>ready&&onDone(`${sex}, Age ${age}`)} disabled={!ready}
-            style={{width:'100%',padding:'14px',fontSize:15,fontWeight:700,color:'#fff',background:ready?'#1B4332':'#9CA3AF',border:'none',borderRadius:10,cursor:ready?'pointer':'not-allowed',transition:'background 0.2s',fontFamily:'inherit',letterSpacing:'.1px'}}
-            onMouseEnter={e=>{if(ready)e.target.style.background='#2D6A4F';}} onMouseLeave={e=>{if(ready)e.target.style.background='#1B4332';}}>
+            style={{width:'100%',padding:'14px',fontSize:15,fontWeight:700,color:'#fff',background:ready?'#1C3D5A':'#9CA3AF',border:'none',borderRadius:10,cursor:ready?'pointer':'not-allowed',transition:'background 0.2s',fontFamily:'inherit',letterSpacing:'.1px'}}
+            onMouseEnter={e=>{if(ready)e.target.style.background='#2D5F8A';}} onMouseLeave={e=>{if(ready)e.target.style.background='#1C3D5A';}}>
             Use Katalys AI →
           </button>
           <p style={{fontSize:11,color:'#9CA3AF',marginTop:12,textAlign:'center',lineHeight:1.6}}>Your data stays in your browser session only. Nothing is stored on any server.</p>
         </div>
         <div style={{textAlign:'center',paddingBottom:32}}>
           <p style={{fontSize:11,color:'#9CA3AF',margin:'0 0 3px'}}>Powered by</p>
-          <p style={{fontSize:13,fontWeight:600,color:'#1B4332',margin:0,fontFamily:"'Playfair Display',Georgia,serif"}}>Bio Precision Aging</p>
+          <p style={{fontSize:13,fontWeight:600,color:'#1C3D5A',margin:0,fontFamily:"'Playfair Display',Georgia,serif"}}>Bio Precision Aging</p>
         </div>
       </div>
     </div>
@@ -812,9 +813,9 @@ function HomeContent({name, allRecs, flagCount, uploads, setPage, isMobile}) {
           <div key={s.lbl} className={isMobile?'sc':'desk-sc'}><div className="slbl">{s.lbl}</div><div className={isMobile?'snum':'desk-snum'} style={s.w?{color:'#D97706'}:{}}>{s.num}</div><div className="sdsc" style={s.w?{color:'#B45309'}:{}}>{s.dsc}</div></div>
         ))}
       </div>
-      <div style={{background:'#F0FDF4',border:'1px solid #D1FAE5',borderRadius:'var(--rd)',padding:'16px',marginBottom:isMobile?24:0}}>
-        <div style={{fontFamily:"'Playfair Display',serif",fontSize:15,fontWeight:600,color:'#1B4332',marginBottom:8}}>Upload a Medical Record</div>
-        <div style={{fontSize:13,color:'#2D6A4F',lineHeight:1.55,marginBottom:12}}>Add any lab result, imaging report, or medical document. Claude AI reads and categorizes it automatically.</div>
+      <div style={{background:'#EEF5FB',border:'1px solid #C8DFF0',borderRadius:'var(--rd)',padding:'16px',marginBottom:isMobile?24:0}}>
+        <div style={{fontFamily:"'Playfair Display',serif",fontSize:15,fontWeight:600,color:'#1C3D5A',marginBottom:8}}>Upload a Medical Record</div>
+        <div style={{fontSize:13,color:'#2D5F8A',lineHeight:1.55,marginBottom:12}}>Add any lab result, imaging report, or medical document. Claude AI reads and categorizes it automatically.</div>
         <button className="btn btnP" style={{fontSize:13,padding:'8px 16px'}} onClick={()=>setPage('records')}><Upload size={13}/>Go to Records</button>
       </div>
     </div>
@@ -895,14 +896,14 @@ function ChatContent({msgs, busy, input, setInput, send, QUICK_QS, endRef, isMob
 function ProfileContent({name, initials, setName, uploads, setPage}) {
   return (
     <div style={{maxWidth:560}}>
-      <div style={{display:'flex',alignItems:'center',gap:14,padding:'20px',background:'linear-gradient(135deg,#1B4332,#2D6A4F)',borderRadius:'var(--rd)',marginBottom:16,color:'#fff'}}>
-        <div style={{width:52,height:52,borderRadius:'50%',background:'#52B788',display:'flex',alignItems:'center',justifyContent:'center',fontSize:18,fontWeight:700,flexShrink:0}}>{initials}</div>
-        <div style={{flex:1}}><div style={{fontFamily:"'Playfair Display',serif",fontSize:20,fontWeight:600}}>{name}</div><div style={{marginTop:6,display:'inline-flex',alignItems:'center',gap:3,padding:'2px 9px',background:'rgba(82,183,136,.2)',borderRadius:20,fontSize:10,color:'#95D5B2',letterSpacing:.4}}><Lock size={9}/>No account needed</div></div>
+      <div style={{display:'flex',alignItems:'center',gap:14,padding:'20px',background:'linear-gradient(135deg,#1C3D5A,#2D5F8A)',borderRadius:'var(--rd)',marginBottom:16,color:'#fff'}}>
+        <div style={{width:52,height:52,borderRadius:'50%',background:'#6B9EC8',display:'flex',alignItems:'center',justifyContent:'center',fontSize:18,fontWeight:700,flexShrink:0}}>{initials}</div>
+        <div style={{flex:1}}><div style={{fontFamily:"'Playfair Display',serif",fontSize:20,fontWeight:600}}>{name}</div><div style={{marginTop:6,display:'inline-flex',alignItems:'center',gap:3,padding:'2px 9px',background:'rgba(107,158,200,.2)',borderRadius:20,fontSize:10,color:'#C8E6F5',letterSpacing:.4}}><Lock size={9}/>No account needed</div></div>
         <button onClick={()=>setName(null)} style={{background:'rgba(255,255,255,.15)',border:'none',color:'#fff',padding:'7px 13px',borderRadius:8,fontSize:12,cursor:'pointer',fontFamily:'DM Sans,sans-serif'}}>Edit name</button>
       </div>
       <div style={{background:'var(--surf)',border:'1px solid var(--bd)',borderRadius:'var(--rd)',padding:'14px 16px',boxShadow:'var(--sh)',marginBottom:14}}>
         <div className="sh">Quick Actions</div>
-        {[{ico:<Upload size={14}/>,bg:'#F0FDF4',tx:'#065F46',lbl:'Upload a medical record',sub:'PDF or image analyzed by AI',fn:()=>setPage('records')},{ico:<MessageSquare size={14}/>,bg:'#EFF6FF',tx:'#1E40AF',lbl:'Ask AI a health question',sub:'Evidence-based guidance',fn:()=>setPage('ai')},{ico:<ExternalLink size={14}/>,bg:'#FEF9C3',tx:'#854D0E',lbl:'Connect Epic MyChart',sub:'FHIR sync — coming soon',fn:()=>{}}].map(a=>(
+        {[{ico:<Upload size={14}/>,bg:'#EEF5FB',tx:'#0C447C',lbl:'Upload a medical record',sub:'PDF or image analyzed by AI',fn:()=>setPage('records')},{ico:<MessageSquare size={14}/>,bg:'#EFF6FF',tx:'#1E40AF',lbl:'Ask AI a health question',sub:'Evidence-based guidance',fn:()=>setPage('ai')},{ico:<ExternalLink size={14}/>,bg:'#FEF9C3',tx:'#854D0E',lbl:'Connect Epic MyChart',sub:'FHIR sync — coming soon',fn:()=>{}}].map(a=>(
           <div key={a.lbl} className="prow" onClick={a.fn}><div className="pico" style={{background:a.bg,color:a.tx}}>{a.ico}</div><div style={{flex:1}}><div className="plbl">{a.lbl}</div><div className="plbl2">{a.sub}</div></div><ChevronRight size={14} color="var(--mu)"/></div>
         ))}
       </div>
@@ -1054,7 +1055,7 @@ export default function KatalysHealth() {
             <div className="modal-hd"><div className="modal-title">Upgrade to continue</div><button className="modal-close" onClick={()=>setShowUpgrade(false)}><X size={14}/></button></div>
             <div className="modal-body">
               <div style={{textAlign:'center',padding:'8px 0 16px'}}>
-                <div style={{width:52,height:52,borderRadius:'50%',background:'#D1FAE5',display:'flex',alignItems:'center',justifyContent:'center',margin:'0 auto 14px'}}><Heart size={22} color="#1B4332" fill="#52B788"/></div>
+                <div style={{width:52,height:52,borderRadius:'50%',background:'#C8DFF0',display:'flex',alignItems:'center',justifyContent:'center',margin:'0 auto 14px'}}><img src={katalysLogo} alt="Katalys" style={{height:28,width:'auto'}}/></div>
                 <div style={{fontFamily:"'Playfair Display',serif",fontSize:18,fontWeight:600,color:'var(--tx)',marginBottom:8}}>You've used your 3 free inquiries</div>
                 <div style={{fontSize:13,color:'var(--mu)',lineHeight:1.65,marginBottom:20}}>Upgrade to Essential for $9/month — 50 inquiries, record uploads, voice input, and PDF export. Or go Clinical for full Opus deep reasoning.</div>
                 <button className="btn btnP btnfull" style={{marginBottom:8}} onClick={()=>{setShowUpgrade(false);setPage('plans');}}><CreditCard size={14}/>See plans &amp; pricing</button>
@@ -1071,12 +1072,12 @@ export default function KatalysHealth() {
         <div className="phone">
           <div className="mob-hd">
             {page==='home'
-              ?<div className="logo"><Heart size={15} fill="#52B788" color="#52B788"/>Katalys Health<span style={{fontSize:11,fontWeight:400,color:'var(--mu)',borderLeft:'1px solid var(--bd)',paddingLeft:8,marginLeft:2}}><a href="https://www.bioprecisionaging.com" target="_blank" rel="noopener noreferrer" style={{color:'var(--mu)',textDecoration:'none'}}>Bio Precision Aging</a></span></div>
+              ?<div className="logo"><img src={katalysLogo} alt="Katalys" style={{height:22,width:'auto'}}/>Katalys Health<span style={{fontSize:11,fontWeight:400,color:'var(--mu)',borderLeft:'1px solid var(--bd)',paddingLeft:8,marginLeft:2}}><a href="https://www.bioprecisionaging.com" target="_blank" rel="noopener noreferrer" style={{color:'var(--mu)',textDecoration:'none'}}>Bio Precision Aging</a></span></div>
               :<div><div className="ptitle">{{records:'My Records',ai:'AI Consultant',peptide:'Peptide Consultant',hormone:'Hormone Consultant',profile:'Profile'}[page]}</div>
               <div className="psub">{{records:'Labs, imaging & notes',ai:uploads.length>0?`Seeing ${uploads.length} record${uploads.length!==1?'s':''}` :'Upload records for full context',peptide:'Bio Precision Peptide AI',hormone:'Hormone Optimization',info:'About the platform',plans:'Explorer, Essential, Clinical',profile:name}[page]}</div></div>}
             <div style={{display:'flex',gap:7,alignItems:'center'}}>
               {page==='records'&&<button className="btn btnP btnsm" onClick={()=>!analyzing&&fileRef.current?.click()} disabled={analyzing}>{analyzing?<span className="spin"><Loader size={12}/></span>:<Upload size={12}/>}{analyzing?'Analyzing…':'Upload'}</button>}
-              <div style={{width:34,height:34,borderRadius:8,background:'#F0FDF4',border:'1px solid #D1FAE5',display:'flex',alignItems:'center',justifyContent:'center',cursor:'pointer'}}><Bell size={14} color="#2D6A4F"/></div>
+              <div style={{width:34,height:34,borderRadius:8,background:'#EEF5FB',border:'1px solid #C8DFF0',display:'flex',alignItems:'center',justifyContent:'center',cursor:'pointer'}}><Bell size={14} color="#2D5F8A"/></div>
             </div>
           </div>
           <div className="mob-content">
@@ -1092,7 +1093,7 @@ export default function KatalysHealth() {
           <nav className="bnav">
             {NAV.map(({id,lbl,I})=>{const on=page===id;return(
               <button key={id} className={`bni ${on?'on':''}`} onClick={()=>setPage(id)}>
-                <I size={21} color={on?'#1B4332':'#9CA3AF'} strokeWidth={on?2.5:1.8}/>
+                <I size={21} color={on?'#1C3D5A':'#9CA3AF'} strokeWidth={on?2.5:1.8}/>
                 <span className="bnlbl">{lbl}</span>
                 {on&&<div className="bnd"/>}
               </button>
@@ -1105,7 +1106,7 @@ export default function KatalysHealth() {
       <div className="desk-app">
         <aside className="desk-side">
           <div className="desk-brand">
-            <Heart size={18} fill="#52B788" color="#52B788"/>
+            <img src={katalysLogo} alt="Katalys" style={{height:28,width:'auto'}}/>
             <div><span className="desk-brand-name">Katalys Health</span><div style={{fontSize:10,color:'rgba(255,255,255,.5)',marginTop:2,letterSpacing:'.2px'}}>Powered by <a href="https://www.bioprecisionaging.com" target="_blank" rel="noopener noreferrer" style={{color:'rgba(255,255,255,.7)',textDecoration:'none',fontWeight:500}}>Bio Precision Aging</a></div></div>
           </div>
           <nav className="desk-nav">
