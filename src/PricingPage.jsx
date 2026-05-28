@@ -122,10 +122,16 @@ function FAQItem({ q, a }) {
 export default function PricingPage({ onSelectPlan, currentTier = 'explorer' }) {
   const [billing] = useState('monthly');
 
+  const CHECKOUT_URLS = {
+    essential: 'https://katalys.lemonsqueezy.com/checkout/buy/1f557ee2-08fe-4bd7-a508-6d2f7f8ee12f',
+    clinical:  'https://katalys.lemonsqueezy.com/checkout/buy/4cd507e5-5d54-4813-a589-65d0e52952c2',
+  };
+
   const handleCta = (planId) => {
     if (planId === 'explorer') return;
-    if (onSelectPlan) onSelectPlan(planId);
-    else window.open('https://katalyshealth.com/upgrade', '_blank');
+    if (CHECKOUT_URLS[planId]) {
+      window.open(CHECKOUT_URLS[planId], '_blank');
+    }
   };
 
   return (
