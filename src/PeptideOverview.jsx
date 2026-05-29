@@ -426,7 +426,7 @@ CLINICAL RULES (always follow)
             </span>
           </button>
           <button style={{ ...srcBtnStyle(true), cursor: 'default' }}>
-            🧬 Katalys Peptide Library
+            🧬 BioVise Peptide Library
             <span style={{ ...toggleStyle(true), cursor: 'default' }}>
               <span style={{ position: 'absolute', width: 16, height: 16, borderRadius: '50%', background: '#fff', top: 2, left: 18, transition: 'all .2s', boxShadow: '0 1px 3px rgba(0,0,0,.2)' }}/>
             </span>
@@ -691,7 +691,7 @@ export default function PeptideOverview() {
     <div style={{ background: 'transparent', minHeight: '100%', fontFamily: "'DM Sans', system-ui, sans-serif" }}>
       <div style={{ padding: '28px 32px', maxWidth: 900, width: '100%' }}>
         <div style={{ marginBottom: 24 }}>
-          <div style={{ fontSize: 11, letterSpacing: 3, color: C.textXs, fontWeight: 700, marginBottom: 10, textTransform: 'uppercase' }}>Katalys · Bio Precision Aging</div>
+          <div style={{ fontSize: 11, letterSpacing: 3, color: C.textXs, fontWeight: 700, marginBottom: 10, textTransform: 'uppercase' }}>BioVise · Bio Precision Aging</div>
           <h1 style={{ fontSize: 28, fontWeight: 800, color: C.green1, margin: '0 0 8px', fontFamily: "'Playfair Display', serif" }}>Peptide Consultant</h1>
           <p style={{ color: C.textSm, fontSize: 14.5, margin: 0, lineHeight: 1.6 }}>AI-assisted guidance for evidence-based peptide therapy. Explore the library, filter by goal, or chat with our AI consultant.</p>
         </div>
