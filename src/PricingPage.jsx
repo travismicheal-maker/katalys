@@ -1,5 +1,5 @@
 // src/PricingPage.jsx
-// Katalys Health — Plans & Pricing page
+// BioVise Health — Plans & Pricing page
 // Styled to match App.jsx design system exactly
 
 import { useState } from 'react';
@@ -91,15 +91,15 @@ const FAQS = [
   },
   {
     q: 'What is Opus deep reasoning?',
-    a: 'Clinical tier unlocks Claude Opus — Anthropic\'s most powerful model — for complex multi-system clinical questions, differential diagnoses, and risk assessments. Katalys routes to Opus automatically when your query warrants it. Simpler questions use the faster Sonnet model regardless of tier.',
+    a: 'Clinical tier unlocks Claude Opus — Anthropic\'s most powerful model — for complex multi-system clinical questions, differential diagnoses, and risk assessments. BioVise routes to Opus automatically when your query warrants it. Simpler questions use the faster Sonnet model regardless of tier.',
   },
   {
     q: 'Is my data stored anywhere?',
-    a: 'No. Katalys uses session-only storage. Your uploaded records and conversation history exist only in your browser tab. Nothing is saved to any database. Closing the tab clears everything — regardless of your plan tier.',
+    a: 'No. BioVise uses session-only storage. Your uploaded records and conversation history exist only in your browser tab. Nothing is saved to any database. Closing the tab clears everything — regardless of your plan tier.',
   },
   {
     q: 'Do you accept HSA / FSA cards?',
-    a: 'Katalys is a clinical decision-support tool, not a medical provider — so HSA/FSA eligibility depends on your specific plan. Many users successfully submit AI health tools as eligible expenses, but we recommend checking with your HSA/FSA administrator.',
+    a: 'BioVise is a clinical decision-support tool, not a medical provider — so HSA/FSA eligibility depends on your specific plan. Many users successfully submit AI health tools as eligible expenses, but we recommend checking with your HSA/FSA administrator.',
   },
 ];
 
@@ -143,7 +143,7 @@ export default function PricingPage({ onSelectPlan, currentTier = 'explorer' }) 
         <div style={{ position: 'relative' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
             <Heart size={16} fill="#6B9EC8" color="#6B9EC8" />
-            <span style={{ fontSize: 12, color: 'rgba(255,255,255,.6)', letterSpacing: '.3px' }}>Katalys Health · Bio Precision Aging</span>
+            <span style={{ fontSize: 12, color: 'rgba(255,255,255,.6)', letterSpacing: '.3px' }}>BioVise Health · Bio Precision Aging</span>
           </div>
           <div style={{ fontFamily: "'Playfair Display', serif", fontSize: 28, fontWeight: 700, lineHeight: 1.2, marginBottom: 10 }}>Choose your plan</div>
           <div style={{ fontSize: 14, color: 'rgba(255,255,255,.78)', lineHeight: 1.65, maxWidth: 520 }}>
@@ -278,8 +278,8 @@ export default function PricingPage({ onSelectPlan, currentTier = 'explorer' }) 
 
       {/* ── Footer disclaimer ── */}
       <div style={{ fontSize: 11, color: 'var(--mu)', textAlign: 'center', lineHeight: 1.7, padding: '0 16px' }}>
-        Powered by <a href="https://www.bioprecisionaging.com" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--g9)', fontWeight: 600, textDecoration: 'none' }}>Bio Precision Aging</a> · katalyshealth.com<br />
-        Katalys Health is a clinical decision-support tool, not a licensed medical provider. For educational purposes only.<br />
+        Powered by <a href="https://www.bioprecisionaging.com" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--g9)', fontWeight: 600, textDecoration: 'none' }}>Bio Precision Aging</a> · biovisehealth.com<br />
+        BioVise Health is a clinical decision-support tool, not a licensed medical provider. For educational purposes only.<br />
         Payments processed securely by Lemon Squeezy. Cancel anytime — no questions asked.
       </div>
     </div>
