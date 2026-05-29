@@ -1,7 +1,7 @@
-// KatalysInfoPage.jsx
-// Drop into src/ — rename from VitaeInfoPage.jsx or keep both.
+// BioViseInfoPage.jsx
+// Drop into src/ as BioViseInfoPage.jsx
 // Props:
-//   onLaunch — function called by "Use Katalys AI Now" button
+//   onLaunch — function called by "Use BioVise AI Now" button
 //               In App.jsx pass: onLaunch={() => setPage('home')}
 
 import { useState } from "react";
@@ -114,7 +114,7 @@ function FAQ({ q, a }) {
   );
 }
 
-export default function KatalysInfoPage({ onLaunch }) {
+export default function BioViseInfoPage({ onLaunch }) {
   const section = (children, bg = C.white) => (
     <section style={{ background: bg, padding: '60px 24px' }}>
       <div style={{ maxWidth: 860, margin: '0 auto' }}>{children}</div>
@@ -130,8 +130,8 @@ export default function KatalysInfoPage({ onLaunch }) {
         <div style={{ position: 'relative', maxWidth: 740, margin: '0 auto' }}>
 
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, marginBottom: 22 }}>
-            <img src={katalysLogo} alt="Katalys" style={{height:32,width:'auto'}}/>
-            <span style={{ fontSize: 22, fontWeight: 800, letterSpacing: '-.3px' }}>Katalys Health</span>
+            <img src={katalysLogo} alt="BioVise" style={{height:32,width:'auto'}}/>
+            <span style={{ fontSize: 22, fontWeight: 800, letterSpacing: '-.3px' }}>BioVise Health</span>
             <span style={{ fontSize: 12, color: 'rgba(255,255,255,.5)', borderLeft: '1px solid rgba(255,255,255,.2)', paddingLeft: 10, marginLeft: 4 }}>by Bio Precision Aging</span>
           </div>
 
@@ -141,12 +141,12 @@ export default function KatalysInfoPage({ onLaunch }) {
           </h1>
 
           <p style={{ fontSize: 16, lineHeight: 1.75, color: 'rgba(255,255,255,.82)', margin: '0 auto 14px', maxWidth: 620 }}>
-            Katalys is not a chatbot. It is a precision medicine intelligence platform built on peer-reviewed
+            BioVise is not a chatbot. It is a precision medicine intelligence platform built on peer-reviewed
             clinical research, proprietary peptide formulary data, and a GRADE-graded evidence framework —
             designed for patients and clinicians who demand more than search engine summaries.
           </p>
           <p style={{ fontSize: 15, lineHeight: 1.7, color: 'rgba(255,255,255,.7)', margin: '0 auto 30px', maxWidth: 600 }}>
-            Katalys is also home to the <strong style={{ color: C.emeraldLt }}>world's first dedicated AI Peptide Consultant</strong> and{' '}
+            BioVise is also home to the <strong style={{ color: C.emeraldLt }}>world's first dedicated AI Peptide Consultant</strong> and{' '}
             <strong style={{ color: C.emeraldLt }}>AI Hormone Consultant</strong> — purpose-built specialty modules powered by a
             proprietary clinical knowledge base that no general AI chatbot, telehealth platform, or supplement
             company can match.
@@ -167,7 +167,7 @@ export default function KatalysInfoPage({ onLaunch }) {
               onMouseEnter={e => e.currentTarget.style.opacity = '.88'}
               onMouseLeave={e => e.currentTarget.style.opacity = '1'}
             >
-              Use Katalys AI Now <ArrowRight size={17} strokeWidth={2.5}/>
+              Use BioVise AI Now <ArrowRight size={17} strokeWidth={2.5}/>
             </button>
           )}
         </div>
@@ -190,13 +190,13 @@ export default function KatalysInfoPage({ onLaunch }) {
         <>
           <SectionHeader
             eyebrow="Comparison"
-            title="Why Katalys beats ChatGPT and generic AI"
-            sub="General-purpose AI is trained to be helpful to everyone. Katalys is built to be clinically precise for you."
+            title="Why BioVise beats ChatGPT and generic AI"
+            sub="General-purpose AI is trained to be helpful to everyone. BioVise is built to be clinically precise for you."
           />
           <div style={{ ...card({ padding: 0 }), overflow: 'hidden', marginBottom: 28 }}>
             <div style={{ display: 'grid', gridTemplateColumns: '1.6fr 1fr 1fr 1fr', padding: '12px 16px', background: C.emerald, gap: 8 }}>
               <span style={{ fontSize: 12, fontWeight: 700, color: 'rgba(255,255,255,.6)', textTransform: 'uppercase', letterSpacing: '.4px' }}>Capability</span>
-              <span style={{ fontSize: 12, fontWeight: 700, color: C.emeraldLt, textTransform: 'uppercase', letterSpacing: '.4px', display: 'flex', alignItems: 'center', gap: 5 }}><Heart size={12} fill={C.emeraldLt}/>Katalys</span>
+              <span style={{ fontSize: 12, fontWeight: 700, color: C.emeraldLt, textTransform: 'uppercase', letterSpacing: '.4px', display: 'flex', alignItems: 'center', gap: 5 }}><Heart size={12} fill={C.emeraldLt}/>BioVise</span>
               <span style={{ fontSize: 12, fontWeight: 700, color: 'rgba(255,255,255,.5)', textTransform: 'uppercase', letterSpacing: '.4px' }}>ChatGPT</span>
               <span style={{ fontSize: 12, fontWeight: 700, color: 'rgba(255,255,255,.5)', textTransform: 'uppercase', letterSpacing: '.4px' }}>Generic Claude</span>
             </div>
@@ -216,7 +216,7 @@ export default function KatalysInfoPage({ onLaunch }) {
           <div style={{ ...card({ background: C.mint, borderColor: C.mintDark }), display: 'flex', gap: 14, alignItems: 'flex-start' }}>
             <Info size={18} color={C.emeraldMid} style={{ flexShrink: 0, marginTop: 2 }} />
             <p style={{ margin: 0, fontSize: 13.5, color: C.emeraldMid, lineHeight: 1.65 }}>
-              <strong>The core difference:</strong> When you ask ChatGPT about BPC-157, it searches the open web — including Reddit threads, supplement blogs, and bodybuilding forums. When you ask Katalys, it queries a curated clinical formulary built from peer-reviewed human and animal studies, then searches PubMed and Cochrane only if additional evidence is needed. The sources are not the same. The quality is not the same.
+              <strong>The core difference:</strong> When you ask ChatGPT about BPC-157, it searches the open web — including Reddit threads, supplement blogs, and bodybuilding forums. When you ask BioVise, it queries a curated clinical formulary built from peer-reviewed human and animal studies, then searches PubMed and Cochrane only if additional evidence is needed. The sources are not the same. The quality is not the same.
             </p>
           </div>
         </>,
@@ -229,10 +229,10 @@ export default function KatalysInfoPage({ onLaunch }) {
           <SectionHeader
             eyebrow="Research Architecture"
             title="Evidence-based medicine, not the internet"
-            sub="Katalys's retrieval chain is built around a single principle: clinical decisions require clinical-grade sources."
+            sub="BioVise's retrieval chain is built around a single principle: clinical decisions require clinical-grade sources."
           />
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 14, marginBottom: 28 }}>
-            <SourceTier label="Step 1 — Proprietary KB (always first)" sites={['Katalys Peptide Formulary', 'Bio Precision Aging Clinical Notes', 'Extracted Peer-Review Data']} color={C.emeraldMid} bg={C.mint} border={C.mintDark} />
+            <SourceTier label="Step 1 — Proprietary KB (always first)" sites={['BioVise Peptide Formulary', 'Bio Precision Aging Clinical Notes', 'Extracted Peer-Review Data']} color={C.emeraldMid} bg={C.mint} border={C.mintDark} />
             <SourceTier label="Step 2 — Literature fallback only" sites={['PubMed / NCBI', 'Cochrane Library', 'NEJM', 'The Lancet', 'JAMA', 'BMJ', 'ACC / AHA', 'Endocrine Society', 'NIH']} color="#1560BD" bg="#EBF4FF" border="#B3D1F5" />
           </div>
           <div style={{ ...card({ background: C.redLt, borderColor: '#F5B8B8' }), marginBottom: 14, display: 'flex', gap: 14, alignItems: 'flex-start' }}>
@@ -240,15 +240,15 @@ export default function KatalysInfoPage({ onLaunch }) {
             <div>
               <div style={{ fontSize: 13, fontWeight: 700, color: C.red, marginBottom: 4 }}>Permanently excluded — hard domain block</div>
               <p style={{ margin: 0, fontSize: 13, color: '#8B2020', lineHeight: 1.6 }}>
-                WebMD · Healthline · Reddit · Mayo Clinic consumer pages · Bodybuilding.com · supplement retailer blogs · YouTube · any social media platform. These domains are blocked at the API proxy level — Katalys cannot retrieve from them even if prompted.
+                WebMD · Healthline · Reddit · Mayo Clinic consumer pages · Bodybuilding.com · supplement retailer blogs · YouTube · any social media platform. These domains are blocked at the API proxy level — BioVise cannot retrieve from them even if prompted.
               </p>
             </div>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 12 }}>
             {[
               { icon: BookOpen,   title: 'GRADE Evidence Framework',   body: 'Every clinical claim is labeled: [Verified — High], [Verified — Moderate], [Verified — Low], [Speculation], or [Unknown]. No fact is presented without its evidence quality declared.' },
-              { icon: Microscope, title: 'Statistics, not summaries',   body: 'Katalys presents actual study data: p-values, sample sizes, effect sizes, confidence intervals. "BPC-157 may help healing" becomes "83% tendon tensile strength recovery vs 30% control at day 14, p<0.001."' },
-              { icon: BarChart3,  title: 'Bayesian clinical reasoning', body: 'Katalys reasons like a senior clinician — stating pre-test probability, updating on your uploaded records, and giving differential probabilities rather than binary yes/no answers.' },
+              { icon: Microscope, title: 'Statistics, not summaries',   body: 'BioVise presents actual study data: p-values, sample sizes, effect sizes, confidence intervals. "BPC-157 may help healing" becomes "83% tendon tensile strength recovery vs 30% control at day 14, p<0.001."' },
+              { icon: BarChart3,  title: 'Bayesian clinical reasoning', body: 'BioVise reasons like a senior clinician — stating pre-test probability, updating on your uploaded records, and giving differential probabilities rather than binary yes/no answers.' },
               { icon: Cpu,        title: 'Smart model routing',          body: 'Standard questions use Claude Sonnet. Questions containing clinical reasoning triggers ("why", "should I", "how serious") automatically escalate to Claude Opus with a 10,000-token extended reasoning budget.' },
             ].map(f => <FeatureCard key={f.title} icon={f.icon} title={f.title}>{f.body}</FeatureCard>)}
           </div>
@@ -269,7 +269,7 @@ export default function KatalysInfoPage({ onLaunch }) {
             <div style={{ position: 'relative' }}>
               <div style={{ ...pill(C.mint, C.emeraldMid, C.mintDark), marginBottom: 14 }}>Proprietary Knowledge Base</div>
               <p style={{ fontSize: 15, lineHeight: 1.7, color: 'rgba(255,255,255,.85)', margin: '0 0 16px' }}>
-                The Katalys Peptide Knowledge Base is not scraped from the internet. It is built entry-by-entry from extracted peer-reviewed research articles, with each data point carrying a specific citation, evidence grade, and clinical confidence level. No AI chatbot, no hospital website, and no telehealth platform offers this.
+                The BioVise Peptide Knowledge Base is not scraped from the internet. It is built entry-by-entry from extracted peer-reviewed research articles, with each data point carrying a specific citation, evidence grade, and clinical confidence level. No AI chatbot, no hospital website, and no telehealth platform offers this.
               </p>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 10 }}>
                 {['20+ peptides with full clinical profiles','200+ studies for BPC-157 alone','Dosing: typical, range, route, cycle, notes','Mechanism of action with pathway detail','Side effect profiles with evidence grades','Stack protocols and timing guidance','CJC-1295: 4 peer-reviewed human studies extracted','Continuously updated from new literature'].map(i => (
@@ -317,9 +317,9 @@ export default function KatalysInfoPage({ onLaunch }) {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 14 }}>
             {[
               { icon: Brain,       title: 'Full clinical system prompt',      body: 'The Hormone Consultant runs on a medical-grade system identity: a senior attending physician and clinical pharmacologist who communicates with intellectual rigor, explicit Bayesian reasoning, and proactive safety flagging.', accent: C.emeraldLt },
-              { icon: FileText,    title: 'Upload your hormone labs',          body: 'Upload testosterone panels, thyroid, estradiol, cortisol, DHEA, IGF-1, or any endocrine workup. Katalys auto-detects flagged values, compares them to guideline targets (Endocrine Society, AACE), and generates a clinical interpretation.', accent: C.gold },
-              { icon: Search,      title: 'Guideline-anchored responses',      body: 'Every recommendation is anchored to current Endocrine Society, AACE, or relevant specialty guideline. Katalys states the guideline, the target, your lab value, and the gap — exactly the way a real consultant would.', accent: '#5B8DEF' },
-              { icon: ShieldCheck, title: 'Drug interactions & safety alerts', body: 'Katalys proactively surfaces drug interactions, contraindications, and safety signals — not only when asked, but whenever the clinical picture warrants it. The same way a department chief would catch what the ordering physician missed.', accent: C.red },
+              { icon: FileText,    title: 'Upload your hormone labs',          body: 'Upload testosterone panels, thyroid, estradiol, cortisol, DHEA, IGF-1, or any endocrine workup. BioVise auto-detects flagged values, compares them to guideline targets (Endocrine Society, AACE), and generates a clinical interpretation.', accent: C.gold },
+              { icon: Search,      title: 'Guideline-anchored responses',      body: 'Every recommendation is anchored to current Endocrine Society, AACE, or relevant specialty guideline. BioVise states the guideline, the target, your lab value, and the gap — exactly the way a real consultant would.', accent: '#5B8DEF' },
+              { icon: ShieldCheck, title: 'Drug interactions & safety alerts', body: 'BioVise proactively surfaces drug interactions, contraindications, and safety signals — not only when asked, but whenever the clinical picture warrants it. The same way a department chief would catch what the ordering physician missed.', accent: C.red },
             ].map(f => <FeatureCard key={f.title} icon={f.icon} title={f.title} accent={f.accent}>{f.body}</FeatureCard>)}
           </div>
         </>,
@@ -329,15 +329,15 @@ export default function KatalysInfoPage({ onLaunch }) {
       {/* ── RECORDS & PRIVACY ── */}
       {section(
         <>
-          <SectionHeader eyebrow="Records & Privacy" title="Your records are yours. Always." sub="Katalys handles your most sensitive medical documents. Here is exactly how it works." />
+          <SectionHeader eyebrow="Records & Privacy" title="Your records are yours. Always." sub="BioVise handles your most sensitive medical documents. Here is exactly how it works." />
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 14 }}>
             {[
               { icon: UploadCloud, title: 'Upload any medical document',   body: 'Labs, imaging reports, clinical notes, medication lists, specialist letters — upload as PDF or image. The AI analyzer extracts clinically significant findings, flags abnormal values, and categorizes the document in seconds.' },
               { icon: Lock,        title: 'Session-only storage',           body: 'Your uploaded documents exist only for the duration of your session. Never stored on external servers, never indexed, never used to train AI models, never shared with third parties. When you close the app, they are gone.' },
-              { icon: ShieldCheck, title: 'Not used for AI training',       body: 'Unlike ChatGPT Plus, Katalys routes through an authenticated Anthropic API key with no data retention agreements. Your health data is not a training asset.' },
+              { icon: ShieldCheck, title: 'Not used for AI training',       body: 'Unlike ChatGPT Plus, BioVise routes through an authenticated Anthropic API key with no data retention agreements. Your health data is not a training asset.' },
               { icon: Zap,         title: 'Instant clinical flagging',      body: 'On upload, the document analyzer automatically detects values marked H (high), L (low), or CRITICAL — and flags the record with a visual alert before you even ask a question.' },
               { icon: Users,       title: 'Full record context in AI chat', body: 'Once uploaded, your records are injected into the AI context window. Every response takes your actual values into account — your Lp(a), testosterone level, eGFR — not population averages.' },
-              { icon: FileText,    title: 'Paste text & voice input',       body: 'No PDF? Use the paste panel to copy-paste lab values, prescriptions, or clinical notes. Voice input lets you describe symptoms conversationally and Katalys responds with clinical-grade precision.' },
+              { icon: FileText,    title: 'Paste text & voice input',       body: 'No PDF? Use the paste panel to copy-paste lab values, prescriptions, or clinical notes. Voice input lets you describe symptoms conversationally and BioVise responds with clinical-grade precision.' },
             ].map(f => <FeatureCard key={f.title} icon={f.icon} title={f.title}>{f.body}</FeatureCard>)}
           </div>
         </>,
@@ -364,7 +364,7 @@ export default function KatalysInfoPage({ onLaunch }) {
             ))}
           </div>
           <div style={{ ...card({ background: C.emerald, color: C.white, textAlign: 'center', padding: '32px 36px' }) }}>
-            <div style={{ fontSize: 18, fontWeight: 700, marginBottom: 12, color: C.white }}>Katalys is the only platform that combines all five:</div>
+            <div style={{ fontSize: 18, fontWeight: 700, marginBottom: 12, color: C.white }}>BioVise is the only platform that combines all five:</div>
             <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 12, marginBottom: 28 }}>
               {['World-first dedicated AI Peptide Consultant','World-first dedicated AI Hormone Consultant','Peer-review-only evidence sourcing','Personalized to your uploaded records','GRADE evidence framework on every claim'].map(i => (
                 <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 7, fontSize: 13, color: 'rgba(255,255,255,.85)' }}>
@@ -377,7 +377,7 @@ export default function KatalysInfoPage({ onLaunch }) {
                 onClick={onLaunch}
                 style={{ display: 'inline-flex', alignItems: 'center', gap: 10, background: C.emeraldLt, color: C.emerald, border: 'none', borderRadius: 12, cursor: 'pointer', fontSize: 15, fontWeight: 800, padding: '14px 32px', letterSpacing: '.1px' }}
               >
-                Use Katalys AI Now <ArrowRight size={17} strokeWidth={2.5}/>
+                Use BioVise AI Now <ArrowRight size={17} strokeWidth={2.5}/>
               </button>
             )}
           </div>
@@ -390,12 +390,12 @@ export default function KatalysInfoPage({ onLaunch }) {
         <>
           <SectionHeader eyebrow="FAQ" title="Common questions" />
           {[
-            { q: 'Is Katalys a replacement for my doctor?',               a: "No. Katalys is a clinical decision-support and education platform. Every response ends with a clinical disclaimer. Katalys is designed to make you a more informed patient or a better-prepared clinician — not to replace the physician relationship." },
-            { q: 'Where does the peptide knowledge come from?',           a: "The Katalys peptide knowledge base is built by a practicing peptide clinician who uploads peer-reviewed research articles directly into the system. Each article is read by Claude, which extracts dosing, mechanisms, side effects, evidence levels, and citations into structured entries in the proprietary formulary. This data is then injected into every peptide consultation as primary reference material." },
+            { q: 'Is BioVise a replacement for my doctor?',               a: "No. BioVise is a clinical decision-support and education platform. Every response ends with a clinical disclaimer. BioVise is designed to make you a more informed patient or a better-prepared clinician — not to replace the physician relationship." },
+            { q: 'Where does the peptide knowledge come from?',           a: "The BioVise peptide knowledge base is built by a practicing peptide clinician who uploads peer-reviewed research articles directly into the system. Each article is read by Claude, which extracts dosing, mechanisms, side effects, evidence levels, and citations into structured entries in the proprietary formulary. This data is then injected into every peptide consultation as primary reference material." },
             { q: "Why can't I just use ChatGPT for this?",               a: "ChatGPT has no peptide-specific clinical knowledge base, no GRADE evidence framework, no restriction on sources (it will cite Reddit and bodybuilding forums alongside NEJM), no ability to analyze your uploaded medical records in clinical context, and no routing to a deeper reasoning model for complex clinical questions. The difference in output quality for specialized clinical questions is significant." },
-            { q: 'How does Katalys decide when to use the more powerful model?', a: 'The API proxy analyzes every query against clinical reasoning trigger patterns: "why", "should I", "how serious", "what does this mean", "what are my options". When a trigger is detected, the request is automatically routed to Claude Opus with a 10,000-token extended reasoning budget — the equivalent of asking a senior consultant instead of a junior resident.' },
-            { q: 'Can I upload any medical document?',                    a: "Yes. Katalys accepts PDFs and images of labs, imaging reports, clinical notes, medication lists, and specialist letters. The analyzer auto-detects document type, date, provider, and flags any values outside reference range. You can also paste text directly using the paste panel." },
-            { q: 'What is the GRADE evidence framework?',                 a: 'GRADE (Grading of Recommendations Assessment, Development and Evaluation) is the international standard for rating clinical evidence quality. Katalys applies it to every clinically significant claim: [Verified — High] for RCTs and strong systematic reviews, [Verified — Moderate] for RCTs with limitations, [Verified — Low] for observational data, [Speculation] for clinical reasoning without direct trial support, and [Unknown] for conflicting or absent evidence.' },
+            { q: 'How does BioVise decide when to use the more powerful model?', a: 'The API proxy analyzes every query against clinical reasoning trigger patterns: "why", "should I", "how serious", "what does this mean", "what are my options". When a trigger is detected, the request is automatically routed to Claude Opus with a 10,000-token extended reasoning budget — the equivalent of asking a senior consultant instead of a junior resident.' },
+            { q: 'Can I upload any medical document?',                    a: "Yes. BioVise accepts PDFs and images of labs, imaging reports, clinical notes, medication lists, and specialist letters. The analyzer auto-detects document type, date, provider, and flags any values outside reference range. You can also paste text directly using the paste panel." },
+            { q: 'What is the GRADE evidence framework?',                 a: 'GRADE (Grading of Recommendations Assessment, Development and Evaluation) is the international standard for rating clinical evidence quality. BioVise applies it to every clinically significant claim: [Verified — High] for RCTs and strong systematic reviews, [Verified — Moderate] for RCTs with limitations, [Verified — Low] for observational data, [Speculation] for clinical reasoning without direct trial support, and [Unknown] for conflicting or absent evidence.' },
           ].map(f => <FAQ key={f.q} {...f} />)}
         </>,
         C.white
@@ -404,11 +404,11 @@ export default function KatalysInfoPage({ onLaunch }) {
       {/* ── FOOTER ── */}
       <footer style={{ background: C.emerald, padding: '32px 24px', textAlign: 'center' }}>
         <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
-          <img src={katalysLogo} alt="Katalys" style={{height:22,width:'auto'}}/>
-          <span style={{ fontSize: 16, fontWeight: 700, color: C.white }}>Katalys Health</span>
+          <img src={katalysLogo} alt="BioVise" style={{height:22,width:'auto'}}/>
+          <span style={{ fontSize: 16, fontWeight: 700, color: C.white }}>BioVise Health</span>
         </div>
         <p style={{ fontSize: 12, color: 'rgba(255,255,255,.5)', margin: '0 auto', maxWidth: 520, lineHeight: 1.65 }}>
-          For educational and clinical decision-support purposes only. All management decisions should be made in the context of the full clinical picture by the treating clinician. Katalys Health is not a licensed medical practice and does not establish a physician-patient relationship.
+          For educational and clinical decision-support purposes only. All management decisions should be made in the context of the full clinical picture by the treating clinician. BioVise Health is not a licensed medical practice and does not establish a physician-patient relationship.
         </p>
         <p style={{ fontSize: 11, color: 'rgba(255,255,255,.3)', marginTop: 14 }}>
           Powered by{' '}
