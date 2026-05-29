@@ -1,10 +1,8 @@
 // src/AuthGate.jsx
-// Katalys Health — Authentication gate
+// BioVise Health — Authentication gate
 // Shows Clerk login/signup UI to unauthenticated visitors.
 // Authenticated users pass straight through to the main app.
-
 import { SignedIn, SignedOut, SignIn } from '@clerk/clerk-react'
-
 export default function AuthGate({ children }) {
   return (
     <>
@@ -35,9 +33,8 @@ export default function AuthGate({ children }) {
               color: '#1C3D5A',
               fontFamily: "'Playfair Display', Georgia, serif",
               letterSpacing: '-.3px',
-            }}>Katalys Health</span>
+            }}>BioVise Health</span>
           </div>
-
           {/* Clerk sign-in component — no routing prop for SPA compatibility */}
           <SignIn
             appearance={{
@@ -83,7 +80,6 @@ export default function AuthGate({ children }) {
               },
             }}
           />
-
           {/* Footer */}
           <div style={{
             marginTop: 24,
@@ -106,7 +102,6 @@ export default function AuthGate({ children }) {
           </div>
         </div>
       </SignedOut>
-
       {/* ── Signed in: render the full app ── */}
       <SignedIn>
         {children}
