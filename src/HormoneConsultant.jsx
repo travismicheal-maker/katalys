@@ -312,7 +312,34 @@ RESPONSE FORMAT REQUIREMENTS
 - Use - for bullet points, NOT asterisks (*)
 - Use ## for section headers (they render as styled headers)
 - Use --- on its own line for section breaks (renders as a visual line)
-- Use markdown tables (| Col | Col |\n|---|---|\n| val | val |) for comparative data`;
+- Use markdown tables (| Col | Col |\n|---|---|\n| val | val |) for comparative data
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+CITATION FORMAT (required on every response)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+- Use numbered inline citations [1] [2] immediately after each factual claim
+- End every response with a numbered References section:
+  [1] Author Year, Journal, PMID:XXXXXXX
+  [2] Organization Year, Guideline name, https://url
+- Label each citation type in the reference: [RCT], [Meta-analysis], [Guideline], [Cohort], [Case series]
+- Example: "Testosterone was non-inferior to placebo for MACE [1]"
+  [1] Lincoff AM et al. 2023, N Engl J Med 389:107 [RCT, n=5,246] PMID:37326322
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+EVIDENCE HARD STOP
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+If peer-reviewed evidence does not exist to support a clinical claim, state this explicitly and do not speculate. Do not generate a response where the evidence base is absent.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ENHANCED GRADE LABELS (use these exact formats)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Include study type and sample size in every GRADE label when known:
+[Verified — High | RCT n=5246]
+[Verified — High | Meta-analysis 36 RCTs]
+[Verified — Moderate | Cohort n=788]
+[Verified — Low | Case series]
+[Emerging Evidence | Pilot RCT n=40]
+[Speculation | Mechanistic only]`;
 
 
 
@@ -432,12 +459,17 @@ function MessageBubble({ msg }) {
 
   html = html
     .replace(/\*\*(.*?)\*\*/g,'<strong style="color:#0f172a;font-weight:700">$1</strong>')
-    .replace(/\[Verified\s*[-—]\s*High\]/g,'<span style="display:inline-flex;align-items:center;background:#f0fdf4;color:#15803d;padding:1px 7px;border-radius:4px;font-size:10px;font-weight:700;border:1px solid #bbf7d0">✓ Verified High</span>')
-    .replace(/\[Verified\s*[-—]\s*Moderate\]/g,'<span style="display:inline-flex;align-items:center;background:#dbeafe;color:#1e40af;padding:1px 7px;border-radius:4px;font-size:10px;font-weight:700;border:1px solid #bfdbfe">✓ Verified Mod</span>')
-    .replace(/\[Verified\s*[-—]\s*Low\]/g,'<span style="display:inline-flex;align-items:center;background:#fef9c3;color:#854d0e;padding:1px 7px;border-radius:4px;font-size:10px;font-weight:700;border:1px solid #fde68a">✓ Verified Low</span>')
+    .replace(/\[Verified\s*[-—]\s*High(?:\s*\|\s*([^\]]+))?\]/g,(_,x)=>`<span style="display:inline-flex;align-items:center;background:#f0fdf4;color:#15803d;padding:1px 7px;border-radius:4px;font-size:10px;font-weight:700;border:1px solid #bbf7d0">✓ Verified High${x?` | ${x.trim()}`:''}
+</span>`)
+    .replace(/\[Verified\s*[-—]\s*Moderate(?:\s*\|\s*([^\]]+))?\]/g,(_,x)=>`<span style="display:inline-flex;align-items:center;background:#dbeafe;color:#1e40af;padding:1px 7px;border-radius:4px;font-size:10px;font-weight:700;border:1px solid #bfdbfe">✓ Verified Mod${x?` | ${x.trim()}`:''}
+</span>`)
+    .replace(/\[Verified\s*[-—]\s*Low(?:\s*\|\s*([^\]]+))?\]/g,(_,x)=>`<span style="display:inline-flex;align-items:center;background:#fef9c3;color:#854d0e;padding:1px 7px;border-radius:4px;font-size:10px;font-weight:700;border:1px solid #fde68a">✓ Verified Low${x?` | ${x.trim()}`:''}
+</span>`)
     .replace(/\[Verified\]/g,'<span style="display:inline-flex;align-items:center;background:#f0fdf4;color:#15803d;padding:1px 7px;border-radius:4px;font-size:10px;font-weight:700;border:1px solid #bbf7d0">✓ Verified</span>')
-    .replace(/\[Emerging Evidence\]/g,'<span style="display:inline-flex;align-items:center;background:#fffbeb;color:#92400e;padding:1px 7px;border-radius:4px;font-size:10px;font-weight:700;border:1px solid #fde68a">⚡ Emerging</span>')
-    .replace(/\[Speculation\]/g,'<span style="display:inline-flex;align-items:center;background:#f5f3ff;color:#6d28d9;padding:1px 7px;border-radius:4px;font-size:10px;font-weight:700;border:1px solid #ddd6fe">? Speculation</span>')
+    .replace(/\[Emerging Evidence(?:\s*\|\s*([^\]]+))?\]/g,(_,x)=>`<span style="display:inline-flex;align-items:center;background:#fffbeb;color:#92400e;padding:1px 7px;border-radius:4px;font-size:10px;font-weight:700;border:1px solid #fde68a">⚡ Emerging${x?` | ${x.trim()}`:''}
+</span>`)
+    .replace(/\[Speculation(?:\s*\|\s*([^\]]+))?\]/g,(_,x)=>`<span style="display:inline-flex;align-items:center;background:#f5f3ff;color:#6d28d9;padding:1px 7px;border-radius:4px;font-size:10px;font-weight:700;border:1px solid #ddd6fe">? Speculation${x?` | ${x.trim()}`:''}
+</span>`)
     .replace(/⚠️([^\n<]*)/g,'<div style="margin-top:8px;padding:9px 13px;background:#fff7ed;border:1px solid #fed7aa;border-left:3px solid #ea580c;border-radius:6px;color:#9a3412;font-size:12px;line-height:1.5">⚠️$1</div>')
     .replace(/•/g,'<span style="color:#4f46e5;font-weight:bold;margin-right:3px">•</span>');
   return html;
@@ -563,9 +595,9 @@ export default function HormoneAIConsultant() {
               cache_control: { type: "ephemeral" }
             }
           ],
-          // History trim: last 6 messages (3 exchanges) prevents runaway
-          // conversation history from doubling input tokens after long sessions.
-          messages: newMessages.slice(-6).map(m => ({
+          // History trim: last 12 messages (6 exchanges) — bumped from 6 for
+          // improved follow-up quality and session continuity.
+          messages: newMessages.slice(-12).map(m => ({
             role: m.role,
             content: m.content
           })),
