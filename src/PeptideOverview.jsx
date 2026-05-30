@@ -297,7 +297,7 @@ function PeptideAIChat({ onBack }) {
     if (!text || busy) return;
     const fullHistory = [...msgs, { role: 'user', content: text }];
     setMsgs(fullHistory);
-    const history = fullHistory.slice(-8);
+    const history = fullHistory.slice(-12);  // bumped from -8 for better session continuity
     setInput('');
     setBusy(true);
     try {
@@ -325,7 +325,26 @@ CLINICAL RULES (always follow)
 - Provide specific dosing, cycling, and stacking guidance when asked
 - Never diagnose or prescribe — educate and guide clinicians
 - Flag research-only peptides and advise against unregulated online sources
-- End every clinical response with: "Always consult a licensed physician before starting any peptide protocol."`;
+- End every clinical response with: "Always consult a licensed physician before starting any peptide protocol."
+
+CITATION FORMAT (required on every response)
+- Use numbered inline citations [1] [2] immediately after each factual claim
+- End every response with a numbered References section:
+  [1] Author Year, Journal, PMID:XXXXXXX
+  [2] Organization Year, Guideline name, https://url
+- Label each citation type: [RCT], [Meta-analysis], [Guideline], [Cohort], [Case series]
+- Example: "BPC-157 accelerated tendon healing in preclinical models [1]"
+  [1] Gwyer D et al. 2019, Drug Des Devel Ther 13:2303 [Systematic Review] PMID:31410007
+
+EVIDENCE HARD STOP
+If peer-reviewed evidence does not exist to support a clinical claim, state this explicitly and do not speculate. Do not generate a response where the evidence base is absent.
+
+ENHANCED GRADE LABELS (use these formats when study data is available)
+[Verified | RCT n=XXX]
+[Verified | Meta-analysis N studies]
+[Verified | Cohort n=XXX]
+[Emerging | Pilot study n=XX]
+[Theoretical | Animal/in vitro only]`;
 
       const response = await fetch('/api/chat', {
         method: 'POST',
