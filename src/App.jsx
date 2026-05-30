@@ -1,6 +1,6 @@
 // @ts-nocheck
 import HormoneConsultant from './HormoneConsultant.jsx';
-import KatalysInfoPage from './KatalysInfoPage.jsx';
+import KatalysInfoPage from './BioViseInfoPage.jsx';
 import PricingPage from './PricingPage.jsx';
 import { useState, useRef, useEffect } from "react";
 import PeptideOverview from './PeptideOverview.jsx';
