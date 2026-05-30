@@ -45,6 +45,10 @@ const LITERATURE_DOMAINS = [
   'www.annals.org',
   'www.europepmc.org',
   'guidelines.gov',
+  // ── Preprint servers (added May 2026) ──────────────
+  'www.biorxiv.org',
+  'www.medrxiv.org',
+  'www.researchgate.net',
 ];
 
 // Keywords that signal deep clinical reasoning needed → Claude Opus
