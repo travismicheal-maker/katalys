@@ -383,7 +383,11 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx)}
   .desk-msg{max-width:88%}
   .desk-records-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:14px}
 }
-@media(max-width:767px){.desk-app{display:none}}
+@media(max-width:767px){
+  .desk-app{display:none}
+  .mob-wrap{background:var(--bg);padding:0;align-items:stretch;justify-content:stretch}
+  .phone{max-width:100%;width:100%;min-height:100vh;border-radius:0;box-shadow:none;border:none}
+}
 .setup-wrap{min-height:100vh;background:var(--bg);display:flex;align-items:center;justify-content:center;padding:24px}
 .setup-card{background:var(--surf);border-radius:var(--rd);padding:40px;max-width:440px;width:100%;box-shadow:0 4px 24px rgba(0,0,0,.08);border:1px solid var(--bd)}
 .s-logo{display:flex;align-items:center;gap:9px;font-family:'Playfair Display',serif;font-size:28px;font-weight:600;color:var(--g9);margin-bottom:8px}
