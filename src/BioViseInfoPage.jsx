@@ -43,10 +43,10 @@ const card = (extra = {}) => ({
 
 function SectionHeader({ eyebrow, title, sub }) {
   return (
-    <div style={{ marginBottom: 36, textAlign: 'center' }}>
-      <div style={{ ...pill(C.mint, C.emeraldMid, C.mintDark), marginBottom: 12, display: 'inline-flex' }}>{eyebrow}</div>
-      <h2 style={{ fontSize: 28, fontWeight: 700, color: C.text, margin: '0 0 10px', lineHeight: 1.25 }}>{title}</h2>
-      {sub && <p style={{ fontSize: 15, color: C.muted, maxWidth: 600, margin: '0 auto', lineHeight: 1.6 }}>{sub}</p>}
+    <div style={{ marginBottom: 30 }}>
+      <div style={{ ...pill(C.mint, C.emeraldMid, C.mintDark), marginBottom: 10, display: 'inline-flex' }}>{eyebrow}</div>
+      <h2 style={{ fontSize: 26, fontWeight: 700, color: C.text, margin: '0 0 8px', lineHeight: 1.25 }}>{title}</h2>
+      {sub && <p style={{ fontSize: 14.5, color: C.muted, maxWidth: 680, margin: 0, lineHeight: 1.6 }}>{sub}</p>}
     </div>
   );
 }
@@ -116,44 +116,44 @@ function FAQ({ q, a }) {
 
 export default function BioViseInfoPage({ onLaunch }) {
   const section = (children, bg = C.white) => (
-    <section style={{ background: bg, padding: '60px 24px' }}>
-      <div style={{ maxWidth: 860, margin: '0 auto' }}>{children}</div>
+    <section style={{ background: bg, padding: '40px 32px 48px' }}>
+      <div style={{ maxWidth: 900 }}>{children}</div>
     </section>
   );
 
   return (
-    <div style={{ fontFamily: 'Georgia, serif', color: C.text, background: C.offWhite, overflowY: 'auto', height: '100%' }}>
+    <div style={{ fontFamily: 'Georgia, serif', color: C.text, background: C.offWhite, overflowY: 'auto', height: '100%', overflowX: 'hidden' }}>
 
       {/* ── HERO ── */}
-      <section style={{ background: C.emerald, color: C.white, padding: '72px 24px 64px', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
+      <section style={{ background: C.emerald, color: C.white, padding: '52px 32px 48px', position: 'relative', overflow: 'hidden' }}>
         <div style={{ position: 'absolute', inset: 0, backgroundImage: 'radial-gradient(circle at 20% 50%, rgba(107,158,200,.18) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(212,160,23,.10) 0%, transparent 50%)' }}/>
-        <div style={{ position: 'relative', maxWidth: 740, margin: '0 auto' }}>
+        <div style={{ position: 'relative', maxWidth: 900 }}>
 
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, marginBottom: 22 }}>
-            <img src={katalysLogo} alt="BioVise" style={{height:32,width:'auto'}}/>
-            <span style={{ fontSize: 22, fontWeight: 800, letterSpacing: '-.3px' }}>BioVise Health</span>
-            <span style={{ fontSize: 12, color: 'rgba(255,255,255,.5)', borderLeft: '1px solid rgba(255,255,255,.2)', paddingLeft: 10, marginLeft: 4 }}>by Bio Precision Aging</span>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, marginBottom: 20 }}>
+            <img src={katalysLogo} alt="BioVise" style={{height:30,width:'auto'}}/>
+            <span style={{ fontSize: 20, fontWeight: 800, letterSpacing: '-.3px' }}>BioVise Health</span>
+            <span style={{ fontSize: 11, color: 'rgba(255,255,255,.5)', borderLeft: '1px solid rgba(255,255,255,.2)', paddingLeft: 10, marginLeft: 4 }}>by Bio Precision Aging</span>
           </div>
 
-          <h1 style={{ fontSize: 40, fontWeight: 800, lineHeight: 1.15, margin: '0 0 22px', letterSpacing: '-.5px' }}>
+          <h1 style={{ fontSize: 38, fontWeight: 800, lineHeight: 1.15, margin: '0 0 18px', letterSpacing: '-.5px', maxWidth: 640 }}>
             The World's First<br/>
             <span style={{ color: '#93C5E8' }}>Clinical-Grade AI Consultant</span>
           </h1>
 
-          <p style={{ fontSize: 16, lineHeight: 1.75, color: 'rgba(255,255,255,.82)', margin: '0 auto 14px', maxWidth: 620 }}>
-            BioVise is not a chatbot. It is a precision medicine intelligence platform built on peer-reviewed
-            clinical research, proprietary peptide formulary data, and a GRADE-graded evidence framework —
-            designed for patients and clinicians who demand more than search engine summaries.
+          <p style={{ fontSize: 15.5, lineHeight: 1.75, color: 'rgba(255,255,255,.82)', margin: '0 0 12px', maxWidth: 620 }}>
+            BioVise is not a chatbot. It is a precision medicine platform built on peer-reviewed clinical research,
+            a proprietary peptide formulary, and a GRADE-graded evidence framework — with three world-first AI consultants
+            no general chatbot, telehealth platform, or supplement company can match.
           </p>
-          <p style={{ fontSize: 15, lineHeight: 1.7, color: 'rgba(255,255,255,.7)', margin: '0 auto 30px', maxWidth: 600 }}>
-            BioVise is also home to the <strong style={{ color: C.emeraldLt }}>world's first dedicated AI Peptide Consultant</strong> and{' '}
-            <strong style={{ color: C.emeraldLt }}>AI Hormone Consultant</strong> — purpose-built specialty modules powered by a
-            proprietary clinical knowledge base that no general AI chatbot, telehealth platform, or supplement
-            company can match.
+          <p style={{ fontSize: 14.5, lineHeight: 1.7, color: 'rgba(255,255,255,.7)', margin: '0 0 24px', maxWidth: 600 }}>
+            BioVise is home to <strong style={{ color: C.emeraldLt }}>Synapse</strong> (Precision Health AI),{' '}
+            <strong style={{ color: '#9B94E8' }}>Sequence</strong> (world's first dedicated AI Peptide Consultant), and{' '}
+            <strong style={{ color: '#E8906E' }}>Katalys</strong> (world's first dedicated AI Hormone Consultant) —
+            each powered by a proprietary clinical knowledge base built from extracted peer-reviewed literature.
           </p>
 
-          <div style={{ display: 'flex', justifyContent: 'center', gap: 10, marginBottom: 36, flexWrap: 'wrap' }}>
-            {['Evidence-Based Only', 'GRADE Framework', 'Zero Consumer Web', 'Proprietary KB', 'Peptide Specialist', 'Hormone Specialist'].map(t => (
+          <div style={{ display: 'flex', gap: 10, marginBottom: 28, flexWrap: 'wrap' }}>
+            {['Evidence-Based Only', 'GRADE Framework', 'Zero Consumer Web', 'Proprietary KB', 'Sequence Peptide AI', 'Katalys Hormone AI'].map(t => (
               <span key={t} style={{ ...pill('rgba(255,255,255,.12)', C.emeraldLt, 'rgba(107,158,200,.3)'), fontSize: 12 }}>
                 <CheckCircle2 size={11} /> {t}
               </span>
@@ -163,7 +163,7 @@ export default function BioViseInfoPage({ onLaunch }) {
           {onLaunch && (
             <button
               onClick={onLaunch}
-              style={{ display: 'inline-flex', alignItems: 'center', gap: 10, background: C.emeraldLt, color: C.emerald, border: 'none', borderRadius: 12, cursor: 'pointer', fontSize: 15, fontWeight: 800, padding: '14px 32px', letterSpacing: '.1px', transition: 'opacity .15s' }}
+              style={{ display: 'inline-flex', alignItems: 'center', gap: 10, background: C.emeraldLt, color: C.emerald, border: 'none', borderRadius: 12, cursor: 'pointer', fontSize: 15, fontWeight: 800, padding: '13px 28px', letterSpacing: '.1px', transition: 'opacity .15s' }}
               onMouseEnter={e => e.currentTarget.style.opacity = '.88'}
               onMouseLeave={e => e.currentTarget.style.opacity = '1'}
             >
@@ -191,18 +191,18 @@ export default function BioViseInfoPage({ onLaunch }) {
           <SectionHeader
             eyebrow="Comparison"
             title="Why BioVise beats ChatGPT and generic AI"
-            sub="General-purpose AI is trained to be helpful to everyone. BioVise is built to be clinically precise for you."
+            sub="General-purpose AI is trained to be helpful to everyone. BioVise — with Synapse, Sequence, and Katalys — is built to be clinically precise for you."
           />
           <div style={{ ...card({ padding: 0 }), overflow: 'hidden', marginBottom: 28 }}>
             <div style={{ display: 'grid', gridTemplateColumns: '1.6fr 1fr 1fr 1fr', padding: '12px 16px', background: C.emerald, gap: 8 }}>
               <span style={{ fontSize: 12, fontWeight: 700, color: 'rgba(255,255,255,.6)', textTransform: 'uppercase', letterSpacing: '.4px' }}>Capability</span>
-              <span style={{ fontSize: 12, fontWeight: 700, color: C.emeraldLt, textTransform: 'uppercase', letterSpacing: '.4px', display: 'flex', alignItems: 'center', gap: 5 }}><Heart size={12} fill={C.emeraldLt}/>BioVise</span>
+              <span style={{ fontSize: 12, fontWeight: 700, color: C.emeraldLt, textTransform: 'uppercase', letterSpacing: '.4px', display: 'flex', alignItems: 'center', gap: 5 }}><Heart size={12} fill={C.emeraldLt}/>BioVise Health</span>
               <span style={{ fontSize: 12, fontWeight: 700, color: 'rgba(255,255,255,.5)', textTransform: 'uppercase', letterSpacing: '.4px' }}>ChatGPT</span>
               <span style={{ fontSize: 12, fontWeight: 700, color: 'rgba(255,255,255,.5)', textTransform: 'uppercase', letterSpacing: '.4px' }}>Generic Claude</span>
             </div>
             {[
-              { label: 'Dedicated AI Peptide Consultant module',        katalys: { val: true,  label: 'World-first specialty module' }, chatgpt: { val: false, label: 'None' },                  generic: { val: false, label: 'None' } },
-              { label: 'Dedicated AI Hormone Consultant module',        katalys: { val: true,  label: 'World-first specialty module' }, chatgpt: { val: false, label: 'None' },                  generic: { val: false, label: 'None' } },
+              { label: 'Sequence — Dedicated AI Peptide Consultant',    katalys: { val: true,  label: 'World-first specialty module' }, chatgpt: { val: false, label: 'None' },                  generic: { val: false, label: 'None' } },
+              { label: 'Katalys — Dedicated AI Hormone Consultant',     katalys: { val: true,  label: 'World-first specialty module' }, chatgpt: { val: false, label: 'None' },                  generic: { val: false, label: 'None' } },
               { label: 'Proprietary peptide clinical knowledge base',   katalys: { val: true,  label: 'Proprietary formulary' },       chatgpt: { val: false, label: 'General training only' }, generic: { val: false, label: 'General training only' } },
               { label: 'Evidence restricted to peer-reviewed journals', katalys: { val: true,  label: 'PubMed / NEJM / Cochrane' },    chatgpt: { val: false, label: 'Open web incl. Reddit' },  generic: { val: false, label: 'Open web' } },
               { label: 'GRADE evidence labeling on every claim',        katalys: { val: true,  label: 'High / Moderate / Low' },       chatgpt: { val: false, label: 'No grading system' },      generic: { val: false, label: 'No grading system' } },
@@ -260,8 +260,8 @@ export default function BioViseInfoPage({ onLaunch }) {
       {section(
         <>
           <SectionHeader
-            eyebrow="Peptide Consultant"
-            title="The world's first dedicated AI Peptide Consultant"
+            eyebrow="Sequence · Peptide AI"
+            title="Sequence — The world's first dedicated AI Peptide Consultant"
             sub="Built by a practicing peptide clinician. Updated continuously from extracted peer-reviewed literature. Nothing else like it exists."
           />
           <div style={{ ...card({ background: C.emerald, color: C.white, marginBottom: 28 }), position: 'relative', overflow: 'hidden' }}>
@@ -310,9 +310,9 @@ export default function BioViseInfoPage({ onLaunch }) {
       {section(
         <>
           <SectionHeader
-            eyebrow="Hormone Consultant"
-            title="The world's first dedicated AI Hormone Consultant"
-            sub="A purpose-built specialty module for hormonal health — not a repurposed general chatbot. Guideline-anchored, clinician-calibrated."
+            eyebrow="Katalys · Hormone AI"
+            title="Katalys — The world's first dedicated AI Hormone Consultant"
+            sub="A purpose-built specialty module for hormonal health — not a repurposed general chatbot. Guideline-anchored to Endocrine Society and AACE standards."
           />
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 14 }}>
             {[
@@ -366,7 +366,7 @@ export default function BioViseInfoPage({ onLaunch }) {
           <div style={{ ...card({ background: C.emerald, color: C.white, textAlign: 'center', padding: '32px 36px' }) }}>
             <div style={{ fontSize: 18, fontWeight: 700, marginBottom: 12, color: C.white }}>BioVise is the only platform that combines all five:</div>
             <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 12, marginBottom: 28 }}>
-              {['World-first dedicated AI Peptide Consultant','World-first dedicated AI Hormone Consultant','Peer-review-only evidence sourcing','Personalized to your uploaded records','GRADE evidence framework on every claim'].map(i => (
+              {['Sequence — World-first AI Peptide Consultant','Katalys — World-first AI Hormone Consultant','Synapse — Clinical-Grade Precision Health AI','Peer-review-only evidence sourcing (PubMed / Cochrane / NEJM)','GRADE evidence framework on every clinical claim'].map(i => (
                 <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 7, fontSize: 13, color: 'rgba(255,255,255,.85)' }}>
                   <Star size={12} color={C.gold} fill={C.gold} /> {i}
                 </div>
