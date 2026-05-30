@@ -988,7 +988,7 @@ export default function KatalysHealth() {
   const [uploads,setUploads]=useState([]);const [analyzing,setAnalyzing]=useState(false);const [toast,setToast]=useState(null);
   const [drag,setDrag]=useState(false);const [recording,setRecording]=useState(false);const [voiceHint,setVoiceHint]=useState('');
   const [lastModel,setLastModel]=useState('sonnet');const [showPaste,setShowPaste]=useState(false);
-  const [sources,setSources]=useState({clinicalWeb:true,literature:true});const [library,setLibrary]=useState([]);
+  const [sources,setSources]=useState({clinicalWeb:false,literature:true});const [library,setLibrary]=useState([]);
   const [showSrcMenu,setShowSrcMenu]=useState(false);
   const [showUpgrade,setShowUpgrade]=useState(false);
   const [freeCount,setFreeCount]=useState(()=>parseInt(localStorage.getItem('katalys_free')||'0'));
