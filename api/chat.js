@@ -46,6 +46,7 @@ const LITERATURE_DOMAINS = [
   'www.europepmc.org',
   'guidelines.gov',
   // ── Preprint servers (added May 2026) ──────────────
+  'www.ncbi.nlm.nih.gov/pmc/',
   'www.biorxiv.org',
   'www.medrxiv.org',
   'www.researchgate.net',
