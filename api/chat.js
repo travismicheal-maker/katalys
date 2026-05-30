@@ -49,6 +49,15 @@ const LITERATURE_DOMAINS = [
   'www.biorxiv.org',
   'www.medrxiv.org',
   'www.researchgate.net',
+  // Specialty society guidelines (free access)
+'www.nccn.org',
+'www.endocrine.org',
+'www.aace.com',
+'www.isswsh.org',        // Sexual health — relevant to PT-141/hormone consultant
+'www.issam.net',         // Male aging / testosterone
+'journals.plos.org',     // PLOS ONE — open access
+'www.frontiersin.org',   // Frontiers — open access
+'www.mdpi.com',          // MDPI — open access
 ];
 
 // Keywords that signal deep clinical reasoning needed → Claude Opus
