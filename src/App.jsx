@@ -722,9 +722,9 @@ function Setup({ onDone }) {
   const ready = age.trim() && sex;
 
   const features = [
-    { icon:'🧠', title:'Precision Health Consultant', sub:'The world\'s first clinical-grade AI health consultant — designed for everyone, not just clinicians.' },
-    { icon:'🧬', title:'Sequence Peptide Consultant', sub:'World\'s first dedicated AI peptide consultant with a proprietary clinical formulary built from peer-reviewed literature.' },
-    { icon:'❤️', title:'Katalys Hormone Consultant', sub:'World\'s first dedicated AI hormone consultant — guideline-anchored to Endocrine Society and AACE standards.' },
+    { icon:'🧠', title:'Synapse AI Health Consultant', sub:'The world\'s first clinical-grade AI health consultant — designed for everyone, not just clinicians.' },
+    { icon:'🧬', title:'Sequence AI Peptide Consultant', sub:'World\'s first dedicated AI peptide consultant with a proprietary clinical formulary built from peer-reviewed literature.' },
+    { icon:'❤️', title:'Katalys AI Hormone Consultant', sub:'World\'s first dedicated AI hormone consultant — guideline-anchored to Endocrine Society and AACE standards.' },
     { icon:'📖', title:'Evidence-Based Only', sub:'Every inquiry uses PubMed & Cochrane exclusively, graded by the GRADE framework: Verified, Speculation, or Unknown.' },
     { icon:'📋', title:'Upload Your Records', sub:'Labs, imaging, and notes analyzed and flagged automatically — your values drive every AI response.' },
     { icon:'🔒', title:'Session-Only Privacy', sub:'Your data is never stored, never indexed, never used for AI training. Gone when you close the app.' },
