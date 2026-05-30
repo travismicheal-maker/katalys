@@ -12,6 +12,7 @@ const CLINICAL_WEB_DOMAINS = [
   'www.mayoclinic.org',
   'www.uptodate.com',
   'www.medscape.com',
+  'reference.medscape.com',        // ← ADDED: drug interaction checker
   'www.webmd.com',
   'www.drugs.com',
   'www.rxlist.com',
@@ -23,11 +24,15 @@ const CLINICAL_WEB_DOMAINS = [
   'www.emedicine.medscape.com',
   'www.clevelandclinic.org',
   'www.hopkinsmedicine.org',
+  'www.fda.gov',                   // ← ADDED: FDA drug approvals & safety alerts
+  'www.dailymed.nlm.nih.gov',      // ← ADDED: FDA-approved drug labels (authoritative)
 ];
 
 const LITERATURE_DOMAINS = [
+  // ── Core peer-reviewed literature ────────────────────────────────────────
   'pubmed.ncbi.nlm.nih.gov',
   'www.ncbi.nlm.nih.gov',
+  'www.ncbi.nlm.nih.gov/pmc/',     // ← ADDED: PMC full-text (biggest single gain)
   'www.cochranelibrary.com',
   'www.nejm.org',
   'www.thelancet.com',
@@ -45,20 +50,25 @@ const LITERATURE_DOMAINS = [
   'www.annals.org',
   'www.europepmc.org',
   'guidelines.gov',
-  // ── Preprint servers (added May 2026) ──────────────
-  'www.ncbi.nlm.nih.gov/pmc/',
+
+  // ── Open access journals ──────────────────────────────────────────────────
+  'journals.plos.org',             // PLOS ONE
+  'www.frontiersin.org',           // Frontiers
+  'www.mdpi.com',                  // MDPI
+
+  // ── Preprint servers ──────────────────────────────────────────────────────
   'www.biorxiv.org',
   'www.medrxiv.org',
   'www.researchgate.net',
-  // Specialty society guidelines (free access)
-'www.nccn.org',
-'www.endocrine.org',
-'www.aace.com',
-'www.isswsh.org',        // Sexual health — relevant to PT-141/hormone consultant
-'www.issam.net',         // Male aging / testosterone
-'journals.plos.org',     // PLOS ONE — open access
-'www.frontiersin.org',   // Frontiers — open access
-'www.mdpi.com',          // MDPI — open access
+
+  // ── Specialty society guidelines ──────────────────────────────────────────
+  'www.nccn.org',                  // Oncology guidelines
+  'www.aace.com',                  // Endocrinology (AACE)
+  'www.isswsh.org',                // Sexual health — relevant to PT-141/hormone
+  'www.issam.net',                 // Male aging / testosterone
+  'www.acog.org',                  // ← ADDED: Women's health (OB/GYN)
+  'www.auanet.org',                // ← ADDED: Urology (TRT/PT-141 relevant)
+  'www.thyroid.org',               // ← ADDED: American Thyroid Association
 ];
 
 // Keywords that signal deep clinical reasoning needed → Claude Opus
@@ -163,7 +173,7 @@ export default async function handler(req, res) {
         'Content-Type':      'application/json',
         'x-api-key':         claudeKey,
         'anthropic-version': '2023-06-01',
-        'anthropic-beta':    'prompt-caching-2024-07-31', // ← UPDATED: enables prompt caching
+        'anthropic-beta':    'prompt-caching-2024-07-31', // ← enables prompt caching
       },
       body: JSON.stringify(body),
     });
